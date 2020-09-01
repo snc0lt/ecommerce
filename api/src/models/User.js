@@ -3,22 +3,34 @@ const { DataTypes } = require('sequelize')
 // Luego le injectamos la conexion a sequelize.
 module.exports = (sequelize) => {
 	// defino el modelo
-	sequelize.define('product', {
-		name: {
+	sequelize.define('user', {
+		firstName: {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
-		description: {
-			type: DataTypes.TEXT,
-			allowNull: false,
-		},
-		price: {
+		lastName: {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
-		stock: {
-			type: DataTypes.INTEGER,
+		email: {
+			type: DataTypes.STRING,
+			allowNull: false,
+			unique: true,
+			validate: {
+				isEmail: true,
+			},
+		},
+		password: {
+			type: DataTypes.STRING,
 			allowNull: false,
 		},
+		isAdmin: {
+			type: DataTypes.BOOLEAN,
+			defaultValue: false,
+		},
+		resetPassword: {
+			type: DataTypes.BOOLEAN,
+			defaultValue: false,
+		}
 	})
 }
