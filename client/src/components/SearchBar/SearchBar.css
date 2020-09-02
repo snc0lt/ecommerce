@@ -1,0 +1,20 @@
+.bar{
+    border:1px solid rgba(0,0,200,1);
+    width:30%;
+    margin:5px;
+    padding:5px;
+}
+
+.submit{
+    border: 1px solid rgba(0,0,0,0.5);
+    padding:5px;
+    border-radius:2px;
+    color:1px solid grey;
+}
+
+.submit:hover{
+    border: 1px solid rgba(0,0,0,1);
+    color:black;
+    border-radius:2px;
+    cursor:pointer;
+}
