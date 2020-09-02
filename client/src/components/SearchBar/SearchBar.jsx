@@ -14,6 +14,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -165,6 +166,11 @@ export default function SearchBar() {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
+		<Link to='/'>
+				<div>
+					<h3 className='text-white'>Home</h3>
+				</div>
+				</Link>
            <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />

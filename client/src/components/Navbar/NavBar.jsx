@@ -10,11 +10,6 @@ import SearchBar from '../SearchBar/SearchBar'
 export default function NavBar() {
 	return (
 		<nav className='navbar navbar-dark bg-dark p-4 mb-3'>
-			<Link to='/'>
-				<div>
-					<h1 className='text-white'>Electro Henry</h1>
-				</div>
-			</Link>
 			<SearchBar />
 		</nav>
 	)
