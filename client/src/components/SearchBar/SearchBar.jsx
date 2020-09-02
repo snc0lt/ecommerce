@@ -1,31 +1,29 @@
 import React, { useState } from 'react'
-//import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import './SearchBar.css';
 
-
-export default function SearchBar(props) {
-	const [productSearch, setProductSearch] = useState('');
-    //const history = useHistory();
+export default function SearchBar() {
+	const [productSearch, setProductSearch] = useState('')
+	const history = useHistory()
 	const handleSubmit = (e) => {
-        e.preventDefault();
-        props.search(productSearch);
-		//history.push(`/?search=${productSearch}`);
-	};
+		e.preventDefault()
+		history.push(`/?search=${productSearch}`)
+	}
 
 	return (
-		<form onSubmit={handleSubmit}>
+		<form onSubmit={handleSubmit} className='form-inline'>
 			<input
-				className='bar'
+				className='form-control mr-2'
+				style={customInput}
 				type='text'
-				placeholder='Buscar productos ...'
+				placeholder='Ingrese un producto ...'
 				value={productSearch}
 				onChange={(e) => setProductSearch(e.target.value)}
 			/>
 
 			<button
-				className="submit"
-                type='search'
-                //esto desabilita el botón cuando no hay texto en el campo de búsqueda
+				className="btn btn-outline-info my-2 my-sm-0"
+				type='search'
 				disabled= {productSearch.trim().length === 0? true: false}
 			>
 				Buscar
