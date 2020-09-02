@@ -14,7 +14,6 @@ export default function SearchBar() {
 		<form onSubmit={handleSubmit} className='form-inline'>
 			<input
 				className='form-control mr-2'
-				style={customInput}
 				type='text'
 				placeholder='Ingrese un producto ...'
 				value={productSearch}
