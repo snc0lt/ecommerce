@@ -1,7 +1,9 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import SearchBar from './components/SearchBar/SearchBar.jsx';
+import Products from './components/Products/Products'
+
+
 
 function App() {
 
@@ -13,6 +15,7 @@ function App() {
   }
   return (
     <div className="App">
+
       <SearchBar search={searchAll}/>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
@@ -28,6 +31,8 @@ function App() {
           Learn React
         </a>
       </header>
+      <Products />
+
     </div>
   );
 }
