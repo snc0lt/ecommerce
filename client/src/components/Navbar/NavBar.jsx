@@ -1,0 +1,32 @@
+import React from 'react'
+import { Link } from 'react-router-dom'
+import SearchBar from '../SearchBar/SearchBar'
+//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+//import { connect } from 'react-redux'
+//import { userLogout } from '../../actions'
+
+
+
+export default function NavBar() {
+	return (
+		<nav className='navbar navbar-dark bg-dark p-4 mb-3'>
+			<Link to='/'>
+				<div>
+					<h1 className='text-white'>Electro Henry</h1>
+				</div>
+			</Link>
+			<SearchBar />
+		</nav>
+	)
+}
+
+// const mapStateToProps = (state) => ({
+// 	user: state.userLogged,
+// })
+
+// const mapDispatchToProps = (dispatch) => {
+// 	return {
+// 		userLogout: () => dispatch(userLogout()),
+// 	}
+// }
+// export default connect(mapStateToProps, mapDispatchToProps)(NavBar)
