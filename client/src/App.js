@@ -17,6 +17,7 @@ function App() {
   // }
   return (
     <div className="App">
+<<<<<<< HEAD
       <Router>
         {/* por los momentos se muestra solo el searchbar pero aqui debe ir un navbar */}
         <SearchBar /> 
@@ -25,6 +26,26 @@ function App() {
           <Route exact path='/products/:id' component={ProductDetails} />
         </Switch>
       </Router>
+=======
+
+      <SearchBar/>
+      <header className="App-header">
+        {/*<img src={logo} className="App-logo" alt="logo" /> */}
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+      <Products />
+
+>>>>>>> a8656fb0d6bedd7a2a0042ccaf6748b7551bed0d
     </div>
   );
 }
