@@ -3,7 +3,8 @@ import './App.css';
 //import SearchBar from './components/SearchBar/SearchBar.jsx';
 import NavBar from './components/Navbar/NavBar'
 import { Route } from 'react-router-dom'
-import ProductCard from './components/Products/ProductCard';
+//import ProductCard from './components/Products/ProductCard';
+import Carousel from './components/ImgProductCardCarousel/Carousel';
 //import Products from './components/Products/Products'
 
 
@@ -18,7 +19,7 @@ function App() {
     <div className="App">
       <Route path='/' render={() => (<div>
                                         <NavBar />
-                                        <ProductCard/>
+                                        <Carousel/>
                                         </div>)}/>
     </div>
   );
