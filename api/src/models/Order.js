@@ -7,23 +7,6 @@ module.exports = (sequelize) => {
     state: {
       type: DataTypes.ENUM('carrito', 'creada', 'cancelada', 'procesando', 'completa'),
       defaultValue: 'carrito',
-    },
-    fecha: {
-        type: DataTypes.DATEONLY,
-        allowNull: false
-
-    },
-    direccion: {
-        type: DataTypes.TEXT,
-        allowNull: false
-    },
-    mail: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            isEmail: true
-        },
-      }
+    }
   });
 };
-
