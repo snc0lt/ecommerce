@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+
 import SearchBar from '../SearchBar/SearchBar'
 //import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 //import { connect } from 'react-redux'
