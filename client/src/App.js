@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NavBar from './components/Navbar/NavBar'
 import Products from './components/Products/Products'
 
+
 function App() {
   return (
     <div className="App">
@@ -16,7 +17,6 @@ function App() {
           <Route exact path='/products/:id' component={ProductDetails} />
         </Switch>
       </Router>
-
     </div>
   );
 }
