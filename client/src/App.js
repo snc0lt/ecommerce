@@ -1,26 +1,22 @@
 import React from 'react';
 import './App.css';
-//import SearchBar from './components/SearchBar/SearchBar.jsx';
+import ProductDetails from './components/Products/ProductDetails';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NavBar from './components/Navbar/NavBar'
-import { Route } from 'react-router-dom'
-//import ProductCard from './components/Products/ProductCard';
-import Carousel from './components/ImgProductCardCarousel/Carousel';
-//import Products from './components/Products/Products'
-
+import Products from './components/Products/Products'
 
 
 function App() {
-
-  //Se debe pasar en las props, una función al componente SearchBar para realizar la busqueda de
-  //los productos, esta función la puse para que la recibiera el componente.
-  //No cumple con su objetivo, por ahora.
-  
   return (
     <div className="App">
-      <Route path='/' render={() => (<div>
-                                        <NavBar />
-                                        <Carousel/>
-                                        </div>)}/>
+      <Router>
+        {/* por los momentos se muestra solo el searchbar pero aqui debe ir un navbar */}
+        <NavBar /> 
+        <Switch>
+          <Route exact path='/products' component={Products} />
+          <Route exact path='/products/:id' component={ProductDetails} />
+        </Switch>
+      </Router>
     </div>
   );
 }
