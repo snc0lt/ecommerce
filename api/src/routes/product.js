@@ -56,7 +56,7 @@ server.post('/', (req, res) => {
 // 				res.status(200).json(product)
 // 			})
 // 		})
-// 		.catch((err) => res.status(404).send('Id no valido'))
+// 		/.catch((err) => res.status(404).send('Id no valido'))
 // })
 
 // // Actualiza el Producto en base a su ID - Le remueve todas sus anteriores categorias y le setea las nuevas
