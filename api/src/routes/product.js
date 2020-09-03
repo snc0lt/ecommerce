@@ -80,8 +80,8 @@ server.post('/', (req, res) => {
 		!description ||
 		!price ||
 		!stock ||
-		!image ||
-		categories.length === 0
+		!image 
+		//categories.length === 0
 	) {
 		res.status(400).send('Debe enviar los campos requeridos')
 		return
@@ -94,9 +94,10 @@ server.post('/', (req, res) => {
 		stock,
 		image,
 	}).then((product) => {
-		product
-			.setCategories(categories)
-			.then(() => res.status(201).send(product))
+		//product
+		//	.setCategories(categories)
+			//.then(() => 
+			res.status(201).send(product)
 	}).catch ((err) => {
 		console.log(err)
 	})
@@ -123,8 +124,8 @@ server.put('/:id', (req, res) => {
 		!description ||
 		!price ||
 		!stock ||
-		!image ||
-		categories.length === 0
+		!image 
+		//categories.length === 0
 	) {
 		res.status(400).send('Debe enviar los campos requeridos')
 		return
@@ -216,44 +217,6 @@ server.put("/:idProduct/review/:idReview", isAuthenticated, (req, res) =>{
 		.catch((err) => res.status(404).send('Id no valido'))
 })
 
-
-server.get('/:id', (req, res) => {
-	Product.findOne({ where: { id: req.params.id }, include: [Category, Review] })
-		.then((product) => {
-			if (!product) return res.status(404).send('Id no válido')
-			res.status(200).json(product)
-		})
-		.catch((err) => res.status(404).send(err))
-})
-
-server.post('/', (req, res) => {
-	console.log(req.body)
-	const { name, description, price, stock, image, categories } = req.body
-
-	if (
-		!name ||
-		!description ||
-		!price ||
-		!stock ||
-		!image ||
-		categories.length === 0
-	) {
-		res.status(400).send('Debe enviar los campos requeridos')
-		return
-	}
-
-	Product.create({
-		name,
-		description,
-		price,
-		stock,
-		image,
-	}).then((product) => {
-		product
-			.setCategories(categories)
-			.then(() => res.status(201).send(product))
-	})
-})
 
 // // Elimina el Producto en base a su ID
 
