@@ -10,6 +10,6 @@ const Carousel = () => {
       <CarouselCard />
     </div>
   )
-}
+};
 
 export default Carousel

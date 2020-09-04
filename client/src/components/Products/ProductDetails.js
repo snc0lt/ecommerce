@@ -7,16 +7,20 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Rating from '@material-ui/lab/Rating';
 import Container from '@material-ui/core/Container';
+import Box from '@material-ui/core/Box';
 import iphoneImage from '../../testImages/iphone.jpeg'
 import Carousel from '../ImgProductCardCarousel/Carousel';
 import Copyright from '../utils/Copyright';
+import ProductDetailsDescription from './ProductDetailsDescription'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '80vh',
+    marginTop: '5%'
   },
   root2: {
-    marginTop: '15%',
+    marginTop: '10%',
+    marginBottom: '10%',
   },
   image: {
     backgroundImage: `url(${iphoneImage})`,
@@ -30,15 +34,11 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: '60%'
   },
   paper: {
-    margin: theme.spacing(8, 4),
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    // alignItems: 'center',
+    margin: theme.spacing(4, 4),
+    alignItems: 'flex-start',
   },
   buttons: {
     margin: theme.spacing(8, 4),
-    // margin: 'auto',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -49,21 +49,20 @@ export default function ProductDetails() {
   const classes = useStyles();
 
   return (
-    <Container maxWidth="md" >
+    <Container maxWidth="md">
       <Grid container component="main" className={classes.root}>
         <CssBaseline />
-        {/* <Grid item xs={false} sm={6} md={7} className={classes.image}>
-          
-        </Grid> */}
         <Grid item xs={false} sm={6} md={7}>
           <div className={classes.paper}>
-          <Carousel />
+            <Carousel />
           </div>
         </Grid>
         <Grid item xs={12} sm={6} md={5} component={Paper} elevation={6} square>
           <div className={classes.paper}>
-            <Typography component="h6" variant="h6">
+            <Typography component="div">
+              <Box fontWeight="fontWeightBold" fontSize={26} m={1}>
               Iphone 11 pro max
+              </Box>
             </Typography>
             <div>
               <Rating />
@@ -72,10 +71,10 @@ export default function ProductDetails() {
           <div className={classes.paper}>
             <Typography component="h4" variant="h4" color='primary'>
               $1000.00
-          </Typography>
+            </Typography>
             <Typography variant='subtitle2' color='textSecondary'>
               Stock - Disponible
-          </Typography>
+            </Typography>
           </div>
           <div className={classes.paper}>
             <Typography variant='body1' color='textPrimary'>
@@ -86,32 +85,18 @@ export default function ProductDetails() {
           </Typography>
           </div>
           <div className={classes.buttons}>
-            <Button variant="contained" color="primary" size="small">
-              Buy
-          </Button>
-            <Button variant="outlined" color="primary" size='small' style={{ marginLeft: 'auto' }}>
+            <Button variant="contained" color="primary" size="medium" style={{ padding: '5px 25px' }}>
+              Buy now
+            </Button>
+            <Button variant="outlined" color="primary" size='medium' style={{ marginLeft: 'auto', padding: '5px 25px' }}>
               add to cart
-          </Button>
+            </Button>
           </div>
-          <div className={classes.paper}>
-          <Copyright />
-          </div>
-        </Grid>
-      </Grid>
-      <Grid container component="main" className={classes.root2}>
-        <CssBaseline />
-        <Grid item xs={12} sm={12} md={12} component={Paper} elevation={6} square>
-          <div className={classes.paper}>
-            <Typography component="h6" variant="h6">
-              ...Aqui esta mi description
-            </Typography>
-          </div>
-          <div className={classes.paper}>
-            <Typography variant='body1' color='textPrimary'>
-              Soy un celular copado, por ahi algunos dicen que no valgo lo que cuesto, pero al c#r#j# los haters...!
-            </Typography>
+          <div style={{ marginTop: 140}}>
+            <Copyright />
           </div>
         </Grid>
+      <ProductDetailsDescription classes={classes} />
       </Grid>
     </Container>
   );
