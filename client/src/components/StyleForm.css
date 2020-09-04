@@ -1,0 +1,25 @@
+.formStyle{
+    max-width: 500px;
+    width: 100%;
+    margin-right: auto;
+    margin-left:auto;
+    padding: 20px
+}
+
+.inputContainer{
+    display: flex;
+    flex-direction: column;
+    padding: 10px
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: flex-end
+}
+.error {
+    color: red
+}
+.button {
+    padding: 5px;
+    margin: 5px
+}
