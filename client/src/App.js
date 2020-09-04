@@ -1,9 +1,10 @@
 import React from 'react';
-import SearchBar from './components/SearchBar/SearchBar.jsx';
 import Products from './components/Products/Products'
 import ProductDetails from './components/Products/ProductDetails';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
+import NavBar from './components/Navbar/NavBar'
+import Products from './components/Products/Products'
+import CreateProduct from './components/CreateProdcut/CP'
 
 
 function App() {
@@ -11,10 +12,11 @@ function App() {
     <div className="App">
       <Router>
         {/* por los momentos se muestra solo el searchbar pero aqui debe ir un navbar */}
-        <SearchBar /> 
+        <NavBar /> 
         <Switch>
           <Route exact path='/products' component={Products} />
           <Route exact path='/products/:id' component={ProductDetails} />
+          <Route exact path='/dev' component={CreateProduct} />
         </Switch>
       </Router>
     </div>

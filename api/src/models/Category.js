@@ -6,14 +6,13 @@ module.exports = (sequelize) => {
   sequelize.define('category', {
     name: {
       type: DataTypes.STRING,
-      allowNull: false,
+     // allowNull: false,
       unique: true
     },
     description: {
       type: DataTypes.STRING,
-      allowNull: false,
+     // allowNull: false,
 
     }
   });
 };
-
