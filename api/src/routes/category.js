@@ -1,5 +1,4 @@
 const server = require('express').Router()
-const { Op } = require('sequelize')
 
 const { Category, Product } = require('../db.js')
 
@@ -9,24 +8,15 @@ server.get('/:name', (req, res) => {
 		req.params.name.charAt(0).toUpperCase() + req.params.name.slice(1)
 
 	Category.findOne({
-		include: {
-			model: Product,
-			where: {
-				stock: {
-					[Op.gt]: 0,
-				} 
-			}
-		},
+		include: [Product],
 		where: {
 			name: capName,
 		},
 	})
-		.then((cat) =>{
-			console.log(cat.products)
+		.then((cat) =>
 			!cat
-				? res.status(404).json([])
-				: res.json(cat)
-		}
+				? res.status(404).send('No se encontro la categoria')
+				: res.send(cat)
 		)
 		.catch((err) => res.status(404).send(err))
 })
@@ -41,31 +31,14 @@ server.post('/', (req, res) => {
 	const { name, description } = req.body
 
 	if (!name || !description) {
-		res.status(400).json({
-			error: true,
-			message: 'Debe enviar los campos requeridos'
-		})
+		res.status(400).send('Debe enviar los campos requeridos')
+		return
 	}
-
 	const capName = name.charAt(0).toUpperCase() + name.slice(1)
-
 	Category.create({
 		name: capName,
 		description,
-	})
-	.then((category) => {
-		res.status(201).json({
-			success: true,
-			message: 'La categoria fue creada correctamente!!!!',
-			category
-		})
-	})
-	.catch( err => {
-		res.status(500).json({
-			error: true,
-			message: 'Ya hay una categoria con ese nombre'
-		})
-	})
+	}).then((cat) => res.status(201).send('Categoria creada'))
 })
 
 // Actualiza la categoria segun su ID
@@ -89,7 +62,7 @@ server.delete('/:id', (req, res) => {
 	Category.findByPk(req.params.id)
 		.then((cat) => {
 			cat.destroy()
-			res.status(200).json(cat)
+			res.status(200).send('Categoria eliminada')
 		})
 		.catch((err) => res.status(404).send('Categoria NO encontrada'))
 })

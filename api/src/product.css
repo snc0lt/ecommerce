@@ -1,0 +1,41 @@
+.displayNone {
+  display: none;
+}
+
+.out-stock-style{
+  color: red;
+  font-size: 12px;
+}
+
+.in-stock{
+  color: green;
+  font-size: 12px;
+}
+
+/* estilo de las estrellas de reviews */
+.input[type="radio"] {
+color: transparent;
+
+}
+
+.label {
+  color: grey;
+  font-size: 35px;
+}
+
+.clasificacion {
+  direction: rtl;
+  unicode-bidi: bidi-override;
+}
+
+.label:hover,
+.label:hover ~ label  {
+  color: orange;
+  
+}
+
+.input[type="radio"]:checked ~ label{
+  color: orange;
+}
+
+ 
