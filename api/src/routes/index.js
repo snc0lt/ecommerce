@@ -26,5 +26,4 @@ router.use("/userAdmin", userAdminRouter)
 
 
 
-
 module.exports = router
