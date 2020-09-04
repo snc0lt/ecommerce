@@ -31,7 +31,7 @@ export default function FormCategory({ match }){
               }
         })
         .then(()=>{
-            alert(`A new category has been created`)
+            alert(`Se ha creado una nueva Categoria exitosamente`)
             resetForm();
         })
         .catch((err)=>{
@@ -41,15 +41,15 @@ export default function FormCategory({ match }){
 
     return(
         <div  className="formStyle">
-            <h3>Create a new Category</h3>
+            <h3>Formulario para crear categoria</h3>
             <hr/>
             <form onSubmit= {handleSubmit }>
                 <div className="inputContainer">
-                    <label>Name: </label>
+                    <label>Nombre de Categoria: </label>
                     <input type="text" name="name" onChange={handleInputChange} value={input.name} required autoFocus/>
                 </div>
                 <div className="inputContainer">
-                    <label>Description: </label>
+                    <label>Descripcion: </label>
                     <textarea name="description" onChange={handleInputChange} value={input.description} required />
                 </div>
 

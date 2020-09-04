@@ -87,18 +87,18 @@ const deletedCat = function(){
 
     return(
         <div key={id} className="formStyle">
-            <h3>Category</h3>
+            <h3>Categoria</h3>
             <hr/>
             <div id="closeIcon" className="row">
             <button onClick={deletedCat} className="btn btn-sm btn-danger">Eliminar Categoria</button>
             </div>
             <form onSubmit= {handleSubmit}>
                 <div className="inputContainer">
-                    <label>Name: </label>
+                    <label>Nombre: </label>
                     <input type="text" name="name" onChange={handleInputChange} value={input.name} required />
                 </div>
                 <div className="inputContainer">
-                    <label>Description: </label>
+                    <label>Descripcion: </label>
                     <textarea name="description" onChange={handleInputChange} value={input.description} required />
                 </div>
 
