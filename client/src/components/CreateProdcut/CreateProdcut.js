@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState,useEffect} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -57,6 +57,32 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
   const classes = useStyles();
 
+  const [stateCategory,setStateCategory] = useState([]);
+  const [categories, setCategories] =useState([]);
+
+
+  useEffect(()=>{
+    console.log("aqui esta tu effect");
+    console.log("aquí intentamos el fetch");
+    fetch('http://localhost:3001/category',{
+      method:'GET'
+    })
+    .then(function(response){
+      return response.json();
+    })
+    .then(function(arr){
+      console.log(arr);
+      setCategories(arr);
+      console.log(categories);
+    })
+  },[stateCategory]);
+
+  const handleSubmit=function(){
+    setStateCategory(categories);
+  };
+
+
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -64,7 +90,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           NUEVO PRODUCTO
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -80,20 +106,18 @@ export default function SignUp() {
             </Grid>
             <Grid item xs={12} >
             <FormControl variant="outlined" className={classes.formControl}  fullWidth>
-        <InputLabel htmlFor="outlined-age-native-simple">Age</InputLabel>
+        <InputLabel htmlFor="outlined-age-native-simple">Categoría</InputLabel>
         <Select
           native
           value=''
-          label="Age"
+          label="Categoría"
           inputProps={{
             name: 'age',
             id: 'outlined-age-native-simple',
           }}
         >
           <option aria-label="None" value="" />
-          <option value={10}>Ten</option>
-          <option value={20}>Twenty</option>
-          <option value={30}>Thirty</option>
+          {categories.map((c)=> <option value={c.id}>{c.name}</option>)}
         </Select>
       </FormControl>
             </Grid>
