@@ -16,6 +16,10 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import UploadImgButton from '../UploadImageButton/UploadImageButton'
 import NativeSelect from '@material-ui/core/NativeSelect'
+import { Input } from '@material-ui/core';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+
+
 
 function Copyright() {
   return (
@@ -54,16 +58,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+class KeyGen{
+  constructor(i, key){
+    this.i = 1;
+    this.key = function(){
+      this.i = this.i + 1;
+      return(this.i);
+    }
+  }
+}
+
 export default function SignUp() {
   const classes = useStyles();
 
   const [stateCategory,setStateCategory] = useState([]);
   const [categories, setCategories] =useState([]);
+  const [name, setName] =useState('');
+  const [category,setCategory] = useState('');
+  const [description,setDescription] = useState('');
+  const [price,setPrice] = useState('');
+  const [stock,setStock] = useState('');
+  const [files,setFiles] = useState([]);
+
+  const [age, setAge] = React.useState('');
+
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
 
 
   useEffect(()=>{
-    console.log("aqui esta tu effect");
-    console.log("aquí intentamos el fetch");
+    //console.log("aqui esta tu effect");
+    //console.log("aquí intentamos el fetch");
     fetch('http://localhost:3001/category',{
       method:'GET'
     })
@@ -73,13 +99,52 @@ export default function SignUp() {
     .then(function(arr){
       console.log(arr);
       setCategories(arr);
-      console.log(categories);
+      //console.log(categories);
     })
   },[stateCategory]);
 
-  const handleSubmit=function(){
-    setStateCategory(categories);
+  const handleSubmit=function(event){
+    var formData = new FormData();
+    var fileField = files;
+    formData.append('images', fileField.files[0]);
+    console.log(formData);
+    // fetch('http://localhost:3001/image'),{
+    //   method:'POST',
+      
+    // }
+    alert("enviado");
   };
+
+  const filesHandler=function(event){
+    console.log(event.target.files)
+    setFiles(event.target.files)
+  };
+
+  const handleName=function(event){
+    setName(event.target.value)
+  }
+
+  const handleCategory=function(event){
+    //console.log(event.target.value);
+    setCategory(event.target.value);
+  }
+
+  const handleDescription = function(event){
+    console.log(event.target.value);
+    setDescription(event.target.value);
+  }
+
+  const handlePrice = function(event){
+    console.log(event.target.value);
+    setPrice(event.target.value);
+  }
+
+  const handleStock = function(event){
+    console.log(event.target.value);
+    setStock(event.target.value);
+  }
+
+  const keySelect= new KeyGen();
 
 
 
@@ -99,25 +164,38 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
+                onChange={handleName}
                 // id="firstName"
                 label="Nombre del producto"
                 autoFocus
               />
             </Grid>
             <Grid item xs={12} >
-            <FormControl variant="outlined" className={classes.formControl}  fullWidth>
+            <FormControl variant="outlined" className={classes.formControl} fullWidth>
+        <InputLabel id="demo-simple-select-outlined-label">Categoría</InputLabel>
+        <Select
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          native
+          value={category}
+          onChange={handleCategory}
+          label="Categoría"
+          
+        >
+            {/* <FormControl variant="outlined" className={classes.formControl}  fullWidth>
         <InputLabel htmlFor="outlined-age-native-simple">Categoría</InputLabel>
         <Select
+          onChange={handleCategory}
           native
-          value=''
+          value="gato"
           label="Categoría"
           inputProps={{
-            name: 'age',
+            name: 'category',
             id: 'outlined-age-native-simple',
           }}
-        >
+        > */}
           <option aria-label="None" value="" />
-          {categories.map((c)=> <option value={c.id}>{c.name}</option>)}
+          {categories.map((c)=> <option value={c.id} key={keySelect.key()}>{c.name}</option>)}
         </Select>
       </FormControl>
             </Grid>
@@ -125,14 +203,16 @@ export default function SignUp() {
               <TextField className='styleDescripcion'
                 fullWidth
                 id="outlined-textarea"
-                label="Descripcion"
+                label="Descripción"
                 placeholder="Inserte la descripcion del producto"
                 multiline
                 variant="outlined"
+                onChange={handleDescription}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
+                onChange={handlePrice}
                 variant="outlined"
                 required
                 fullWidth
@@ -144,6 +224,7 @@ export default function SignUp() {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                onChange={handleStock}
                 variant="outlined"
                 required
                 fullWidth
@@ -154,9 +235,7 @@ export default function SignUp() {
               />
             </Grid>
           </Grid>
-          <div className='button-upload'>
-          <UploadImgButton />
-          </div>
+          <UploadImgButton onChange={filesHandler}/>
           <Button
             type="submit"
             fullWidth
