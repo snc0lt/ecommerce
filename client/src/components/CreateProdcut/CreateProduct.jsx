@@ -103,17 +103,6 @@ export default function SignUp() {
     })
   },[stateCategory]);
 
-  const handleSubmit=function(event){
-    var formData = new FormData();
-    var fileField = files;
-    formData.append('images', fileField.files[0]);
-    console.log(formData);
-    // fetch('http://localhost:3001/image'),{
-    //   method:'POST',
-      
-    // }
-    alert("enviado");
-  };
 
   const filesHandler=function(event){
     console.log(event.target.files)
@@ -155,7 +144,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           NUEVO PRODUCTO
         </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSubmit}>
+        <form className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
