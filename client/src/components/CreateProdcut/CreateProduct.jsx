@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState,useEffect} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -16,6 +16,10 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import UploadImgButton from '../UploadImageButton/UploadImageButton'
 import NativeSelect from '@material-ui/core/NativeSelect'
+import { Input } from '@material-ui/core';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+
+
 
 function Copyright() {
   return (
@@ -54,8 +58,95 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+class KeyGen{
+  constructor(i, key){
+    this.i = 1;
+    this.key = function(){
+      this.i = this.i + 1;
+      return(this.i);
+    }
+  }
+}
+
 export default function SignUp() {
   const classes = useStyles();
+
+  const [stateCategory,setStateCategory] = useState([]);
+  const [categories, setCategories] =useState([]);
+  const [name, setName] =useState('');
+  const [category,setCategory] = useState('');
+  const [description,setDescription] = useState('');
+  const [price,setPrice] = useState('');
+  const [stock,setStock] = useState('');
+  const [files,setFiles] = useState([]);
+
+  const [age, setAge] = React.useState('');
+
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
+
+
+  useEffect(()=>{
+    //console.log("aqui esta tu effect");
+    //console.log("aquí intentamos el fetch");
+    fetch('http://localhost:3001/category',{
+      method:'GET'
+    })
+    .then(function(response){
+      return response.json();
+    })
+    .then(function(arr){
+      console.log(arr);
+      setCategories(arr);
+      //console.log(categories);
+    })
+  },[stateCategory]);
+
+  const handleSubmit=function(event){
+    var formData = new FormData();
+    var fileField = files;
+    formData.append('images', fileField.files[0]);
+    console.log(formData);
+    // fetch('http://localhost:3001/image'),{
+    //   method:'POST',
+      
+    // }
+    alert("enviado");
+  };
+
+  const filesHandler=function(event){
+    console.log(event.target.files)
+    setFiles(event.target.files)
+  };
+
+  const handleName=function(event){
+    setName(event.target.value)
+  }
+
+  const handleCategory=function(event){
+    //console.log(event.target.value);
+    setCategory(event.target.value);
+  }
+
+  const handleDescription = function(event){
+    console.log(event.target.value);
+    setDescription(event.target.value);
+  }
+
+  const handlePrice = function(event){
+    console.log(event.target.value);
+    setPrice(event.target.value);
+  }
+
+  const handleStock = function(event){
+    console.log(event.target.value);
+    setStock(event.target.value);
+  }
+
+  const keySelect= new KeyGen();
+
+
 
   return (
     <Container component="main" maxWidth="xs">
@@ -64,7 +155,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           NUEVO PRODUCTO
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -73,27 +164,38 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
+                onChange={handleName}
                 // id="firstName"
                 label="Nombre del producto"
                 autoFocus
               />
             </Grid>
             <Grid item xs={12} >
-            <FormControl variant="outlined" className={classes.formControl}  fullWidth>
-        <InputLabel htmlFor="outlined-age-native-simple">Age</InputLabel>
+            <FormControl variant="outlined" className={classes.formControl} fullWidth>
+        <InputLabel id="demo-simple-select-outlined-label">Categoría</InputLabel>
         <Select
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
           native
-          value=''
-          label="Age"
+          value={category}
+          onChange={handleCategory}
+          label="Categoría"
+          
+        >
+            {/* <FormControl variant="outlined" className={classes.formControl}  fullWidth>
+        <InputLabel htmlFor="outlined-age-native-simple">Categoría</InputLabel>
+        <Select
+          onChange={handleCategory}
+          native
+          value="gato"
+          label="Categoría"
           inputProps={{
-            name: 'age',
+            name: 'category',
             id: 'outlined-age-native-simple',
           }}
-        >
+        > */}
           <option aria-label="None" value="" />
-          <option value={10}>Ten</option>
-          <option value={20}>Twenty</option>
-          <option value={30}>Thirty</option>
+          {categories.map((c)=> <option value={c.id} key={keySelect.key()}>{c.name}</option>)}
         </Select>
       </FormControl>
             </Grid>
@@ -101,14 +203,16 @@ export default function SignUp() {
               <TextField className='styleDescripcion'
                 fullWidth
                 id="outlined-textarea"
-                label="Descripcion"
+                label="Descripción"
                 placeholder="Inserte la descripcion del producto"
                 multiline
                 variant="outlined"
+                onChange={handleDescription}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
+                onChange={handlePrice}
                 variant="outlined"
                 required
                 fullWidth
@@ -120,6 +224,7 @@ export default function SignUp() {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                onChange={handleStock}
                 variant="outlined"
                 required
                 fullWidth
@@ -130,9 +235,7 @@ export default function SignUp() {
               />
             </Grid>
           </Grid>
-          <div className='button-upload'>
-          <UploadImgButton />
-          </div>
+          <UploadImgButton onChange={filesHandler}/>
           <Button
             type="submit"
             fullWidth
