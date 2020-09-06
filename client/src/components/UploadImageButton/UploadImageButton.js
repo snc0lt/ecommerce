@@ -27,7 +27,7 @@ export default function UploadButtons(props) {
         accept="image/*"
         className={classes.input}
         id="contained-button-file"
-        multiple="true"
+        multiple={true}
         type="file"
       />
       <label htmlFor="contained-button-file">

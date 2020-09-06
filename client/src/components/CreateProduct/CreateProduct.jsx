@@ -80,16 +80,9 @@ export default function SignUp() {
   const [stock,setStock] = useState('');
   const [files,setFiles] = useState([]);
 
-  const [age, setAge] = React.useState('');
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
-
+  const [images, setImages] = useState([]);
 
   useEffect(()=>{
-    //console.log("aqui esta tu effect");
-    //console.log("aquí intentamos el fetch");
     fetch('http://localhost:3001/category',{
       method:'GET'
     })
@@ -104,16 +97,55 @@ export default function SignUp() {
   },[stateCategory]);
 
   const handleSubmit=function(event){
+    let respuesta=[];
     var formData = new FormData();
     var fileField = files;
-    formData.append('images', fileField.files[0]);
-    console.log(formData);
-    // fetch('http://localhost:3001/image'),{
-    //   method:'POST',
-      
-    // }
-    alert("enviado");
-  };
+    formData.append('images', fileField[0]);
+    console.log("formData: ",formData);
+    alert("vamos a intentar el fetch");
+    fetch('http://localhost:3001/image',{
+       method:'POST',
+       body:formData
+    })
+    .then(response => response.json())
+    .then(function(response){
+      console.log('Success:', response);
+      alert("Hash devuelto por multer");
+      return(response);
+    })
+    .then(function(response){
+      let product={
+        "name": name,
+        "description": description, 
+        "price": price, 
+        "stock": stock, 
+        "image": response, 
+        "categories": category
+      };
+      let toSend=JSON.stringify(product);
+      console.log("product: ",toSend);
+      alert("ahi esta el producto");
+      fetch('http://localhost:3001/products',{
+        method:'POST',
+        body: JSON.stringify(product),
+        headers:{
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(res => res.json()) //De aquí en adelante esto anda mal, porque no pude acceder a la respuesta, aun cuando
+      .then(function(res){     //la ruta del back si crea el producto en la base de datos.
+        console.log("final: ",res);
+        alert("con esto terminamos");
+      });
+    })
+    .then(function(){
+      alert("producto creado con éxito");
+    })
+    .catch(function(e){
+      console.log(e);
+      alert("No se pudo crear el producto");
+    });
+  }
 
   const filesHandler=function(event){
     console.log(event.target.files)
@@ -155,7 +187,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           NUEVO PRODUCTO
         </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSubmit}>
+        <form className={classes.form} noValidate onSubmit={handleSubmit} >
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -179,21 +211,8 @@ export default function SignUp() {
           native
           value={category}
           onChange={handleCategory}
-          label="Categoría"
-          
+          label="Categoría" 
         >
-            {/* <FormControl variant="outlined" className={classes.formControl}  fullWidth>
-        <InputLabel htmlFor="outlined-age-native-simple">Categoría</InputLabel>
-        <Select
-          onChange={handleCategory}
-          native
-          value="gato"
-          label="Categoría"
-          inputProps={{
-            name: 'category',
-            id: 'outlined-age-native-simple',
-          }}
-        > */}
           <option aria-label="None" value="" />
           {categories.map((c)=> <option value={c.id} key={keySelect.key()}>{c.name}</option>)}
         </Select>

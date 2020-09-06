@@ -4,7 +4,7 @@ import ProductDetails from './components/Products/ProductDetails';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NavBar from './components/Navbar/NavBar'
 import Products from './components/Products/Products'
-import CreateProduct from './components/CreateProdcut/CP'
+import CreateProduct from './components/CreateProduct/CP'
 
 import Catalogo from './components/Catalog/Catalog'
 import FormCategory from './components/FormCategory/FormCategory'
