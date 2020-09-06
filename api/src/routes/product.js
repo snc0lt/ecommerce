@@ -97,9 +97,9 @@ server.post('/', (req, res) => {
 		//product
 		//	.setCategories(categories)
 			//.then(() => 
-			res.status(201).send(product)
+			res.status(201).json(product)
 	}).catch ((err) => {
-		console.log(err)
+		console.log("error: ",err);
 	})
 })
 
