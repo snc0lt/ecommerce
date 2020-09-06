@@ -4,10 +4,11 @@ import ProductDetails from './components/Products/ProductDetails';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NavBar from './components/Navbar/NavBar'
 import Products from './components/Products/Products'
-import CreateProduct from './components/CreateProdcut/CP'
+import CreateProduct from './components/CreateProduct/CP'
 import Dashboard from './components/AdminPanel/Dashboard'
 import Catalogo from './components/Catalog/Catalog'
 import FormCategory from './components/FormCategory/FormCategory'
+import FormCatUpdateDelete from './components/FormCategory/FormUpdateDeleteCategory'
 
 
 function App() {
@@ -35,8 +36,6 @@ function App() {
           <Route exact path='/admin/createCategory'
           render={({ match }) => <FormCategory match={match} />}
           />
-
-
 
 
         </Switch>

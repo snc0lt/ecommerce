@@ -18,21 +18,22 @@ import UploadImgButton from '../UploadImageButton/UploadImageButton'
 import NativeSelect from '@material-ui/core/NativeSelect'
 import { Input } from '@material-ui/core';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import Copyright from '../utils/Copyright.js'
 
 
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="products">
-        ElectroHenry
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+// function Copyright() {
+//   return (
+//     <Typography variant="body2" color="textSecondary" align="center">
+//       {'Copyright © '}
+//       <Link color="inherit" href="products">
+//         ElectroHenry
+//       </Link>{' '}
+//       {new Date().getFullYear()}
+//       {'.'}
+//     </Typography>
+//   );
+// }
 
 // const handleChange = (event) => {
 //   setAge(event.target.value);
@@ -229,6 +230,7 @@ export default function SignUp() {
                 multiline
                 variant="outlined"
                 onChange={handleDescription}
+                requiered
               />
             </Grid>
             <Grid item xs={12}>

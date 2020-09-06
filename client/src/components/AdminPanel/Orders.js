@@ -60,7 +60,7 @@ export default function Orders() {
       </Table>
       <div className={classes.seeMore}>
         <Link color="primary" href="#" onClick={preventDefault}>
-          See more orders
+          Ver mas ordenes
         </Link>
       </div>
     </React.Fragment>
