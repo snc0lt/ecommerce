@@ -147,6 +147,8 @@ export default function SignUp() {
     });
   }
 
+
+
   const filesHandler=function(event){
     console.log(event.target.files)
     setFiles(event.target.files)

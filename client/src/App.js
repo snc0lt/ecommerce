@@ -4,8 +4,8 @@ import ProductDetails from './components/Products/ProductDetails';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NavBar from './components/Navbar/NavBar'
 import Products from './components/Products/Products'
-import CreateProduct from './components/CreateProduct/CP'
-
+import CreateProduct from './components/CreateProdcut/CP'
+import Dashboard from './components/AdminPanel/Dashboard'
 import Catalogo from './components/Catalog/Catalog'
 import FormCategory from './components/FormCategory/FormCategory'
 
@@ -28,6 +28,7 @@ function App() {
             <FormCategory match={match} />
           )} />
 
+          <Route exact path='/admin/panel' component={Dashboard} />
 
           <Route exact path='/admin/createProduct' component={CreateProduct} />
 
