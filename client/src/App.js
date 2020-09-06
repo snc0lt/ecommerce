@@ -37,6 +37,11 @@ function App() {
           render={({ match }) => <FormCategory match={match} />}
           />
 
+          <Route exact path='/admin/products/edit' component={Catalogo} />
+
+          <Route exact path="/admin/editproduct/:id" render={(props)=>(
+            <CreateProduct id={props.match.params.id}/>
+          )} />
 
         </Switch>
       </Router>

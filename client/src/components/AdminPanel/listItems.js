@@ -49,7 +49,7 @@ export const mainListItems = (
     </ListItem>
 
 
-    <ListItem button component="a" href="http://localhost:3000/admin/panel">
+    <ListItem button component="a" href="http://localhost:3000/admin/products/edit">
       <ListItemIcon>
         <EditIcon />
       </ListItemIcon>
