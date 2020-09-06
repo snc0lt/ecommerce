@@ -18,21 +18,23 @@ import UploadImgButton from '../UploadImageButton/UploadImageButton'
 import NativeSelect from '@material-ui/core/NativeSelect'
 import { Input } from '@material-ui/core';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import Copyright from '../utils/Copyright.js'
+import { useLocation } from 'react-router-dom';
 
 
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="products">
-        ElectroHenry
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+// function Copyright() {
+//   return (
+//     <Typography variant="body2" color="textSecondary" align="center">
+//       {'Copyright © '}
+//       <Link color="inherit" href="products">
+//         ElectroHenry
+//       </Link>{' '}
+//       {new Date().getFullYear()}
+//       {'.'}
+//     </Typography>
+//   );
+// }
 
 // const handleChange = (event) => {
 //   setAge(event.target.value);
@@ -68,7 +70,7 @@ class KeyGen{
   }
 }
 
-export default function SignUp() {
+export default function SignUp(props) {
   const classes = useStyles();
 
   const [stateCategory,setStateCategory] = useState([]);
@@ -79,6 +81,7 @@ export default function SignUp() {
   const [price,setPrice] = useState('');
   const [stock,setStock] = useState('');
   const [files,setFiles] = useState([]);
+  const [producto, setProducto] = useState()
 
   const [images, setImages] = useState([]);
 
@@ -179,8 +182,13 @@ export default function SignUp() {
   }
 
   const keySelect= new KeyGen();
+console.log(props)
 
-
+  useEffect(() => {
+    fetch(`http://localhost:3001/products/${props.id}`)
+    .then(res => res.json())
+    .then(data => setProducto(data))
+  }, [])
 
   return (
     <Container component="main" maxWidth="xs">
@@ -229,6 +237,7 @@ export default function SignUp() {
                 multiline
                 variant="outlined"
                 onChange={handleDescription}
+                requiered
               />
             </Grid>
             <Grid item xs={12}>

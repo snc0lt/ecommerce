@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Categorias from '../Categorias/Categorias'
 import ProductsCards from '../Products/ProductCard'
+import GridList from '../GridListProducts/GridListProducts'
+import Grid from '@material-ui/core/Grid'
 
 export default function ({ match, location }) {
 	const [categorias, setCategorias] = useState([])
@@ -18,7 +20,7 @@ export default function ({ match, location }) {
 				.then((res) => res.json())
 				.then((data) => setProductos(data))
 		} else {
-			fetch('http://localhost:3001/product')
+			fetch('http://localhost:3001/products')
 				.then((res) => res.json())
 				.then((data) => setProductos(data))
 		}
@@ -38,15 +40,15 @@ export default function ({ match, location }) {
 	}, [])
 
 	return (
-		<div className='container-fluid h-100 p-4 bg-secondary'>
-			<div className='row h-100'>
-				<div className='col-3 bg-light'>
+		<Grid className='container-fluid h-100 p-4 bg-secondary' container direction='row'>
+			{/* <div className='row h-100'> */}
+				<Grid item xs={12} sm={4} md={4}>
 					<Categorias categorias={categorias} />
-				</div>
-				<div className='col-9'>
-					<ProductsCards productos={productos} />
-				</div>
-			</div>
-		</div>
+				</Grid>
+				<Grid item xs={12} sm={8} md={8}>
+					<GridList productos={productos}/>
+				</Grid>
+			{/* </div> */}
+		</Grid>
 	)
 }

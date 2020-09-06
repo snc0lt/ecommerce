@@ -8,63 +8,99 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
+import EditIcon from '@material-ui/icons/Edit';
+import AddIcon from '@material-ui/icons/Add';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import CategoryIcon from '@material-ui/icons/Category';
 
 export const mainListItems = (
   <div>
-    <ListItem button>
+
+  
+    <ListItem button component="a" href="https://localhost:3000/admin/panel">
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
-      <ListItemText primary="Dashboard" />
+      <ListItemText primary="Resumen" />
     </ListItem>
-    <ListItem button>
+
+
+    <ListItem button component="a" href="http://localhost:3000/admin/panel">
       <ListItemIcon>
         <ShoppingCartIcon />
       </ListItemIcon>
       <ListItemText primary="Ordenes" />
     </ListItem>
-    <ListItem button>
+
+
+    <ListItem button component="a" href="http://localhost:3000/admin/panel">
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
       <ListItemText primary="Clientes" />
     </ListItem>
-    <ListItem button>
+
+
+    <ListItem button component="a" href="http://localhost:3000/admin/createproduct">
       <ListItemIcon>
-        <BarChartIcon />
+        <AddIcon />
+      </ListItemIcon>
+      <ListItemText primary="Crear producto" />
+    </ListItem>
+
+
+    <ListItem button component="a" href="http://localhost:3000/admin/products/edit">
+      <ListItemIcon>
+        <EditIcon />
       </ListItemIcon>
       <ListItemText primary="Editar producto" />
     </ListItem>
-    <ListItem button>
+
+    <ListItem button component="a" href="http://localhost:3000/admin/createcategory">
       <ListItemIcon>
-        <LayersIcon />
+        <CategoryIcon />
       </ListItemIcon>
-      <ListItemText primary="Editar producto" />
+      <ListItemText primary="Crear categoria" />
     </ListItem>
+
+    <ListItem button component="a" href="http://localhost:3000/admin/createcategory">
+      <ListItemIcon>
+        <EditIcon />
+      </ListItemIcon>
+      <ListItemText primary="Editar categoria" />
+    </ListItem>
+    
   </div>
 );
 
-// export const secondaryListItems = (
-//   <div>
-//     <ListSubheader inset>Saved reports</ListSubheader>
-//     <ListItem button>
-//       <ListItemIcon>
-//         <AssignmentIcon />
-//       </ListItemIcon>
-//       <ListItemText primary="Current month" />
-//     </ListItem>
-//     <ListItem button>
-//       <ListItemIcon>
-//         <AssignmentIcon />
-//       </ListItemIcon>
-//       <ListItemText primary="Last quarter" />
-//     </ListItem>
-//     <ListItem button>
-//       <ListItemIcon>
-//         <AssignmentIcon />
-//       </ListItemIcon>
-//       <ListItemText primary="Year-end sale" />
-//     </ListItem>
-//   </div>
-// );
+export const secondaryListItems = (
+  <div>
+
+    <ListSubheader inset>Saved reports</ListSubheader>
+
+    <ListItem button>
+      <ListItemIcon>
+        <AssignmentIcon />
+      </ListItemIcon>
+      <ListItemText primary="Mes actual" />
+    </ListItem>
+
+
+    <ListItem button>
+      <ListItemIcon>
+        <AssignmentIcon />
+      </ListItemIcon>
+      <ListItemText primary="Opcion 2" />
+    </ListItem>
+
+
+    <ListItem button>
+      <ListItemIcon>
+        <AssignmentIcon />
+      </ListItemIcon>
+      <ListItemText primary="Opcion 3" />
+    </ListItem>
+
+
+  </div>
+);
