@@ -9,6 +9,7 @@ import Dashboard from './components/AdminPanel/Dashboard'
 import Catalogo from './components/Catalog/Catalog'
 import FormCategory from './components/FormCategory/FormCategory'
 import FormCatUpdateDelete from './components/FormCategory/FormUpdateDeleteCategory'
+import EditProduct from './components/EditProduct/EditProduct'
 
 
 function App() {
@@ -40,7 +41,7 @@ function App() {
           <Route exact path='/admin/products/edit' component={Catalogo} />
 
           <Route exact path="/admin/editproduct/:id" render={(props)=>(
-            <CreateProduct id={props.match.params.id}/>
+            <EditProduct id={props.match.params.id}/>
           )} />
 
         </Switch>
