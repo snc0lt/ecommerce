@@ -93,7 +93,7 @@ export default function SignUp(props) {
       return response.json();
     })
     .then(function(arr){
-      console.log(arr);
+      //console.log(arr);
       setCategories(arr);
       //console.log(categories);
     })
@@ -104,13 +104,13 @@ export default function SignUp(props) {
     var formData = new FormData();
     var fileField = files;
     formData.append('images', fileField[0]);
-    console.log("formData: ",formData);
-    alert("vamos a intentar el fetch");
+    //console.log("formData: ",formData);
+    //alert("vamos a intentar el fetch");
     fetch('http://localhost:3001/image',{
        method:'POST',
        body:formData
     })
-    .then(response => response.json())
+    .then((response)=> response.json())
     .then(function(response){
       console.log('Success:', response);
       alert("Hash devuelto por multer");
@@ -126,8 +126,8 @@ export default function SignUp(props) {
         "categories": category
       };
       let toSend=JSON.stringify(product);
-      console.log("product: ",toSend);
-      alert("ahi esta el producto");
+      //console.log("product: ",toSend);
+      //alert("ahi esta el producto");
       fetch('http://localhost:3001/products',{
         method:'POST',
         body: JSON.stringify(product),
@@ -182,13 +182,13 @@ export default function SignUp(props) {
   }
 
   const keySelect= new KeyGen();
-console.log(props)
+//console.log(props)
 
-  useEffect(() => {
-    fetch(`http://localhost:3001/products/${props.id}`)
-    .then(res => res.json())
-    .then(data => setProducto(data))
-  }, [])
+  // useEffect(() => {
+  //   fetch(`http://localhost:3001/products/${props.id}`)
+  //   .then(res => res.json())
+  //   .then(data => setProducto(data))
+  // }, [])
 
   return (
     <Container component="main" maxWidth="xs">
