@@ -16,20 +16,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function UploadButtons() {
+export default function UploadButtons(props) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <input
+        name="images"
+        onChange={props.onChange}
         accept="image/*"
         className={classes.input}
         id="contained-button-file"
-        multiple
+        multiple={true}
         type="file"
       />
       <label htmlFor="contained-button-file">
-        <Button variant="contained" color="primary" component="span" startIcon={<CloudUploadIcon />}>
+        <Button variant="contained" color="primary" component="span" startIcon={<CloudUploadIcon />} >
           SUBIR IMAGEN
         </Button>
       </label>

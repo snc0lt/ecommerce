@@ -8,6 +8,7 @@ const imageRouter = require('./image.js')
 const orderRouter = require('./order.js')
 const adminRouter = require('./admin.js')
 const userAdminRouter = require("./userAdmin")
+const uploadRouter = require("./upload.js")
 
 
 const router = Router()
@@ -19,11 +20,11 @@ router.use('/products', productRouter)
 router.use('/category', categoryRouter)
 router.use('/user', userRouter)
 router.use('/test', testRouter)
-router.use('/images', imageRouter)
+router.use('/image', imageRouter)
 router.use('/orders', orderRouter)
 router.use('/admin', adminRouter)
 router.use("/userAdmin", userAdminRouter)
-
+router.use("/upload",uploadRouter)
 
 
 

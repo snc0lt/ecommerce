@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from "react-router-dom";
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
@@ -9,8 +10,7 @@ import Rating from '@material-ui/lab/Rating';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import iphoneImage from '../../testImages/iphone.jpeg'
-import Carousel from '../ImgProductCardCarousel/Carousel';
-import Copyright from '../utils/Copyright';
+import CarouselCard from '../ImgProductCardCarousel/CarouselCard';
 import ProductDetailsDescription from './ProductDetailsDescription'
 
 const useStyles = makeStyles((theme) => ({
@@ -47,6 +47,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ProductDetails() {
   const classes = useStyles();
+  const { id } = useParams()
+  const [ producto, setProducto ] = useState()
+
+  useEffect(() => {
+    fetch(`http://localhost:3001/products/${id}`)
+        .then(res => res.json())
+        .then(data => {
+          setProducto(data)
+          console.log(data)
+        })
+  }, [])
 
   return (
     <Container maxWidth="md">
@@ -54,14 +65,14 @@ export default function ProductDetails() {
         <CssBaseline />
         <Grid item xs={false} sm={6} md={7}>
           <div className={classes.paper}>
-            <Carousel />
+            <CarouselCard  image={ producto && producto.image}/>
           </div>
         </Grid>
         <Grid item xs={12} sm={6} md={5} component={Paper} elevation={6} square>
           <div className={classes.paper}>
             <Typography component="div">
               <Box fontWeight="fontWeightBold" fontSize={26} m={1}>
-              Iphone 11 pro max
+              { producto && producto.name}
               </Box>
             </Typography>
             <div>
@@ -70,10 +81,10 @@ export default function ProductDetails() {
           </div>
           <div className={classes.paper}>
             <Typography component="h4" variant="h4" color='primary'>
-              $1000.00
+            { producto && producto.price}
             </Typography>
             <Typography variant='subtitle2' color='textSecondary'>
-              Stock - Disponible
+            { producto && producto.stock} - Disponible
             </Typography>
           </div>
           <div className={classes.paper}>
@@ -92,12 +103,9 @@ export default function ProductDetails() {
               add to cart
             </Button>
           </div>
-          <div style={{ marginTop: 140}}>
-            <Copyright />
-          </div>
         </Grid>
-      <ProductDetailsDescription classes={classes} />
       </Grid>
+      <ProductDetailsDescription classes={classes} description={ producto && producto.description}/>
     </Container>
   );
 }

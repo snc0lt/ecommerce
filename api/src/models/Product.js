@@ -23,6 +23,12 @@ module.exports = (sequelize) => {
 		image: {
 			type: DataTypes.ARRAY(DataTypes.TEXT),
 			allowNull: false,
+		},
+		// CONSULTAR EN SI EN EL MODELO DE LA DB PRODUCTO NO LE TENGGO QUE ASIGNAR LA CATEGORIA
+		category: {
+			type: DataTypes.ARRAY(DataTypes.TEXT),
+			allowNull: false,
 		}
+
 	})
 }

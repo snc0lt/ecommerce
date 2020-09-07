@@ -12,7 +12,11 @@ import iphoneImage from '../../testImages/iphone.jpeg'
 import Rating from '../Rating/Rating'
 import Button from '@material-ui/core/Button';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import { Tooltip } from '@material-ui/core';
+import { Tooltip, Icon } from '@material-ui/core';
+import { useLocation, Link } from 'react-router-dom';
+import EditIcon from '@material-ui/icons/Edit';
+import CategoryIcon from '@material-ui/icons/Category';
+import DeleteDialog from '../ConfirmationDialog/DeleteDialog'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,8 +33,39 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ProductCard() {
+export default function ProductCard(props) {
   const classes = useStyles();
+  const url = useLocation();
+  const boton = url.pathname === '/admin/products/edit'
+    ? (<>
+      <Link to={`/admin/editproduct/${props.productos.id}`}>
+        <IconButton>
+          <Tooltip title='Editar producto'>
+            <EditIcon color='primary' />
+          </Tooltip>
+        </IconButton>
+      </Link>
+
+      <DeleteDialog props={props} />
+
+    </>)
+    : url.pathname === '/admin/products/edit_category'
+      ? (<IconButton>
+        <Tooltip title='Editar categoria'>
+          <CategoryIcon color='primary' />
+        </Tooltip>
+      </IconButton>)
+      : (<>
+        <IconButton>
+          <Button variant="contained" color="primary" size="small">
+            Comprar
+    </Button></IconButton>
+        <Tooltip title='Añadir al carrito'>
+          <IconButton aria-label="addToCart">
+            <ShoppingCartIcon color='primary' />
+          </IconButton>
+        </Tooltip>
+      </>)
 
   return (
     <Card className={classes.root}>
@@ -41,27 +76,21 @@ export default function ProductCard() {
       />
       <CardMedia
         className={classes.media}
-        image={iphoneImage}
-        title="Paella dish"
+        image={`http://localhost:3001/images/${props.productos.image[0]}`}
       />
       <CardContent>
-        <Typography variant='body2' color="textSecondary" component="p">
-          Iphone 11 pro max
-        </Typography>
+        <Link to={`/products/${props.productos.id}`}>
+          <Typography variant='body2' color="textSecondary" component="p">
+            {props.productos.name}
+          </Typography>
+        </Link>
         <Typography gutterBottom variant='body1' color='primary' component='p'>
-          $1000.00
+          {props.productos.price}
         </Typography>
-        
+
       </CardContent>
       <CardActions disableSpacing>
-        <Button variant="contained" color="primary" size="small">
-          Buy
-        </Button>
-        <Tooltip title='add to cart'>
-          <IconButton aria-label="addToCart">
-            <ShoppingCartIcon color='primary' />
-          </IconButton>
-        </Tooltip>
+        {boton}
       </CardActions>
     </Card>
   );

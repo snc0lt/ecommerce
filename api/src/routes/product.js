@@ -73,15 +73,15 @@ server.get('/', (req, res) => {
 // Crea el Producto - Verifica que le pasen los datos requeridos- Lo asocia con sus categorias
 server.post('/', (req, res) => {
 	console.log(req.body)
-	const { name, description, price, stock, image, categories } = req.body
+	const { name, description, price, stock, image, category } = req.body
 
 	if (
 		!name ||
 		!description ||
 		!price ||
 		!stock ||
-		!image 
-		//categories.length === 0
+		!image ||
+		category.length === 0
 	) {
 		res.status(400).send('Debe enviar los campos requeridos')
 		return
@@ -93,13 +93,15 @@ server.post('/', (req, res) => {
 		price,
 		stock,
 		image,
+		category
 	}).then((product) => {
-		//product
-		//	.setCategories(categories)
-			//.then(() => 
-			res.status(201).send(product)
+		// product
+		// 	.setCategories(category)
+		// 	.then(() => 
+			res.status(201).json(product)
+			console.log(product)
 	}).catch ((err) => {
-		console.log(err)
+		console.log("error: ",err);
 	})
 })
 
@@ -117,15 +119,15 @@ server.delete('/:id', (req, res) => {
 
 // Actualiza el Producto en base a su ID - Le remueve todas sus anteriores categorias y le setea las nuevas
 server.put('/:id', (req, res) => {
-	const { name, description, price, stock, image, categories } = req.body
+	const { name, description, price, stock, image, category } = req.body
 	
 	if (
 		!name ||
 		!description ||
 		!price ||
 		!stock ||
-		!image 
-		//categories.length === 0
+		!image ||
+		category.length === 0
 	) {
 		res.status(400).send('Debe enviar los campos requeridos')
 		return
@@ -138,11 +140,13 @@ server.put('/:id', (req, res) => {
 			product.price = req.body.price || product.price
 			product.stock = req.body.stock || product.stock
 			product.image = req.body.image || product.image
-			product.removeCategories()
+			product.category = req.body.category || product.category
+			// product.removeCategories()
 			product.save().then((prod) => {
-				prod.setCategories(categories).then(() =>
-					res.status(201).send(product)
-				)
+				res.status(204).send(prod)
+				// prod.setCategories(categories).then(() =>
+				// 	res.status(201).send(product)
+				// )
 			})
 		})
 		.catch((err) => res.status(404).send('Id no valido'))

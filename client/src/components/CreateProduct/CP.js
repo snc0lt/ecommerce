@@ -1,5 +1,5 @@
 import React from 'react'
-import CreatePCard from './CreateProdcut'
+import CreatePCard from './CreateProduct.jsx'
 
 const CreateProduct = () => {
 
