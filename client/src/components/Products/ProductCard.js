@@ -13,7 +13,7 @@ import Rating from '../Rating/Rating'
 import Button from '@material-ui/core/Button';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { Tooltip, Icon } from '@material-ui/core';
-import {useLocation, Link} from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import CategoryIcon from '@material-ui/icons/Category';
 import DeleteDialog from '../ConfirmationDialog/DeleteDialog'
@@ -37,35 +37,35 @@ export default function ProductCard(props) {
   const classes = useStyles();
   const url = useLocation();
   const boton = url.pathname === '/admin/products/edit'
-  ? (<>
-  <Link to={`/admin/editproduct/${props.productos.id}`}>
-  <IconButton>
-      <Tooltip title='Editar producto'>
-        <EditIcon color='primary' />
-      </Tooltip>
-    </IconButton>
-  </Link>
+    ? (<>
+      <Link to={`/admin/editproduct/${props.productos.id}`}>
+        <IconButton>
+          <Tooltip title='Editar producto'>
+            <EditIcon color='primary' />
+          </Tooltip>
+        </IconButton>
+      </Link>
 
-    <DeleteDialog props={props}/>
+      <DeleteDialog props={props} />
 
-  </>)
-  :  url.pathname === '/admin/products/edit_category'
-  ? (<IconButton>
-      <Tooltip title='Editar categoria'>
-        <CategoryIcon color='primary'/>
-      </Tooltip>
-    </IconButton>)
-  : (<>
-  <IconButton>
-    <Button variant="contained" color="primary" size="small">
-    Comprar
+    </>)
+    : url.pathname === '/admin/products/edit_category'
+      ? (<IconButton>
+        <Tooltip title='Editar categoria'>
+          <CategoryIcon color='primary' />
+        </Tooltip>
+      </IconButton>)
+      : (<>
+        <IconButton>
+          <Button variant="contained" color="primary" size="small">
+            Comprar
     </Button></IconButton>
-    <Tooltip title='Añadir al carrito'>
-    <IconButton aria-label="addToCart">
-        <ShoppingCartIcon color='primary' />
-      </IconButton>
-    </Tooltip>
-  </>)
+        <Tooltip title='Añadir al carrito'>
+          <IconButton aria-label="addToCart">
+            <ShoppingCartIcon color='primary' />
+          </IconButton>
+        </Tooltip>
+      </>)
 
   return (
     <Card className={classes.root}>
@@ -77,16 +77,17 @@ export default function ProductCard(props) {
       <CardMedia
         className={classes.media}
         image={`http://localhost:3001/images/${props.productos.image[0]}`}
-        title="Paella dish"
       />
       <CardContent>
-        <Typography variant='body2' color="textSecondary" component="p">
-          {props.productos.name}
-        </Typography>
+        <Link to={`/products/${props.productos.id}`}>
+          <Typography variant='body2' color="textSecondary" component="p">
+            {props.productos.name}
+          </Typography>
+        </Link>
         <Typography gutterBottom variant='body1' color='primary' component='p'>
           {props.productos.price}
         </Typography>
-        
+
       </CardContent>
       <CardActions disableSpacing>
         {boton}

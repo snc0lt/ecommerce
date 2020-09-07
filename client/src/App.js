@@ -1,23 +1,20 @@
 import React from 'react';
-import './App.css';
+import Products from './components/Products/Products'
 import ProductDetails from './components/Products/ProductDetails';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import NavBar from './components/Navbar/NavBar'
-import Products from './components/Products/Products'
-import CreateProduct from './components/CreateProduct/CP'
+import CreateProduct from './components/CreateProduct/CreateProduct'
 import Dashboard from './components/AdminPanel/Dashboard'
 import Catalogo from './components/Catalog/Catalog'
 import FormCategory from './components/FormCategory/FormCategory'
-import FormCatUpdateDelete from './components/FormCategory/FormUpdateDeleteCategory'
-import EditProduct from './components/EditProduct/EditProduct'
+import SearchBar from './components/SearchBar/SearchBar';
+
 
 
 function App() {
   return (
     <div className="App">
       <Router>
-        {/* por los momentos se muestra solo el searchbar pero aqui debe ir un navbar */}
-        <NavBar />
+        <SearchBar />
         <Switch>
           <Route exact path='/products' component={Products} />
 
@@ -40,9 +37,7 @@ function App() {
 
           <Route exact path='/admin/products/edit' component={Catalogo} />
 
-          <Route exact path="/admin/editproduct/:id" render={(props)=>(
-            <EditProduct id={props.match.params.id}/>
-          )} />
+          <Route exact path="/admin/editproduct/:id" component={CreateProduct} />
 
         </Switch>
       </Router>

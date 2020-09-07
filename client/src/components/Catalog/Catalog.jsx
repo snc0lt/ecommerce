@@ -40,12 +40,12 @@ export default function ({ match, location }) {
 	}, [])
 
 	return (
-		<Grid className='container-fluid h-100 p-4 bg-secondary' container direction='row'>
+		<Grid container direction='row'>
 			{/* <div className='row h-100'> */}
-				<Grid item xs={12} sm={4} md={4}>
+				<Grid item xs={12} sm={2} md={2}>
 					<Categorias categorias={categorias} />
 				</Grid>
-				<Grid item xs={12} sm={8} md={8}>
+				<Grid item xs={12} sm={10} md={10}>
 					<GridList productos={productos}/>
 				</Grid>
 			{/* </div> */}

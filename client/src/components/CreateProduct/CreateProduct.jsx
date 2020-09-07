@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -19,26 +19,11 @@ import NativeSelect from '@material-ui/core/NativeSelect'
 import { Input } from '@material-ui/core';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Copyright from '../utils/Copyright.js'
-import { useLocation } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
+// import ProductCheckbox from '../utils/ProductCheckbox'
+import FormGroup from '@material-ui/core/FormGroup';
+import Checkbox from '@material-ui/core/Checkbox';
 
-
-
-// function Copyright() {
-//   return (
-//     <Typography variant="body2" color="textSecondary" align="center">
-//       {'Copyright © '}
-//       <Link color="inherit" href="products">
-//         ElectroHenry
-//       </Link>{' '}
-//       {new Date().getFullYear()}
-//       {'.'}
-//     </Typography>
-//   );
-// }
-
-// const handleChange = (event) => {
-//   setAge(event.target.value);
-// };
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -58,138 +43,171 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  checkbox: {
+    display: 'flex',
+  }
 }));
 
-class KeyGen{
-  constructor(i, key){
+class KeyGen {
+  constructor(i, key) {
     this.i = 1;
-    this.key = function(){
+    this.key = function () {
       this.i = this.i + 1;
-      return(this.i);
+      return (this.i);
     }
   }
 }
 
 export default function SignUp(props) {
   const classes = useStyles();
-
-  const [stateCategory,setStateCategory] = useState([]);
-  const [categories, setCategories] =useState([]);
-  const [name, setName] =useState('');
-  const [category,setCategory] = useState('');
-  const [description,setDescription] = useState('');
-  const [price,setPrice] = useState('');
-  const [stock,setStock] = useState('');
-  const [files,setFiles] = useState([]);
+  const { id } = useParams()
+  const url = useLocation();
+  // const [stateCategory, setStateCategory] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [name, setName] = useState('');
+  const [category, setCategory] = useState([]);
+  const [description, setDescription] = useState('');
+  const [price, setPrice] = useState('');
+  const [stock, setStock] = useState('');
+  const [files, setFiles] = useState([]);
   const [producto, setProducto] = useState()
 
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState();
 
-  useEffect(()=>{
-    fetch('http://localhost:3001/category',{
-      method:'GET'
+  useEffect(() => {
+    fetch('http://localhost:3001/category', {
+      method: 'GET'
     })
-    .then(function(response){
-      return response.json();
-    })
-    .then(function(arr){
-      //console.log(arr);
-      setCategories(arr);
-      //console.log(categories);
-    })
-  },[stateCategory]);
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (arr) {
+        setCategories(arr);
+      })
+  }, []);
 
-  const handleSubmit=function(event){
-    let respuesta=[];
-    var formData = new FormData();
-    var fileField = files;
-    formData.append('images', fileField[0]);
-    //console.log("formData: ",formData);
-    //alert("vamos a intentar el fetch");
-    fetch('http://localhost:3001/image',{
-       method:'POST',
-       body:formData
+  useEffect(() => {
+    if (url.pathname.includes('/admin/editproduct')) {
+      fetch(`http://localhost:3001/products/${id}`)
+        .then(res => res.json())
+        .then(data => {
+          setProducto(data)
+          console.log(data)
+        })
+    }
+  }, [])
+
+  const uploadImage = () => {
+    let formData = new FormData();
+    for (var i = 0; i < files.length; i++) {
+      formData.append('images', files[i]);
+    }
+    fetch('http://localhost:3001/image', {
+      method: 'POST',
+      body: formData
     })
-    .then((response)=> response.json())
-    .then(function(response){
-      console.log('Success:', response);
-      alert("Hash devuelto por multer");
-      return(response);
-    })
-    .then(function(response){
-      let product={
-        "name": name,
-        "description": description, 
-        "price": price, 
-        "stock": stock, 
-        "image": response, 
-        "categories": category
-      };
-      let toSend=JSON.stringify(product);
-      //console.log("product: ",toSend);
-      //alert("ahi esta el producto");
-      fetch('http://localhost:3001/products',{
-        method:'POST',
+      .then(res => res.json())
+      .then(data => {
+        setImages(data)
+        if (images) {
+          console.log(images)
+        }
+      })
+  }
+
+  const createProduct = async (product) => {
+    try {
+      const newProduct = await fetch('http://localhost:3001/products', {
+        method: 'POST',
         body: JSON.stringify(product),
-        headers:{
+        headers: {
           'Content-Type': 'application/json'
         }
       })
-      .then(res => res.json()) //De aquí en adelante esto anda mal, porque no pude acceder a la respuesta, aun cuando
-      .then(function(res){     //la ruta del back si crea el producto en la base de datos.
-        console.log("final: ",res);
-        alert("con esto terminamos");
-      });
-    })
-    .then(function(){
-      alert("producto creado con éxito");
-    })
-    .catch(function(e){
-      console.log(e);
-      alert("No se pudo crear el producto");
-    });
+      console.log(newProduct)
+    } catch (error) {
+      console.log(error)
+      alert('something went wrong..!')
+    }
+  }
+
+  const editProduct = async (product) => {
+    try {
+      const updatedProduct = await fetch(`http://localhost:3001/products/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(product),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      console.log(updatedProduct)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const handleSubmit = function (e) {
+    e.preventDefault()
+    uploadImage()
+
+    if (images) {
+      const product = {
+        name,
+        description,
+        price,
+        stock,
+        image: images,
+        category: Object.keys(check)
+      };
+
+      if (url.pathname === `/admin/editproduct/${id}`) {
+        editProduct(product)
+      }
+      else {
+        createProduct(product)
+      }
+    }
+
   }
 
 
+  const filesHandler = function (event) {
 
-  const filesHandler=function(event){
-    console.log(event.target.files)
     setFiles(event.target.files)
   };
 
-  const handleName=function(event){
+  const handleName = function (event) {
     setName(event.target.value)
   }
 
-  const handleCategory=function(event){
-    //console.log(event.target.value);
-    setCategory(event.target.value);
+  const handleCategory = function (event) {
+
+    setCategory(...category, event.target.value);
   }
 
-  const handleDescription = function(event){
-    console.log(event.target.value);
+  const handleDescription = function (event) {
+
     setDescription(event.target.value);
   }
 
-  const handlePrice = function(event){
-    console.log(event.target.value);
+  const handlePrice = function (event) {
+
     setPrice(event.target.value);
   }
 
-  const handleStock = function(event){
-    console.log(event.target.value);
+  const handleStock = function (event) {
+
     setStock(event.target.value);
   }
 
-  const keySelect= new KeyGen();
-//console.log(props)
+  const keySelect = new KeyGen();
+  const [check, setCheck] = React.useState([]);
 
-  // useEffect(() => {
-  //   fetch(`http://localhost:3001/products/${props.id}`)
-  //   .then(res => res.json())
-  //   .then(data => setProducto(data))
-  // }, [])
 
+  const handleChange = (event) => {
+    setCheck({ ...check, [event.target.name]: event.target.checked });
+  };
+  console.log(Object.keys(check))
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -201,7 +219,7 @@ export default function SignUp(props) {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                autoComplete="fname"
+                placeholder={producto && producto.name}
                 name="nameProduct"
                 variant="outlined"
                 required
@@ -212,28 +230,23 @@ export default function SignUp(props) {
                 autoFocus
               />
             </Grid>
-            <Grid item xs={12} >
-            <FormControl variant="outlined" className={classes.formControl} fullWidth>
-        <InputLabel id="demo-simple-select-outlined-label">Categoría</InputLabel>
-        <Select
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          native
-          value={category}
-          onChange={handleCategory}
-          label="Categoría" 
-        >
-          <option aria-label="None" value="" />
-          {categories.map((c)=> <option value={c.id} key={keySelect.key()}>{c.name}</option>)}
-        </Select>
-      </FormControl>
+            <Grid item xs={12} className={classes.checkbox}>
+              {categories && categories.map((cat, i) => (
+                <FormGroup row key={i}>
+                  <FormControlLabel
+                    control={<Checkbox checked={check.checkedA} onChange={handleChange} name={cat.name} />}
+                    label={cat.name}
+                  />
+                </FormGroup>
+                // <ProductCheckbox handleCategory={handleCategory} setCategory={setCategory} cat={cat} key={i}/>
+              ))}
             </Grid>
             <Grid item xs={12}>
-              <TextField className='styleDescripcion'
+              <TextField
                 fullWidth
                 id="outlined-textarea"
                 label="Descripción"
-                placeholder="Inserte la descripcion del producto"
+                placeholder={producto && producto.description}
                 multiline
                 variant="outlined"
                 onChange={handleDescription}
@@ -243,10 +256,10 @@ export default function SignUp(props) {
             <Grid item xs={12}>
               <TextField
                 onChange={handlePrice}
+                placeholder={producto && producto.price}
                 variant="outlined"
                 required
                 fullWidth
-                // id="email"
                 label="Precio"
                 type='number'
                 name="precio"
@@ -254,6 +267,7 @@ export default function SignUp(props) {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                placeholder={producto && producto.stock}
                 onChange={handleStock}
                 variant="outlined"
                 required
@@ -261,11 +275,10 @@ export default function SignUp(props) {
                 name="stock"
                 label="Stock"
                 type="number"
-                // id="password"
               />
             </Grid>
           </Grid>
-          <UploadImgButton onChange={filesHandler}/>
+          <UploadImgButton onChange={filesHandler} />
           <Button
             type="submit"
             fullWidth

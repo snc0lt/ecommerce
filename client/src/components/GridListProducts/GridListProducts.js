@@ -23,11 +23,11 @@ export default function ImageGridList(props) {
 
   return (
     <div className={classes.root}>
-      <GridList cellHeight={550} cols={4} spacing={4}>
+      <GridList cellHeight={450} className={classes.gridList} cols={4} spacing={24}>
         {props.productos.map((prod) => (
-            <GridListTile cols={1}>
+          <GridListTile key={prod.id} cols={1}>
                 <ProductCard productos={prod}/>
-            </GridListTile>
+          </GridListTile>
         ))}
       </GridList>
     </div>

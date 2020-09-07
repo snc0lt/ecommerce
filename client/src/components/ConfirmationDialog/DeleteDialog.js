@@ -21,7 +21,7 @@ export default function AlertDialogSlide(props) {
     setOpen(true);
   };
 
-  console.log(props);
+  // console.log(props);
 
   const handleClose = () => {
     fetch(`http://localhost:3001/products/${props.props.productos.id}`, {
