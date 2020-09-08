@@ -23,6 +23,7 @@ import { useParams, useLocation } from 'react-router-dom';
 // import ProductCheckbox from '../utils/ProductCheckbox'
 import FormGroup from '@material-ui/core/FormGroup';
 import Checkbox from '@material-ui/core/Checkbox';
+// import ProgressCircle from '../utils/ProgressCircle';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -62,7 +63,6 @@ export default function SignUp(props) {
   const classes = useStyles();
   const { id } = useParams()
   const url = useLocation();
-  // const [stateCategory, setStateCategory] = useState([]);
   const [categories, setCategories] = useState([]);
   const [name, setName] = useState('');
   const [category, setCategory] = useState([]);
@@ -71,8 +71,6 @@ export default function SignUp(props) {
   const [stock, setStock] = useState('');
   const [files, setFiles] = useState([]);
   const [producto, setProducto] = useState()
-
-  const [images, setImages] = useState();
 
   useEffect(() => {
     fetch('http://localhost:3001/category', {
@@ -108,16 +106,29 @@ export default function SignUp(props) {
     })
       .then(res => res.json())
       .then(data => {
-        setImages(data)
-        if (images) {
-          console.log(images)
+        const product = {
+          name,
+          description,
+          price,
+          stock,
+          image: data,
+          category: Object.keys(check)
+        };
+        if (url.pathname === `/admin/editproduct/${id}`) {
+          editProduct(product)
+          console.log('editaste el producto')
+        }
+        else {
+          createProduct(product)
+          console.log('creaste el producto')
         }
       })
+      .catch(err => console.log(err))
   }
 
-  const createProduct = async (product) => {
+  const createProduct = (product) => {
     try {
-      const newProduct = await fetch('http://localhost:3001/products', {
+      const newProduct = fetch('http://localhost:3001/products', {
         method: 'POST',
         body: JSON.stringify(product),
         headers: {
@@ -131,9 +142,9 @@ export default function SignUp(props) {
     }
   }
 
-  const editProduct = async (product) => {
+  const editProduct = (product) => {
     try {
-      const updatedProduct = await fetch(`http://localhost:3001/products/${id}`, {
+      const updatedProduct = fetch(`http://localhost:3001/products/${id}`, {
         method: 'PUT',
         body: JSON.stringify(product),
         headers: {
@@ -149,24 +160,7 @@ export default function SignUp(props) {
   const handleSubmit = function (e) {
     e.preventDefault()
     uploadImage()
-
-    if (images) {
-      const product = {
-        name,
-        description,
-        price,
-        stock,
-        image: images,
-        category: Object.keys(check)
-      };
-
-      if (url.pathname === `/admin/editproduct/${id}`) {
-        editProduct(product)
-      }
-      else {
-        createProduct(product)
-      }
-    }
+    // console.log('aqui va la imagen')
 
   }
 
@@ -207,7 +201,7 @@ export default function SignUp(props) {
   const handleChange = (event) => {
     setCheck({ ...check, [event.target.name]: event.target.checked });
   };
-  console.log(Object.keys(check))
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -225,7 +219,6 @@ export default function SignUp(props) {
                 required
                 fullWidth
                 onChange={handleName}
-                // id="firstName"
                 label="Nombre del producto"
                 autoFocus
               />
@@ -234,7 +227,7 @@ export default function SignUp(props) {
               {categories && categories.map((cat, i) => (
                 <FormGroup row key={i}>
                   <FormControlLabel
-                    control={<Checkbox checked={check.checkedA} onChange={handleChange} name={cat.name} />}
+                    control={<Checkbox defaultChecked={check} onChange={handleChange} name={cat.id} />}
                     label={cat.name}
                   />
                 </FormGroup>
@@ -279,7 +272,7 @@ export default function SignUp(props) {
             </Grid>
           </Grid>
           <UploadImgButton onChange={filesHandler} />
-          <Button
+          <Button onClick={handleSubmit}
             type="submit"
             fullWidth
             variant="contained"

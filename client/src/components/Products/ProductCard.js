@@ -56,10 +56,9 @@ export default function ProductCard(props) {
         </Tooltip>
       </IconButton>)
       : (<>
-        <IconButton>
-          <Button variant="contained" color="primary" size="small">
-            Comprar
-    </Button></IconButton>
+        <Button variant="contained" color="primary" size="small">
+          Comprar
+        </Button>
         <Tooltip title='Añadir al carrito'>
           <IconButton aria-label="addToCart">
             <ShoppingCartIcon color='primary' />

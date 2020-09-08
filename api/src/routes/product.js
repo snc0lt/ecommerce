@@ -118,7 +118,7 @@ server.delete('/:id', (req, res) => {
 })
 
 // Actualiza el Producto en base a su ID - Le remueve todas sus anteriores categorias y le setea las nuevas
-server.put('/:id', (req, res) => {
+server.patch('/:id', (req, res) => {
 	const { name, description, price, stock, image, category } = req.body
 	
 	if (
