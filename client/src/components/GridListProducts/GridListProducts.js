@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   gridList: {
+    marginTop:'50px',
     width: '100%',
     height: '100%',
   },

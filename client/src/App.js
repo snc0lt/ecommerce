@@ -8,6 +8,9 @@ import Catalogo from './components/Catalog/Catalog';
 import FormCategory from './components/FormCategory/FormCategory';
 import SearchBar from './components/SearchBar/SearchBar';
 import { Carrousel } from './components/Carrousel/Carrousel';
+import { Footer } from './Components/Footer/Footer'
+
+import EditCategory from './components/FormCategory/FormUpdateDeleteCategory';
 
 function App() {
   return (
@@ -41,6 +44,14 @@ function App() {
 
           <Route exact path="/admin/editproduct/:id" component={CreateProduct} />
 
+          <Route exact path='/admin/editCategory/:name'
+				                render={({ match }) => (
+					                         <EditCategory match={match} />
+				                       )}
+			     />
+
+
+          <Route path='/' render={() => <Footer />} />
       </Router>
     </div>
   );

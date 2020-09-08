@@ -15,23 +15,51 @@ export default function ({ match, location }) {
 	const [productos, setProductos] = useState([])
 	const searchProduct = location.search
 	const nameCategory = match.params.name
-	const { name } = useParams()
-	let query = useQuery().get('search');
+
+	// Codigo COMENTADO  POR JULIAN
+
+
+ //	const { name } = useParams()
+	//let query = useQuery().get('search');
+
+	// useEffect(() => {
+	// 	if (query) {
+	// 		fetch(`http://localhost:3001/products/?search=${query}`)
+	// 			.then((res) => res.json())
+	// 			.then((data) => setProductos(data))
+	// 	} else if(query === null){
+	// 		fetch('http://localhost:3001/products')
+	// 		.then((res) => res.json())
+	// 		.then((data) => {
+	// 			setProductos(data)
+	// 			console.log(data)
+	// 		})
+	// 	}
+	// }, [query])
+	//
+	//
+
+// CODIGO JULI NUEVO -- FALTA ADAPTAR
 
 	useEffect(() => {
-		if (query) {
-			fetch(`http://localhost:3001/products/?search=${query}`)
+		if (nameCategory) {
+			fetch(`http://localhost:3001/category/${nameCategory}`)
+				.then((res) => res.json())
+				.then(({ products }) => setProductos(products))
+		} else if (d) {
+			fetch(`http://localhost:3001/products${searchProduct}`)
 				.then((res) => res.json())
 				.then((data) => setProductos(data))
-		} else if(query === null){
+		} else {
 			fetch('http://localhost:3001/products')
-			.then((res) => res.json())
-			.then((data) => {
-				setProductos(data)
-				console.log(data)
-			})
+				.then((res) => res.json())
+				.then((data) => setProductos(data))
 		}
-	}, [query])
+	}, [nameCategory, searchProduct])
+
+
+
+
 
 	useEffect(() => {
 		fetch(`http://localhost:3001/category`)
