@@ -177,7 +177,7 @@ export default function SearchBar() {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <Link to='/products'>
+          <Link to='/'>
             <div>
               <h3 className='text-white'>Home</h3>
             </div>

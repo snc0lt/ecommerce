@@ -73,7 +73,7 @@ export default function FormCategory({ match }){
               }
         })
         .then(()=>{
-            alert(`Se ha creado una nueva Categoria exitosamente`)
+            // alert(`Se ha creado una nueva Categoria exitosamente`)
             resetForm();
         })
         .catch((err)=>{
@@ -99,10 +99,11 @@ export default function FormCategory({ match }){
             required
             fullWidth
             onChange={handleInputChange}
-            //   value={input.name}
+            value={input.name}
             // id="firstName"
             label="Nombre de la categoria"
             autoFocus
+            
             />
         </Grid>
         <Grid item xs={12} >
@@ -118,18 +119,19 @@ export default function FormCategory({ match }){
             variant="outlined"
             required
             onChange={handleInputChange}
-            //   value={input.description}
+            value={input.description}
             />
         </Grid>
         </Grid>
         <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
+            disabled={!input.name || !input.description}
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
             >
-                Crear
+            Crear
             </Button>
     </form>
     </div>

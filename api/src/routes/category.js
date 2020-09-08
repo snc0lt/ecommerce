@@ -1,16 +1,33 @@
 const server = require('express').Router()
+const { Op } = require('sequelize');
 
 const { Category, Product } = require('../db.js')
 
 // Busca la categoria por su Nombre y la devuelve con Todos sus Productos asociados
-server.get('/:name', (req, res) => {
+server.get('/:id', (req, res) => {
+	const capName = req.params.id;
+
+	Product.findAll({
+		// include: [Category],
+		where: {
+			category: { [Op.contains] : [capName] },
+		},
+	})
+		.then((producto) =>
+			!producto
+				? res.status(404).send('No se encontraron productos')
+				: res.send(producto)
+		)
+		.catch((err) => res.status(404).send(err))
+})
+
+server.get('/single/:name', (req, res) => {
 	const capName =
-		req.params.name.charAt(0).toUpperCase() + req.params.name.slice(1)
+		req.params.name
 
 	Category.findOne({
-		include: [Product],
 		where: {
-			name: capName,
+			id: capName,
 		},
 	})
 		.then((cat) =>

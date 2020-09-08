@@ -23,6 +23,7 @@ import { useParams, useLocation } from 'react-router-dom';
 // import ProductCheckbox from '../utils/ProductCheckbox'
 import FormGroup from '@material-ui/core/FormGroup';
 import Checkbox from '@material-ui/core/Checkbox';
+import { Carrousel } from '../Carrousel/Carrousel';
 // import ProgressCircle from '../utils/ProgressCircle';
 
 
@@ -69,9 +70,23 @@ export default function SignUp(props) {
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [stock, setStock] = useState('');
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState();
   const [producto, setProducto] = useState()
+  const keySelect = new KeyGen();
 
+  const initialState = []
+
+  const [check, setCheck] = useState([]);
+
+  const fileReader = (event) => {
+    var reader = new FileReader();
+    var file = event.target.files
+    reader.onload = function(event) {
+      // The file's text will be printed here
+      console.log(event.target.result)
+    };
+    reader.readAsText(file);
+  }
   useEffect(() => {
     fetch('http://localhost:3001/category', {
       method: 'GET'
@@ -124,7 +139,23 @@ export default function SignUp(props) {
         }
       })
       .catch(err => console.log(err))
+
+
   }
+
+  const resetForm = () => {
+    setName('')
+    setDescription('')
+    setPrice('')
+    setStock('')
+    setFiles()
+
+
+    
+  }
+
+  console.log('checks', check)
+  console.log(Object.keys(check))
 
   const createProduct = (product) => {
     try {
@@ -140,6 +171,7 @@ export default function SignUp(props) {
       console.log(error)
       alert('something went wrong..!')
     }
+    resetForm()
   }
 
   const editProduct = (product) => {
@@ -155,13 +187,14 @@ export default function SignUp(props) {
     } catch (err) {
       console.log(err)
     }
+    resetForm()
   }
 
   const handleSubmit = function (e) {
     e.preventDefault()
     uploadImage()
     // console.log('aqui va la imagen')
-
+    alert('PRODUCTO CREADO CON EXITO')
   }
 
 
@@ -194,14 +227,11 @@ export default function SignUp(props) {
     setStock(event.target.value);
   }
 
-  const keySelect = new KeyGen();
-  const [check, setCheck] = React.useState([]);
-
-
   const handleChange = (event) => {
     setCheck({ ...check, [event.target.name]: event.target.checked });
   };
 
+  console.log(files)
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -221,13 +251,21 @@ export default function SignUp(props) {
                 onChange={handleName}
                 label="Nombre del producto"
                 autoFocus
+                value={name}
               />
             </Grid>
             <Grid item xs={12} className={classes.checkbox}>
               {categories && categories.map((cat, i) => (
+                // if (!name && !description && !price && !stock) {
+                // }
                 <FormGroup row key={i}>
                   <FormControlLabel
-                    control={<Checkbox defaultChecked={check} onChange={handleChange} name={cat.id} />}
+                    control={<Checkbox
+                      onChange={handleChange}
+                      name={cat.id}
+                      // defaultChecked= {!name || !description || !price || !stock ? Object.values(check) : false}
+                      value={check}
+                      />}
                     label={cat.name}
                   />
                 </FormGroup>
@@ -244,6 +282,7 @@ export default function SignUp(props) {
                 variant="outlined"
                 onChange={handleDescription}
                 requiered
+                value={description}
               />
             </Grid>
             <Grid item xs={12}>
@@ -256,6 +295,7 @@ export default function SignUp(props) {
                 label="Precio"
                 type='number'
                 name="precio"
+                value={price}
               />
             </Grid>
             <Grid item xs={12}>
@@ -268,11 +308,18 @@ export default function SignUp(props) {
                 name="stock"
                 label="Stock"
                 type="number"
+                value={stock}
               />
             </Grid>
           </Grid>
           <UploadImgButton onChange={filesHandler} />
+          { files && 
+            // <ImagePreview images={files}/>
+          Array.from(files).map(file => <div><span>{file.name}</span></div>)
+          }
+          {/* <ImagesPreview image={files}/> */}
           <Button onClick={handleSubmit}
+            disabled={!name || !description || !price || !stock}
             type="submit"
             fullWidth
             variant="contained"
