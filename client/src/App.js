@@ -1,21 +1,23 @@
 import React from 'react';
-import Products from './components/Products/Products'
+import Products from './components/Products/Products';
 import ProductDetails from './components/Products/ProductDetails';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import CreateProduct from './components/CreateProduct/CreateProduct'
-import Dashboard from './components/AdminPanel/Dashboard'
-import Catalogo from './components/Catalog/Catalog'
-import FormCategory from './components/FormCategory/FormCategory'
+import Dashboard from './components/AdminPanel/Dashboard';
+import Catalogo from './components/Catalog/Catalog';
+import FormCategory from './components/FormCategory/FormCategory';
 import SearchBar from './components/SearchBar/SearchBar';
-
-
+import { Carrousel } from './components/Carrousel/Carrousel';
 
 function App() {
   return (
     <div className="App">
       <Router>
         <SearchBar />
-        <Switch>
+          <Route exact path='/' render={() => <Carrousel />} />
+
+          <Route exact path='/' component = {Catalogo}  />
+
           <Route exact path='/products' component={Catalogo} />
 
           <Route exact path='/products/:id' component={ProductDetails} />
@@ -39,7 +41,6 @@ function App() {
 
           <Route exact path="/admin/editproduct/:id" component={CreateProduct} />
 
-        </Switch>
       </Router>
     </div>
   );
