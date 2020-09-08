@@ -1,112 +1,126 @@
 import React, { useState, useEffect } from 'react';
 import "../StyleForm.css"
 
-export default function FormCategory({ match }){
-   let id = match.params.idCategory;
-   const [input, setInput] = useState({
-    name: '',
-    description: ''
-});
-
-useEffect( () => {
-    if(id){
-    fetch(`http://localhost:3001/category/${id}`)
-    .then(function(response){
-        return response.json()
-    })
-    .then(function(category){
-      setInput({
-        ...input,
-        name: category.name,
-        description: category.description
+export default function EditCategory({ match }){
+    let id = match.params.idCategory;
+    let name = match.params.name
+    const [input, setInput] = useState({
+            name: '',
+            description: ''
     });
-    })
-    .catch(function(err){
-        console.log(err)
-    });
-}},[]);
 
-const handleInputChange = (e)=>{
-    setInput({
-        ...input,
-        [e.target.name]: e.target.value
-    })
-}
-
-const resetForm = () => {
-    setInput({ name: '',  description: ''})
-};
-
-const handleSubmit = (e)=> {
-    e.preventDefault();
-    const newCategory = {
-        name: input.name,
-        description: input.description
+    const handleInputChange = (e)=>{
+            setInput({
+                ...input,
+                [e.target.name]: e.target.value
+            })
     };
-        updateCategory(newCategory)
-}
 
-const updateCategory = (newCategory)=>{
+    const resetForm = ()=> {
+        setInput({
+            name: '',
+            description: ''
+        })
+    };
 
-    fetch(`http://localhost:3001/category/${id}`, {
-        method: "PUT",
-        body: JSON.stringify(newCategory),
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          }
-    })
-    .then((res) => res.json)
-    .then(() => {
-       alert('categoria editada')
+    useEffect( () => {
+        if(name){
+        fetch(`http://localhost:3001/category/single/${name}`)
+        .then(response => response.json())
+        .then(function(category){
+        setInput(
+            category
+            );
+        })
+        .catch(function(err){
+           alert("categoria no encontrada")
+        });
+    }},[name]);
+
+
+
+    const createCategory = ()=>{
+        fetch('http://localhost:3001/category', {
+            method: 'POST',
+            body: JSON.stringify(input),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(()=>{
+            alert(`Categoria creada con exito`)
+            resetForm();
+        }).catch()
+    };
+
+    const updateCategory = ()=>{
+        fetch(`http://localhost:3001/category/${input.id}`, {
+            method: "PUT",
+            body: JSON.stringify(input),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(() => {
+            alert('Categoria modificada')
+            resetForm();
+        }).catch(err => alert(err));
+    };
+
+    const deletedCat = function(){
+        alert('categoria eliminada');
+        fetch(`http://localhost:3001/category/${input.id}`, {
+            method: "DELETE",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              }
+        })
+
+        .catch(err => alert(err));
         resetForm();
-      })
-    .catch((err) => {
-        console.log(err)
-    });
-}
+    };
 
-const deletedCat = function(){
-    alert('categoria eliminida');
-
-    fetch(`http://localhost:3001/category/${id}`, {
-        method: "DELETE",
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          }
-    })
-    .then()
-    .catch(err  => {
-        console.log(err)
-    });
-    resetForm();
-}
+    const handleSubmit = (e)=>{
+        e.preventDefault();
+       createCategory()
+    };
 
 
 
-    return(
-        <div key={id} className="formStyle">
-            <h3>Categoria</h3>
-            <hr/>
-            <div id="closeIcon" className="row">
-            <button onClick={deletedCat} className="btn btn-sm btn-danger">Eliminar Categoria</button>
+
+        return(
+
+            <div  className="formStyle">
+
+             <h3> Editar Categoria</h3>
+
+                <hr/>
+
+                <form onSubmit= {handleSubmit }>
+
+                <div id="closeIcon" className="row">
+                    <button onClick={deletedCat} className="btn btn-sm btn-danger">Eliminar Categoria</button>
+                </div>
+
+                    <div className="inputContainer">
+                        <label>Nombre: </label>
+                        <input type="text" name="name" onChange={handleInputChange} value={input.name} required autoFocus/>
+                    </div>
+                    <div className="inputContainer">
+                        <label>Descripcion: </label>
+                        <textarea name="description" onChange={handleInputChange} value={input.description} required />
+                    </div>
+
+                    <div className="modal-footer">
+                        <button onClick={resetForm} className="button"> Resetear </button>
+
+                       <input  type="button" onClick={updateCategory} value="Modificar categoria" className="button"/>
+                    </div>
+                </form>
+
             </div>
-            <form onSubmit= {handleSubmit}>
-                <div className="inputContainer">
-                    <label>Nombre: </label>
-                    <input type="text" name="name" onChange={handleInputChange} value={input.name} required />
-                </div>
-                <div className="inputContainer">
-                    <label>Descripcion: </label>
-                    <textarea name="description" onChange={handleInputChange} value={input.description} required />
-                </div>
-
-                <div className="buttonContainer">
-                    <button onClick={resetForm} className="button"> cancelar </button>
-                    <input  type="submit" value="Modificar" className="button" />
-                </div>
-            </form>
-        </div>
-    )
-}
+        )
+    };

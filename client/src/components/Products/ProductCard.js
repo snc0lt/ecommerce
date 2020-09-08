@@ -12,7 +12,7 @@ import iphoneImage from '../../testImages/iphone.jpeg'
 import Rating from '../Rating/Rating'
 import Button from '@material-ui/core/Button';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import { Tooltip, Icon } from '@material-ui/core';
+import { Tooltip } from '@material-ui/core';
 import { useLocation, Link } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import CategoryIcon from '@material-ui/icons/Category';

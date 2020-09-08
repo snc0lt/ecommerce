@@ -9,29 +9,46 @@ import Slide from '@material-ui/core/Slide';
 import IconButton from '@material-ui/core/IconButton';
 import { Tooltip, Icon } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function AlertDialogSlide(props) {
+export default function AlertDialogSlide({props, categoria}) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  // console.log(props);
 
-  const handleClose = () => {
-    fetch(`http://localhost:3001/products/${props.props.productos.id}`, {
+  const url = useLocation()
+  console.log(url.pathname)
+  const history = useHistory()
+  const handleClose = (e) => {
+    e.preventDefault()
+    if (url.pathname === '/admin/editCategory') {
+      fetch(`http://localhost:3001/category/${categoria.id}`, {
         method: 'DELETE',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           }
     })
-    setOpen(false);
+      setOpen(false);
+    }
+    else {
+      fetch(`http://localhost:3001/products/${props.productos.id}`, {
+          method: 'DELETE',
+          headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            }
+      })
+      setOpen(false);
+      history.push('/admin/products/edit')
+    }
   };
 
   return (
