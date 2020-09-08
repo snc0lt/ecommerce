@@ -37,7 +37,7 @@ export default function EditCategory({ match }){
         });
     }},[name]);
 
-    
+
 
     const createCategory = ()=>{
         fetch('http://localhost:3001/category', {
