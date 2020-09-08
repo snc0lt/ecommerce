@@ -16,11 +16,11 @@ function App() {
       <Router>
         <SearchBar />
         <Switch>
-          <Route exact path='/products' component={Products} />
+          <Route exact path='/products' component={Catalogo} />
 
           <Route exact path='/products/:id' component={ProductDetails} />
 
-          <Route exact path='/:name?' component={Catalogo} />
+          <Route exact path='/:name' component={Catalogo} />
 
           <Route path='/category/:idCategory'
           render={({ match }) => (
