@@ -14,9 +14,9 @@ export function getProducts() {
 	}
 }
 
-export function getProductsByCategory(nameCategory) {
+export function getProductsByCategory(idCategory) {
 	return function (dispatch) {
-		return fetch(`http://localhost:3001/category/${nameCategory}`, {
+		return fetch(`http://localhost:3001/category/${idCategory}`, {
 			credentials: 'include',
 		})
 			.then((res) => res.json())
