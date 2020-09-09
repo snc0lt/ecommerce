@@ -30,7 +30,6 @@ export function getProductsByCategory(nameCategory) {
 }
 
 export function getProductsBySearch(searchProduct) {
-	console.log('en gpbs: ' + searchProduct)
 	return function (dispatch) {
 		return fetch(`http://localhost:3001/products${searchProduct}`, {
 			credentials: 'include',
@@ -89,7 +88,6 @@ export function addProduct(product) {
 }
 
 export function removeProduct(id) {
-	console.log('llega el remove con el id: ' + id)
 	return function (dispatch) {
 		fetch(`http://localhost:3001/products/${id}`, {
 			method: 'DELETE',
@@ -515,7 +513,7 @@ export function addReviews(id, comments, userId, score) {
 					type: 'ADD_REVIEWS',
 					payload: review,
 				})
-				alert('Reseña agragada con exito', '', 'success')
+				alert('Reseña agregada con exito', '', 'success')
 			})
 			.catch(() => {
 				alert('Error!', 'Ingresar los datos ', 'error')
