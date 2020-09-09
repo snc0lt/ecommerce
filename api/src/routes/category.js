@@ -10,7 +10,7 @@ server.get('/:id', (req, res) => {
 	Product.findAll({
 		// include: [Category],
 		where: {
-			category: { [Op.contains] : [capName] },
+			category: { [Op.contains]: [capName] },
 		},
 	})
 		.then((producto) =>
@@ -44,18 +44,37 @@ server.get('/', (req, res) => {
 })
 
 // Crea una nueva categoria con su Nombre Capitalizado
-server.post('/', (req, res) => {
+server.post('/', async (req, res) => {
 	const { name, description } = req.body
+	const capName = name.charAt(0).toUpperCase() + name.slice(1)
 
 	if (!name || !description) {
 		res.status(400).send('Debe enviar los campos requeridos')
 		return
 	}
-	const capName = name.charAt(0).toUpperCase() + name.slice(1)
-	Category.create({
-		name: capName,
-		description,
-	}).then((cat) => res.status(201).send('Categoria creada'))
+	try {
+		const categoria = await Category.findOne({
+			where: {
+				name: capName
+			}
+		})
+		if (categoria) {
+			res.status(400).send({ msg: 'la categoria ya existe', status: 400})
+		} else {
+			try {
+				const newCategory = await Category.create({
+					name: capName,
+					description,
+				})
+				res.status(201).send({msg: 'categoria creada exitosamente', status: 201})
+			} catch (err) {
+				console.log(err)
+				res.status(400)
+			}
+		}
+	}	catch (err) {
+		console.log(err)
+	}
 })
 
 // Actualiza la categoria segun su ID

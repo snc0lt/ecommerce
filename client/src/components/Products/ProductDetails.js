@@ -55,7 +55,6 @@ export default function ProductDetails() {
         .then(res => res.json())
         .then(data => {
           setProducto(data)
-          console.log(data)
         })
   }, [])
 
@@ -84,7 +83,7 @@ export default function ProductDetails() {
             { producto && producto.price}
             </Typography>
             <Typography variant='subtitle2' color='textSecondary'>
-            { producto && producto.stock} - Disponible
+            { producto && producto.stock !== 0 ? `${producto.stock} - Disponible` : 'No Dispoble'} 
             </Typography>
           </div>
           <div className={classes.paper}>
@@ -96,10 +95,10 @@ export default function ProductDetails() {
           </Typography>
           </div>
           <div className={classes.buttons}>
-            <Button variant="contained" color="primary" size="medium" style={{ padding: '5px 25px' }}>
+            <Button disable={!producto || producto.stock === 0} variant="contained" color="primary" size="medium" style={{ padding: '5px 25px' }}>
               Buy now
             </Button>
-            <Button variant="outlined" color="primary" size='medium' style={{ marginLeft: 'auto', padding: '5px 25px' }}>
+            <Button disable={!producto || producto.stock === 0} variant="outlined" color="primary" size='medium' style={{ marginLeft: 'auto', padding: '5px 25px' }}>
               add to cart
             </Button>
           </div>

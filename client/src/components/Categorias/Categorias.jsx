@@ -23,8 +23,6 @@ export default function () {
 			})
 	}, [categorias])
 
-	console.log(categorias)
-
 	return (
 		<div className='p-3'>
 			<h1>Categorias</h1>
