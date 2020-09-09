@@ -44,18 +44,20 @@ server.get('/', (req, res) => {
 })
 
 // Crea una nueva categoria con su Nombre Capitalizado
-server.post('/', (req, res) => {
+server.post('/', (req, res, next) => {
 	const { name, description } = req.body
 
 	if (!name || !description) {
 		res.status(400).send('Debe enviar los campos requeridos')
-		return
+		
 	}
 	const capName = name.charAt(0).toUpperCase() + name.slice(1)
 	Category.create({
 		name: capName,
 		description,
 	}).then((cat) => res.status(201).send('Categoria creada'))
+	.catch(err => {next(err) })
+
 })
 
 // Actualiza la categoria segun su ID
