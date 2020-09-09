@@ -1,6 +1,6 @@
 export function getProducts() {
 	return function (dispatch) {
-		return fetch('http://localhost:3002/products', {
+		return fetch('http://localhost:3001/products', {
 			credentials: 'include',
 		})
 			.then((res) => res.json())
@@ -16,7 +16,7 @@ export function getProducts() {
 
 export function getProductsByCategory(nameCategory) {
 	return function (dispatch) {
-		return fetch(`http://localhost:3002/category/${nameCategory}`, {
+		return fetch(`http://localhost:3001/category/${nameCategory}`, {
 			credentials: 'include',
 		})
 			.then((res) => res.json())
@@ -32,7 +32,7 @@ export function getProductsByCategory(nameCategory) {
 export function getProductsBySearch(searchProduct) {
 	console.log('en gpbs: ' + searchProduct)
 	return function (dispatch) {
-		return fetch(`http://localhost:3002/products${searchProduct}`, {
+		return fetch(`http://localhost:3001/products${searchProduct}`, {
 			credentials: 'include',
 		})
 			.then((res) => res.json())
@@ -50,7 +50,7 @@ export function getProductsBySearch(searchProduct) {
 
 export function getProductDetail(id) {
 	return function (dispatch) {
-		return fetch(`http://localhost:3002/products/${id}`, {
+		return fetch(`http://localhost:3001/products/${id}`, {
 			credentials: 'include',
 		})
 			.then((response) => response.json())
@@ -68,7 +68,7 @@ export function getProductDetail(id) {
 
 export function addProduct(product) {
 	return function (dispatch) {
-		return fetch('http://localhost:3002/products', {
+		return fetch('http://localhost:3001/products', {
 			method: 'POST',
 			credentials: 'include',
 			body: JSON.stringify(product),
@@ -91,7 +91,7 @@ export function addProduct(product) {
 export function removeProduct(id) {
 	console.log('llega el remove con el id: ' + id)
 	return function (dispatch) {
-		fetch(`http://localhost:3002/products/${id}`, {
+		fetch(`http://localhost:3001/products/${id}`, {
 			method: 'DELETE',
 			credentials: 'include',
 			headers: {
@@ -113,7 +113,7 @@ export function removeProduct(id) {
 
 export function updateProduct(id, product) {
 	return function (dispatch) {
-		fetch(`http://localhost:3002/products/${id}`, {
+		fetch(`http://localhost:3001/products/${id}`, {
 			method: 'PUT',
 			credentials: 'include',
 			headers: {
@@ -135,7 +135,7 @@ export function updateProduct(id, product) {
 
 export function getCategories() {
 	return function (dispatch) {
-		return fetch('http://localhost:3002/category', {
+		return fetch('http://localhost:3001/category', {
 			credentials: 'include',
 		})
 			.then((res) => res.json())
@@ -150,7 +150,7 @@ export function getCategories() {
 
 export function addCategory(category) {
 	return function (dispatch) {
-		return fetch('http://localhost:3002/category', {
+		return fetch('http://localhost:3001/category', {
 			method: 'POST',
 			credentials: 'include',
 			body: JSON.stringify(category),
@@ -179,7 +179,7 @@ export function addCategory(category) {
 
 export function removeCategory(id) {
 	return function (dispatch) {
-		return fetch(`http://localhost:3002/category/${id}`, {
+		return fetch(`http://localhost:3001/category/${id}`, {
 			method: 'DELETE',
 			credentials: 'include',
 			headers: {
@@ -201,7 +201,7 @@ export function removeCategory(id) {
 
 export function getUsers() {
 	return function (dispatch) {
-		return fetch('http://localhost:3002/user', { credentials: 'include' })
+		return fetch('http://localhost:3001/user', { credentials: 'include' })
 			.then((res) => res.json())
 			.then((users) =>
 				dispatch({
@@ -214,7 +214,7 @@ export function getUsers() {
 
 export function getUserDetail(id) {
 	return function (dispatch) {
-		return fetch(`http://localhost:3002/user/${id}`, {
+		return fetch(`http://localhost:3001/user/${id}`, {
 			credentials: 'include',
 		})
 			.then((res) => res.json())
@@ -229,7 +229,7 @@ export function getUserDetail(id) {
 
 export function addUser(user) {
 	return function (dispatch) {
-		return fetch('http://localhost:3002/user', {
+		return fetch('http://localhost:3001/user', {
 			method: 'POST',
 			credentials: 'include',
 			body: JSON.stringify(user),
@@ -262,7 +262,7 @@ export function addUser(user) {
 
 export function removeUser(id) {
 	return function (dispatch) {
-		return fetch(`http://localhost:3002/user/${id}`, {
+		return fetch(`http://localhost:3001/user/${id}`, {
 			method: 'DELETE',
 			credentials: 'include',
 			headers: {
@@ -284,7 +284,7 @@ export function removeUser(id) {
 
 export function getProductsCart(userId) {
 	return function (dispatch) {
-		return fetch(`http://localhost:3002/user/${userId}/cart`, {
+		return fetch(`http://localhost:3001/user/${userId}/cart`, {
 			credentials: 'include',
 		})
 			.then((res) => res.json())
@@ -304,7 +304,7 @@ export function getProductsCart(userId) {
 
 export function deleteProductInCart(userId, idProduct) {
 	return function (dispatch) {
-		return fetch(`http://localhost:3002/user/${userId}/cart`, {
+		return fetch(`http://localhost:3001/user/${userId}/cart`, {
 			method: 'DELETE',
 			credentials: 'include',
 			headers: {
@@ -325,7 +325,7 @@ export function deleteProductInCart(userId, idProduct) {
 
 export function updateCountProductInCart(userId, idProduct, count) {
 	return function (dispatch) {
-		return fetch(`http://localhost:3002/user/${userId}/cart`, {
+		return fetch(`http://localhost:3001/user/${userId}/cart`, {
 			method: 'PUT',
 			credentials: 'include',
 			headers: {
@@ -347,7 +347,7 @@ export function updateCountProductInCart(userId, idProduct, count) {
 
 export function addProductCart(idUser, idProduct, priceProduct) {
 	return function (dispatch) {
-		return fetch(`http://localhost:3002/user/${idUser}/cart`, {
+		return fetch(`http://localhost:3001/user/${idUser}/cart`, {
 			method: 'POST',
 			credentials: 'include',
 			headers: {
@@ -368,7 +368,7 @@ export function addProductCart(idUser, idProduct, priceProduct) {
 
 export function cleanOrder(idUser) {
 	return function (dispatch) {
-		return fetch(`http://localhost:3002/user/${idUser}/cart`, {
+		return fetch(`http://localhost:3001/user/${idUser}/cart`, {
 			method: 'DELETE',
 			credentials: 'include',
 			headers: {
@@ -387,7 +387,7 @@ export function cleanOrder(idUser) {
 
 export function getClosedOrders() {
 	return function (dispatch) {
-		return fetch('http://localhost:3002/orders/admin?search=completa', {
+		return fetch('http://localhost:3001/orders/admin?search=completa', {
 			credentials: 'include',
 		})
 			.then((res) => res.json())
@@ -402,7 +402,7 @@ export function getClosedOrders() {
 
 export function promoteToAdmin( id) {
 	return function (dispatch) {
-		return fetch(`http://localhost:3002/admin/promote/${id}`, {
+		return fetch(`http://localhost:3001/admin/promote/${id}`, {
 			method: 'PUT',
 			credentials: 'include',
 			headers: {
@@ -424,7 +424,7 @@ export function promoteToAdmin( id) {
 
 export function resetPassword(userId) {
 	return function (dispatch) {
-		return fetch(`http://localhost:3002/user/${userId}/passwordReset`, {
+		return fetch(`http://localhost:3001/user/${userId}/passwordReset`, {
 			method: 'POST',
 			credentials: 'include',
 			headers: {
@@ -444,7 +444,7 @@ export function resetPassword(userId) {
 
 export function userLogin(input) {
 	return function (dispatch) {
-		return fetch(`http://localhost:3002/login`, {
+		return fetch(`http://localhost:3001/login`, {
 			method: 'POST',
 			credentials: 'include',
 			headers: {
@@ -468,7 +468,7 @@ export function userLogin(input) {
 
 export function userLogout() {
 	return function (dispatch) {
-		return fetch('http://localhost:3002/logout', {
+		return fetch('http://localhost:3001/logout', {
 			credentials: 'include',
 		}).then(() =>
 			dispatch({
@@ -480,7 +480,7 @@ export function userLogout() {
 
 export function userChangePassword(input) {
 	return function (dispatch) {
-		return fetch(`http://localhost:3002/user/password`, {
+		return fetch(`http://localhost:3001/user/password`, {
 			method: 'PUT',
 			credentials: 'include',
 			headers: {
@@ -500,7 +500,7 @@ export function userChangePassword(input) {
 
 export function addReviews(id, comments, userId, score) {
 	return function (dispatch) {
-		return fetch(`http://localhost:3002/products/${id}/review`, {
+		return fetch(`http://localhost:3001/products/${id}/review`, {
 			method: 'POST',
 			credentials: 'include',
 			body: JSON.stringify({comments, userId, score}),
