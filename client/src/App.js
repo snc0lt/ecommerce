@@ -12,7 +12,7 @@ import EditCategory from './components/FormCategory/FormUpdateDeleteCategory';
 import Categorias from './components/Categorias/Categorias';
 import SignUp from './components/SignUp/SignUp'
 import Register from './components/SignUp/Register'
-
+import Container from '@material-ui/core/container'
 
 
 function App() {
@@ -31,7 +31,7 @@ function App() {
       {displayNoneCarrousel}
       {/* <Carrousel /> */}
       <Switch>
-        <Container maxWidth='lg'>
+        <Container maxWidth='lg' >
           {/* <Route exact path='/' render={() => <Carrousel />} /> */}
 
           <Route exact path='/' component={Catalogo} />
@@ -74,6 +74,7 @@ function App() {
           <Route exact path='/user/login' component={SignUp} />
 
           <Route exact path='/user/register' component={Register} />
+          </Container>
         </Switch>
 
     </div>

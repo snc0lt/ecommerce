@@ -146,18 +146,6 @@ export default function SignUp(props) {
         }
       })
       .catch(err => console.log(err))
-
-
-
-  }
-
-  const resetForm = () => {
-    setName('')
-    setDescription('')
-    setPrice('')
-    setStock('')
-    setFiles()
-
   }
 
   const createProduct = (product) => {
