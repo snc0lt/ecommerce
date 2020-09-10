@@ -83,7 +83,7 @@ server.post('/', (req, res) => {
 		!image ||
 		category.length === 0
 	) {
-		res.status(400).send('Debe enviar los campos requeridos')
+		res.status(400).send({msg: 'Todos los campos requeridos'})
 		return
 	}
 
@@ -98,7 +98,7 @@ server.post('/', (req, res) => {
 		// product
 		// 	.setCategories(category)
 		// 	.then(() => 
-			res.status(201).json(product)
+			res.status(201).send({msg: 'producto creado exitosamente'})
 			console.log(product)
 	}).catch ((err) => {
 		console.log("error: ",err);
@@ -143,7 +143,7 @@ server.put('/:id', (req, res) => {
 			product.category = req.body.category || product.category
 			// product.removeCategories()
 			product.save().then((prod) => {
-				res.status(204).send(prod)
+				res.status(204).send({msg: 'producto actualizado exitosamente'})
 				// prod.setCategories(categories).then(() =>
 				// 	res.status(201).send(product)
 				// )

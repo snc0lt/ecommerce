@@ -1,143 +1,180 @@
-import React, {useState,useEffect} from 'react';
+import React, { useState } from 'react';
 import "../StyleForm.css"
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import '../UploadImageButton/styleButtonUpload.css'
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import UploadImgButton from '../UploadImageButton/UploadImageButton'
-import NativeSelect from '@material-ui/core/NativeSelect'
-import { Input } from '@material-ui/core';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import Copyright from '../utils/Copyright.js'
+import Container from '@material-ui/core/Container' ;
+import '../UploadImageButton/styleButtonUpload.css';
+import Copyright from '../utils/Copyright.js';
+import swal from 'sweetalert';
 
+
+// HAY QUE LIMPIAR LOS ESTILOS Y METERLOS DENTRO DE UN CSS QUEDO SUCIO
 const useStyles = makeStyles((theme) => ({
     paper: {
-      marginTop: theme.spacing(8),
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
+        marginTop: theme.spacing(8),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
     },
     avatar: {
-      margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.main,
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
     },
     form: {
-      width: '200%', // Fix IE 11 issue.
-      marginTop: theme.spacing(3),
+        width: '200%', // Fix IE 11 issue.
+        marginTop: theme.spacing(3),
     },
     submit: {
-      margin: theme.spacing(3, 0, 2),
+        margin: theme.spacing(3, 0, 2),
     },
-  }));
+    msg: {
+        width: '60%',
+        margin: '5px auto',
+        padding: 'auto',
+        alignItems: 'center',
+        textAlign: 'center',
+        color: 'white',
+        justifyContent: 'center',
+        borderRadius: '10px',
+    }
+}));
 
-export default function FormCategory({ match }){
+export default function FormCategory ({ match }) {
     const classes = useStyles();
-
+    const [message, setMessage] = useState(null)
+    const [errores, setErrores] = useState(null)
     const [input, setInput] = useState({
         name: '',
         description: ''
     });
 
-    const handleInputChange = (e)=>{
+    const handleInputChange = (e) => {
         setInput({
             ...input,
             [e.target.name]: e.target.value
         })
+        setErrores(null)
     };
-    const resetForm = ()=> {
+    const resetForm = () => {
         setInput({
             name: '',
             description: ''
         })
     };
-    const handleSubmit = (e)=>{
+
+    const onBlur = () => {
+        if (!input.name || input.name.length === 0) setErrores({ ...errores, errMsg: 'es requerido un nombre para la categoria' })
+    }
+    const handleSubmit = (e) => {
         e.preventDefault();
-        const newCategory = { name: input.name, description: input.description}
+
+        const newCategory = { name: input.name, description: input.description }
         fetch('http://localhost:3001/category', {
             method: 'POST',
             body: JSON.stringify(newCategory),
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-              }
+            }
         })
-        .then(()=>{
-            // alert(`Se ha creado una nueva Categoria exitosamente`)
-            resetForm();
-        })
-        .catch((err)=>{
-             console.log(err)
-        })
+            .then(data => data.json())
+            .then((res) => {
+                setMessage(res);
+                swal("Genial!", "Se ha creado la categoria exitosamente!", "success");
+                resetForm();
+            })
+            .catch((err) => {
+                console.log(err);
+                swal ( "Upa!" ,  "¡Algo salio mal!" ,  "error" )
+
+            })
     }
 
-    return(
 
-    <Container component="main" maxWidth="xs">
-    <CssBaseline />
-    <div className={classes.paper}>
-    <Typography component="h1" variant="h5">
-        NUEVA CATEGORIA
-    </Typography>
-    <form className={classes.form} noValidate onSubmit={handleSubmit} >
-        <Grid container spacing={2}>
-        <Grid item xs={12}>
-            <TextField
-            autoComplete="fname"
-            name="name"
-            variant="outlined"
-            required
-            fullWidth
-            onChange={handleInputChange}
-            value={input.name}
-            // id="firstName"
-            label="Nombre de la categoria"
-            autoFocus
-            
-            />
-        </Grid>
-        <Grid item xs={12} >
-        </Grid>
-        <Grid item xs={12}>
-            <TextField className='styleDescripcion'
-            fullWidth
-            id="outlined-textarea"
-            label="Descripción"
-            placeholder="Inserte la descripcion del producto"
-            multiline
-            name="description"
-            variant="outlined"
-            required
-            onChange={handleInputChange}
-            value={input.description}
-            />
-        </Grid>
-        </Grid>
-        <Button
-            disabled={!input.name || !input.description}
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            >
-            Crear
-            </Button>
-    </form>
-    </div>
-    <Box mt={5}>
-    <Copyright />
-    </Box>
-    </Container>
-    )
+
+
+return (
+
+        <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <div className={classes.paper}>
+                  <Typography component="h1" variant="h5">
+                    NUEVA CATEGORIA
+                  </Typography>
+                <form className={classes.form} noValidate onSubmit={handleSubmit} >
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <TextField
+                                autoComplete="fname"
+                                name="name"
+                                variant="outlined"
+                                required
+                                onBlur={onBlur}
+                                fullWidth
+                                onChange={handleInputChange}
+                                value={input.name}
+                                // id="firstName"
+                                label="Nombre de la categoria"
+                                autoFocus
+
+                            />
+                        </Grid>
+                        {
+                            errores &&
+                            <div className={classes.msg} style={{ background: '#ff4f4f'}}>
+                                <span>{errores.errMsg}</span>
+                            </div>
+                        }
+
+                        <Grid item xs={12} > </Grid>
+
+                        <Grid item xs={12}>
+                            <TextField className='styleDescripcion'
+                                fullWidth
+                                id="outlined-textarea"
+                                label="Descripción"
+                                placeholder="Inserte la descripcion del producto"
+                                multiline
+                                name="description"
+                                variant="outlined"
+                                required
+                                onChange={handleInputChange}
+                                value={input.description}
+                            />
+                        </Grid>
+
+                    </Grid>
+                      <Button
+                        disabled = {!input.name || !input.description}
+                        type = "submit"
+                        fullWidth
+                        variant = "contained"
+                        color = "primary"
+                        className = {classes.submit}
+                    >
+                        Crear
+                   </Button>
+                </form>
+
+              {message &&
+                  <div className={classes.msg} style={{ background: `${message.status === 400 ? '#ff4f4f' : '#1df5a9'}` }}>
+                      <span>{message.msg}</span>
+                  </div>
+              }
+
+            </div>
+
+            <Box mt={5}>
+
+
+                <Copyright />
+
+            </Box>
+        </Container>
+      )
 }

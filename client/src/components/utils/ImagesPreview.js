@@ -18,17 +18,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ImagesPreview(props) {
+export default function ImagesPreview({ files }) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <GridList cellHeight={200} className={classes.gridList} cols={4} spacing={8}>
-        {props.images.map((prod) => (
-          <GridListTile key={prod.name} cols={1}>
-                <ProductCard productos={prod.path}/>
+        {
+          Array.from(files).map((file, i) => (
+            <GridListTile key={i} cols={1}>
+              <img src={file.path} alt={file.name} />
+                {/* <ProductCard productos={file.path}/> */}
           </GridListTile>
-        ))}
+          ))
+        }
       </GridList>
     </div>
   );
