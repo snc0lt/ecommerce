@@ -15,8 +15,6 @@ import Register from './components/SignUp/Register'
 import Container from '@material-ui/core/Container'
 import { Cart } from './components/Cart'
 
-
-
 function App() {
   const url = useLocation();
 

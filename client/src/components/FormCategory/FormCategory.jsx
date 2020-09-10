@@ -11,8 +11,8 @@ import Container from '@material-ui/core/Container' ;
 import '../UploadImageButton/styleButtonUpload.css';
 import Copyright from '../utils/Copyright.js';
 import swal from 'sweetalert';
-
-
+import { useDispatch } from 'react-redux'
+import { addCategory } from "../../actions";
 // HAY QUE LIMPIAR LOS ESTILOS Y METERLOS DENTRO DE UN CSS QUEDO SUCIO
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -53,6 +53,8 @@ export default function FormCategory ({ match }) {
         description: ''
     });
 
+    const dispatch = useDispatch()
+
     const handleInputChange = (e) => {
         setInput({
             ...input,
@@ -72,27 +74,29 @@ export default function FormCategory ({ match }) {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-
         const newCategory = { name: input.name, description: input.description }
-        fetch('http://localhost:3001/category', {
-            method: 'POST',
-            body: JSON.stringify(newCategory),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(data => data.json())
-            .then((res) => {
-                setMessage(res);
-                swal("Genial!", "Se ha creado la categoria exitosamente!", "success");
-                resetForm();
-            })
-            .catch((err) => {
-                console.log(err);
-                swal ( "Upa!" ,  "¡Algo salio mal!" ,  "error" )
+        dispatch(addCategory(newCategory))
+        swal("Genial!", "Se ha creado la categoria exitosamente!", "success")
+        resetForm();
+        // fetch('http://localhost:3001/category', {
+        //     method: 'POST',
+        //     body: JSON.stringify(newCategory),
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json'
+        //     }
+        // })
+        //     .then(data => data.json())
+        //     .then((res) => {
+        //         setMessage(res);
+        //         swal("Genial!", "Se ha creado la categoria exitosamente!", "success");
+        //         resetForm();
+        //     })
+        //     .catch((err) => {
+        //         console.log(err);
+        //         swal ( "Upa!" ,  "¡Algo salio mal!" ,  "error" )
 
-            })
+        //     })
     }
 
 

@@ -13,6 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Copyright from '../utils/Copyright'
+import { useDispatch } from "react-redux";
+import { addUser } from "../../actions";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -43,6 +45,8 @@ export default function SignUp() {
     password: '',
   });
   
+  const dispatch = useDispatch()
+
   const handleChange = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
   };
@@ -59,9 +63,10 @@ export default function SignUp() {
 
   const handleSubmit = function (e) {
     e.preventDefault()
-    console.log(values)
+    dispatch(addUser(values))	
     resetForm()
   }
+
 
   return (
     <Container component="main" maxWidth="xs">

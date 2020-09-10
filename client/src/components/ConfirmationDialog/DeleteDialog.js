@@ -10,6 +10,8 @@ import IconButton from '@material-ui/core/IconButton';
 import { Tooltip, Icon } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useHistory, useLocation } from 'react-router-dom';
+import { useDispatch } from "react-redux";
+import { removeProduct, removeCategory } from "../../actions";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -22,32 +24,34 @@ export default function AlertDialogSlide({props, categoria}) {
     setOpen(true);
   };
 
-
+  const dispatch = useDispatch()
   const url = useLocation()
   console.log(url.pathname)
   const history = useHistory()
   const handleClose = (e) => {
     e.preventDefault()
     if (url.pathname === '/admin/editCategory') {
-      fetch(`http://localhost:3001/category/${categoria.id}`, {
-        method: 'DELETE',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          }
-    })
+      dispatch(removeCategory(categoria.id))
+    //   fetch(`http://localhost:3001/category/${categoria.id}`, {
+    //     method: 'DELETE',
+    //     headers: {
+    //         'Accept': 'application/json',
+    //         'Content-Type': 'application/json'
+    //       }
+    // })
       setOpen(false);
     }
     else {
-      fetch(`http://localhost:3001/products/${props.productos.id}`, {
-          method: 'DELETE',
-          headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            }
-      })
+      dispatch(removeProduct(props.productos.id))
+      // fetch(`http://localhost:3001/products/${props.productos.id}`, {
+      //     method: 'DELETE',
+      //     headers: {
+      //         'Accept': 'application/json',
+      //         'Content-Type': 'application/json'
+      //       }
+      // })
       setOpen(false);
-      history.push('/admin/products/edit')
+      // history.push('/admin/products/edit')
     }
   };
 
