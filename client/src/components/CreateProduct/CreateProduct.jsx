@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useDispatch } from "react-redux";
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -18,6 +19,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 // import ImagesPreview from '../utils/ImagesPreview'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import swal from 'sweetalert';
+import { createProduct } from "../../actions";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -59,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     justifyContent: 'center',
     borderRadius: '10px',
-}
+  }
 }));
 
 
@@ -88,6 +90,9 @@ export default function SignUp(props) {
     setInputs({ ...inputs, name: '', description: '', stock: 0, price: 0, image: null, category: null })
     setFiles(null)
   }
+
+  const dispatch = useDispatch()
+  
 
   useEffect(() => {
     fetch('http://localhost:3001/category', {
@@ -119,52 +124,78 @@ export default function SignUp(props) {
     }
   }, [url])
 
-  const uploadImage = () => {
+  const uploadImage = async () => {
     let formData = new FormData();
     for (var i = 0; i < files.length; i++) {
       formData.append('images', files[i]);
     }
-    fetch('http://localhost:3001/image', {
-      method: 'POST',
-      body: formData
-    })
-      .then(res => res.json())
-      .then(data => {
-        const product = {
-          name: inputs.name,
-          description: inputs.description,
-          price: inputs.price,
-          stock: inputs.stock,
-          image: data,
-          category: Object.keys(check)
-        };
-        if (url.pathname === `/admin/editproduct/${id}`) {
-          editProduct(product)
-        }
-        else {
-          createProduct(product)
-        }
-      })
-      .catch(err => console.log(err))
-  }
-
-  const createProduct = (product) => {
     try {
-      const newProduct = fetch('http://localhost:3001/products', {
+      const uploadImg = await fetch('http://localhost:3001/image', {
         method: 'POST',
-        body: JSON.stringify(product),
-        headers: {
-          'Content-Type': 'application/json'
-        }
+        body: formData
       })
-        .then(data => data.json())
-        .then(res => setMsg(res))
-    } catch (error) {
-      console.log(error)
-      alert('something went wrong..!')
+
+      const img = await uploadImg.json()
+      const product = {
+        name: inputs.name,
+        description: inputs.description,
+        price: inputs.price,
+        stock: inputs.stock,
+        image: img,
+        category: Object.keys(check)
+      };
+      if (url.pathname === `/admin/editproduct/${id}`) {
+        editProduct(product)
+      }
+      else {
+        dispatch(createProduct(product, setMsg))
+        createProduct(product)
+      }
+    } catch (err) {
+      console.log(err)
     }
 
+    resetForm()
+    // .then(res => res.json())
+    // .then(data => {
+    //   const product = {
+    //     name: inputs.name,
+    //     description: inputs.description,
+    //     price: inputs.price,
+    //     stock: inputs.stock,
+    //     image: data,
+    //     category: Object.keys(check)
+    //   };
+    //   if (url.pathname === `/admin/editproduct/${id}`) {
+    //     editProduct(product)
+    //   }
+    //   else {
+    //     createProduct(product)
+    //   }
+    // })
+    // .catch(err => console.log(err))
   }
+
+  // const createProduct = (product) => {
+  //   try {
+  //     const newProduct = fetch('http://localhost:3001/products', {
+  //       method: 'POST',
+  //       body: JSON.stringify(product),
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       }
+  //     })
+  //       .then(data => data.json())
+  //       .then(res => {
+  //         console.log(res)
+  //         setMsg(res.msg)
+  //       })
+  //   } catch (error) {
+  //     console.log(error)
+  //     alert('something went wrong..!')
+  //   }
+
+  // }
 
   const editProduct = (product) => {
     try {
@@ -289,7 +320,7 @@ export default function SignUp(props) {
           {files &&
             // <ImagePreview images={files}/>
             Array.from(files).map((file, i) => <div className={classes.imageName}>
-              <div style={{ display: 'flex' }}>
+              <div key={i} style={{ display: 'flex' }}>
                 <span>{file.name}</span>
                 <IconButton
                   onClick={(i) => removeFile(i)}

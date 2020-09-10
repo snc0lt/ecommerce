@@ -96,10 +96,10 @@ export default function ProductDetails() {
           </div>
           <div className={classes.buttons}>
             <Button disable = {!producto || producto.stock === 0} variant="contained" color="primary" size="medium" style={{ padding: '5px 25px' }}>
-              Comprar!
+              buy
             </Button>
             <Button disable = {!producto || producto.stock === 0} variant="outlined" color="primary" size='medium' style={{ marginLeft: 'auto', padding: '5px 25px' }}>
-              Agregar al carrito
+              add to cart
             </Button>
           </div>
         </Grid>

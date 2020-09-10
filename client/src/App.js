@@ -12,7 +12,7 @@ import EditCategory from './components/FormCategory/FormUpdateDeleteCategory';
 import Categorias from './components/Categorias/Categorias';
 import SignUp from './components/SignUp/SignUp'
 import Register from './components/SignUp/Register'
-import Container from '@material-ui/core/container'
+import Container from '@material-ui/core/Container'
 
 
 function App() {

@@ -65,6 +65,27 @@ export function getProductDetail(id) {
 	}
 }
 
+export const createProduct = (producto, msg) => async dispatch => {
+	try {
+		const data = await fetch('http://localhost:3001/products', {
+			method: 'POST',
+			body: JSON.stringify(producto),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+		const res = await data.json()
+		dispatch({
+			type: 'CREATE_PRODUCT',
+			payload: res.product,
+		})
+		msg(res.msg)
+	} catch (error) {
+		console.log(error)
+		alert('something went wrong..!')
+	}
+}
+
 export function addProduct(product) {
 	return function (dispatch) {
 		return fetch('http://localhost:3001/products', {

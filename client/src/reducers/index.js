@@ -24,7 +24,7 @@ export default function rootReducer(state = initialstate, action) {
 				...state,
 				productDetail: action.payload,
 			}
-
+		case 'UPDATE_PRODUCT':
 		case 'ADD_PRODUCT':
 			return {
 				...state,
