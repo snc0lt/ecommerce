@@ -20,6 +20,8 @@
     "react-swipeable-views": "^0.13.9",
     "recharts": "^1.8.5",
     "sweetalert2": "^10.0.2"
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
