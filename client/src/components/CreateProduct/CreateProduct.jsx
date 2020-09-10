@@ -17,6 +17,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import Checkbox from '@material-ui/core/Checkbox';
 // import ImagesPreview from '../utils/ImagesPreview'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import swal from 'sweetalert';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -179,12 +180,15 @@ export default function SignUp(props) {
       console.log(updatedProduct)
     } catch (err) {
       console.log(err)
+      swal("Upa", "No se ha editado el producto", "error");
+
     }
   }
 
   const handleSubmit = function (e) {
     e.preventDefault()
     uploadImage()
+    swal("Genial!", "Se ha creado el producto exitosamente!", "success");
 
   }
 

@@ -47,7 +47,9 @@ export default function () {
 						? <h2>no hay productos</h2>
 						: <GridList productos={productos} />
 				}
+
 			</Grid>
+
 		</Grid>
 	)
 }

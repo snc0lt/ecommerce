@@ -28,7 +28,7 @@ export default function () {
 			<h1>Categorias</h1>
 			<hr />
 			<ul className='list-group'>
-				{categorias && 
+				{categorias &&
 					categorias.map((c) => {
 						if (url.pathname === '/admin/editCategory') {
 							return (
@@ -48,7 +48,7 @@ export default function () {
 									</Tooltip>
 								</IconButton>
 								</Link>
-						
+
 								<DeleteDialog categoria={c} />
 						
 							</>

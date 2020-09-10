@@ -7,10 +7,13 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import '../UploadImageButton/styleButtonUpload.css'
-import Copyright from '../utils/Copyright.js'
+import Container from '@material-ui/core/Container' ;
+import '../UploadImageButton/styleButtonUpload.css';
+import Copyright from '../utils/Copyright.js';
+import swal from 'sweetalert';
 
+
+// HAY QUE LIMPIAR LOS ESTILOS Y METERLOS DENTRO DE UN CSS QUEDO SUCIO
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -41,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function FormCategory({ match }) {
+export default function FormCategory ({ match }) {
     const classes = useStyles();
     const [message, setMessage] = useState(null)
     const [errores, setErrores] = useState(null)
@@ -81,22 +84,28 @@ export default function FormCategory({ match }) {
         })
             .then(data => data.json())
             .then((res) => {
-                setMessage(res)
-                resetForm()
+                setMessage(res);
+                swal("Genial!", "Se ha creado la categoria exitosamente!", "success");
+                resetForm();
             })
             .catch((err) => {
-                console.log(err)
+                console.log(err);
+                swal ( "Upa!" ,  "¡Algo salio mal!" ,  "error" )
+
             })
     }
 
-    return (
+
+
+
+return (
 
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
-                <Typography component="h1" variant="h5">
+                  <Typography component="h1" variant="h5">
                     NUEVA CATEGORIA
-    </Typography>
+                  </Typography>
                 <form className={classes.form} noValidate onSubmit={handleSubmit} >
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
@@ -121,8 +130,9 @@ export default function FormCategory({ match }) {
                                 <span>{errores.errMsg}</span>
                             </div>
                         }
-                        <Grid item xs={12} >
-                        </Grid>
+
+                        <Grid item xs={12} > </Grid>
+
                         <Grid item xs={12}>
                             <TextField className='styleDescripcion'
                                 fullWidth
@@ -137,27 +147,34 @@ export default function FormCategory({ match }) {
                                 value={input.description}
                             />
                         </Grid>
+
                     </Grid>
-                    <Button
-                        disabled={!input.name || !input.description}
-                        type="submit"
+                      <Button
+                        disabled = {!input.name || !input.description}
+                        type = "submit"
                         fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
+                        variant = "contained"
+                        color = "primary"
+                        className = {classes.submit}
                     >
                         Crear
-            </Button>
+                   </Button>
                 </form>
-                {message &&
-                    <div className={classes.msg} style={{ background: `${message.status === 400 ? '#ff4f4f' : '#1df5a9'}` }}>
-                        <span>{message.msg}</span>
-                    </div>
-                }
+
+              {message &&
+                  <div className={classes.msg} style={{ background: `${message.status === 400 ? '#ff4f4f' : '#1df5a9'}` }}>
+                      <span>{message.msg}</span>
+                  </div>
+              }
+
             </div>
+
             <Box mt={5}>
+
+
                 <Copyright />
+
             </Box>
         </Container>
-    )
+      )
 }

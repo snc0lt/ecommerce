@@ -83,7 +83,7 @@ export default function ProductDetails() {
             { producto && producto.price}
             </Typography>
             <Typography variant='subtitle2' color='textSecondary'>
-            { producto && producto.stock !== 0 ? `${producto.stock} - Disponible` : 'No Dispoble'} 
+            { producto && producto.stock !== 0 ? `${producto.stock} - Disponible` : 'No Dispoble'}
             </Typography>
           </div>
           <div className={classes.paper}>
@@ -95,11 +95,11 @@ export default function ProductDetails() {
           </Typography>
           </div>
           <div className={classes.buttons}>
-            <Button disable={!producto || producto.stock === 0} variant="contained" color="primary" size="medium" style={{ padding: '5px 25px' }}>
-              Buy now
+            <Button disable = {!producto || producto.stock === 0} variant="contained" color="primary" size="medium" style={{ padding: '5px 25px' }}>
+              Comprar!
             </Button>
-            <Button disable={!producto || producto.stock === 0} variant="outlined" color="primary" size='medium' style={{ marginLeft: 'auto', padding: '5px 25px' }}>
-              add to cart
+            <Button disable = {!producto || producto.stock === 0} variant="outlined" color="primary" size='medium' style={{ marginLeft: 'auto', padding: '5px 25px' }}>
+              Agregar al carrito
             </Button>
           </div>
         </Grid>
