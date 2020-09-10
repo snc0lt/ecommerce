@@ -120,8 +120,8 @@ export default function SearchBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose} component="a" href={`http://localhost:3000/user/login`}>Ingresar</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Opcion 2</MenuItem>
     </Menu>
   );
 
