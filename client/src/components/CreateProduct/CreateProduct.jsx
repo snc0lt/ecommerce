@@ -149,9 +149,6 @@ export default function SignUp(props) {
     setPrice('')
     setStock('')
     setFiles()
-
-
-    
   }
 
   console.log('checks', check)

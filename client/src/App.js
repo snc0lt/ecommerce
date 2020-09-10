@@ -11,11 +11,15 @@ import { Carrousel } from './components/Carrousel/Carrousel';
 import EditCategory from './components/FormCategory/FormUpdateDeleteCategory';
 // import { Footer } from './Components/Footer/Footer'
 import Categorias from './components/Categorias/Categorias';
+import SignUp from './components/SignUp/SignUp'
+import Register from './components/SignUp/Register'
 
 
 function App() {
   const url = useLocation();
-  const displayNoneCarrousel = url.pathname.includes('/admin')
+  const displayNoneCarrousel = url.pathname.includes('/admin') 
+  ? null
+  : url.pathname.includes('/user') 
   ? null
   : <Carrousel />
 
@@ -63,7 +67,9 @@ function App() {
 				                       )}
 			     />
 
-          {/* <Route path='/' render={() => <Footer />} /> */}
+          <Route exact path='/user/login' component={SignUp} />
+
+          <Route exact path='/user/register' component={Register} />
         </Switch>
     </div>
   );
