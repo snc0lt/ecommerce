@@ -11,6 +11,13 @@ import EditCategory from './components/FormCategory/FormUpdateDeleteCategory';
 // import { Footer } from './Components/Footer/Footer'
 import Categorias from './components/Categorias/Categorias';
 import { Container } from '@material-ui/core';
+import { Cart } from './components/Cart'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fab } from '@fortawesome/free-brands-svg-icons'
+import { faCheckSquare, faCoffee } from '@fortawesome/free-solid-svg-icons'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+
+library.add(fab, faCheckSquare, faCoffee, fas)
 
 
 function App() {
@@ -63,6 +70,8 @@ function App() {
               <EditCategory match={match} />
             )}
           />
+
+    			<Route exact path='/cart' component={Cart} />
 
           {/* <Route path='/' render={() => <Footer />} /> */}
         </Container>

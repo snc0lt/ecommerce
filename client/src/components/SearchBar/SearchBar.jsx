@@ -16,6 +16,18 @@ import { Link, useHistory } from 'react-router-dom';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import { Tooltip, Container } from '@material-ui/core';
 
+const carritoStyle = {
+	color: 'white',
+	backgroundColor: 'DodgerBlue',
+	margin: '10px',
+	paddingLeft: '15px',
+	paddingRight: '15px',
+	paddingTop: '7px',
+	paddingBottom: '7px',
+	borderRadius: '5px',
+	fontSize: '15px',
+}
+
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -157,6 +169,16 @@ export default function SearchBar() {
           aria-haspopup="true"
           color="inherit"
         >
+        <Link to='/cart'>
+          <button
+            type='button'
+            style={carritoStyle}
+            className='btn btn-secondary'
+          >
+            {' '}
+            <FontAwesomeIcon icon={['fas', 'shopping-cart']} />{' '}
+            Carrito
+          </button>
           <AccountCircle />
         </IconButton>
         <p>Profile</p>
