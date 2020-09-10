@@ -48,9 +48,9 @@ server.get('/', (req, res) => {
 						},
 					},
 				],
-				stock: {
-					[Op.gt]: 0,
-				}  
+				// stock: {
+				// 	[Op.gt]: 0,
+				// }  
 			},
 		}).then((products) => {
 			if (products.length == 0) {
@@ -62,11 +62,11 @@ server.get('/', (req, res) => {
 	} else {
 		Product.findAll({
 			include: [Category],
-			where: {
-				stock: {
-					[Op.gt]: 0,
-				}  
-			}
+			// where: {
+			// 	stock: {
+			// 		[Op.gt]: 0,
+			// 	}  
+			// }
 		}).then((products) => res.send(products))
 	}
 })
