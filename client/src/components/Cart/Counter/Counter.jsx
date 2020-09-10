@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { useState } from 'react'
-
 import { updateCountProductInCart } from '../../../actions'
 
 export const Counter = ({ idProduct, updateQuantity, quantity }) => {

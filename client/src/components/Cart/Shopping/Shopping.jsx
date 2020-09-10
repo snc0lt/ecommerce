@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import Counter from '../Counter/Counter'
 import { getProductsCart, deleteProductInCart } from '../../../actions'
 
+
 export const Shopping = ({
 	products,
 	getProductsCart,

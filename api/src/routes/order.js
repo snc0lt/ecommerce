@@ -46,7 +46,6 @@ server.get('/:id', (req, res) => {
 
 
 
-
 // crear orden completa
 server.post('/:userId', async (req, res) => {
   const {state, productId, price, quantity} = req.body;

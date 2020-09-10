@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 //import { cancelOrder } from '../../../actions'
 
+
 export const Summary = ({ products, cancelOrder }) => {
 	const [total, setTotal] = useState(0)
 
