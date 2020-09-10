@@ -12,6 +12,8 @@ import Box from '@material-ui/core/Box';
 import iphoneImage from '../../testImages/iphone.jpeg'
 import CarouselCard from '../ImgProductCardCarousel/CarouselCard';
 import ProductDetailsDescription from './ProductDetailsDescription'
+import { useDispatch, useSelector } from "react-redux";
+import { getProductDetail } from "../../actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,14 +50,18 @@ const useStyles = makeStyles((theme) => ({
 export default function ProductDetails() {
   const classes = useStyles();
   const { id } = useParams()
-  const [ producto, setProducto ] = useState()
+  // const [ producto, setProducto ] = useState()
+  const dispatch = useDispatch()
+  const product = useSelector( state => state.productDetail)
+
 
   useEffect(() => {
-    fetch(`http://localhost:3001/products/${id}`)
-        .then(res => res.json())
-        .then(data => {
-          setProducto(data)
-        })
+    dispatch(getProductDetail(id))
+    // fetch(`http://localhost:3001/products/${id}`)
+    //     .then(res => res.json())
+    //     .then(data => {
+    //       setProducto(data)
+    //     })
   }, [])
 
   return (
@@ -64,14 +70,14 @@ export default function ProductDetails() {
         <CssBaseline />
         <Grid item xs={false} sm={6} md={7}>
           <div className={classes.paper}>
-            <CarouselCard  image={ producto && producto.image}/>
+            <CarouselCard  image={ product && product.image}/>
           </div>
         </Grid>
         <Grid item xs={12} sm={6} md={5} component={Paper} elevation={6} square>
           <div className={classes.paper}>
             <Typography component="div">
               <Box fontWeight="fontWeightBold" fontSize={26} m={1}>
-              { producto && producto.name}
+              { product && product.name}
               </Box>
             </Typography>
             <div>
@@ -80,10 +86,10 @@ export default function ProductDetails() {
           </div>
           <div className={classes.paper}>
             <Typography component="h4" variant="h4" color='primary'>
-            { producto && producto.price}
+            { product && product.price}
             </Typography>
             <Typography variant='subtitle2' color='textSecondary'>
-            { producto && producto.stock !== 0 ? `${producto.stock} - Disponible` : 'No Dispoble'}
+            { product && product.stock !== 0 ? `${product.stock} - Disponible` : 'No Dispoble'}
             </Typography>
           </div>
           <div className={classes.paper}>
@@ -95,16 +101,16 @@ export default function ProductDetails() {
           </Typography>
           </div>
           <div className={classes.buttons}>
-            <Button disable = {!producto || producto.stock === 0} variant="contained" color="primary" size="medium" style={{ padding: '5px 25px' }}>
+            <Button disable = {!product || product.stock === 0} variant="contained" color="primary" size="medium" style={{ padding: '5px 25px' }}>
               buy
             </Button>
-            <Button disable = {!producto || producto.stock === 0} variant="outlined" color="primary" size='medium' style={{ marginLeft: 'auto', padding: '5px 25px' }}>
-              add to cart
+            <Button disable = {!product || product.stock === 0} variant="outlined" color="primary" size='medium' style={{ marginLeft: 'auto', padding: '5px 25px' }}>
+              add cart
             </Button>
           </div>
         </Grid>
       </Grid>
-      <ProductDetailsDescription classes={classes} description={ producto && producto.description}/>
+      <ProductDetailsDescription classes={classes} description={ product && product.description}/>
     </Container>
   );
 }

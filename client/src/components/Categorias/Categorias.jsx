@@ -5,31 +5,36 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteDialog from '../ConfirmationDialog/DeleteDialog'
 import { Tooltip} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
-
+import { useDispatch, useSelector } from "react-redux";
+import { getCategories } from "../../actions";
 export default function () {
-	const [categorias, setCategorias] = useState()
+	// const [categorias, setCategorias] = useState()
 	const url = useLocation();
+	const dispatch = useDispatch()
+	const categories = useSelector(state => state.categories)
+	console.log(categories)
 
 	useEffect(() => {
-		fetch(`http://localhost:3001/category`)
-			.then(function (response) {
-				return response.json()
-			})
-			.then(function (category) {
-				setCategorias(category)
-			})
-			.catch(function (err) {
-				console.log(err)
-			})
-	}, [categorias])
+		dispatch(getCategories())
+		// fetch(`http://localhost:3001/category`)
+		// 	.then(function (response) {
+		// 		return response.json()
+		// 	})
+		// 	.then(function (category) {
+		// 		setCategorias(category)
+		// 	})
+		// 	.catch(function (err) {
+		// 		console.log(err)
+		// 	})
+	}, [])
 
 	return (
 		<div className='p-3'>
 			<h1>Categorias</h1>
 			<hr />
 			<ul className='list-group'>
-				{categorias &&
-					categorias.map((c) => {
+				{categories &&
+					categories.map((c) => {
 						if (url.pathname === '/admin/editCategory') {
 							return (
 								<div className='botones'>

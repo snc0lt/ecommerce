@@ -7,75 +7,79 @@ const initialstate = {
 	userDetail: {},
 	cart: [],
 	closedOrders: [],
-	userLogged: '',
+	userLogged: false,
 	reviews: []
 }
 
 export default function rootReducer(state = initialstate, action) {
 	switch (action.type) {
-		case 'GET_PRODUCTS':
+		case 'SET_PRODUCTS': /*listo */
 			return {
 				...state,
 				products: action.payload,
 			}
 
-		case 'GET_PRODUCT_DETAIL':
+		case 'GET_PRODUCT_DETAIL': /*listo */
 			return {
 				...state,
 				productDetail: action.payload,
 			}
-		case 'UPDATE_PRODUCT':
-		case 'ADD_PRODUCT':
+		case 'CREATE_PRODUCT':	/*listo */
 			return {
 				...state,
-				products: state.products.concat(action.payload),
+				products: [...state.products, action.payload]
 			}
 
-		case 'REMOVE_PRODUCT':
+		case 'REMOVE_PRODUCT': /*listo */
 			return {
 				...state,
 				producs: state.products.filter(
-					(product) => product.id != action.payload
+					(product) => product.id !== action.payload
 				),
 			}
 
-		case 'ADD_CATEGORY':
+		case 'ADD_CATEGORY': /*listo */
 			return {
 				...state,
-				categories: state.categories.concat(action.payload),
+				categories: [...state.categories, action.payload],
 			}
 
-		case 'GET_CATEGORY_DETAIL':
+		case 'GET_CATEGORY_DETAIL': /*pendiente */
 			return {
 				...state,
 				categoryDetail: action.payload,
 			}
 
-		case 'GET_CATEGORIES':
+		case 'GET_CATEGORIES': /*listo */
 			return {
 				...state,
 				categories: action.payload,
 			}
 
-		case 'REMOVE_CATEGORY':
+		case 'REMOVE_CATEGORY':  /*listo */
 			return {
 				...state,
 				categories: state.categories.filter(
-					(category) => category.id != action.payload
+					(category) => category.id !== action.payload
 				),
 			}
 
-		case 'GET_USERS':
+		case 'GET_USERS': 
 			return {
 				...state,
 				users: action.payload,
 			}
-
-		case 'GET_USER_DETAIL':
+		case 'LOGIN_USER': /*listo */
 			return {
 				...state,
 				userDetail: action.payload,
+				userLogged: true,
 			}
+		// case 'GET_USER_DETAIL':
+		// 	return {
+		// 		...state,
+		// 		userDetail: action.payload,
+		// 	}
 
 		case 'ADD_USER':
 			return {
@@ -85,7 +89,7 @@ export default function rootReducer(state = initialstate, action) {
 		case 'REMOVE_USER':
 			return {
 				...state,
-				users: state.users.filter((user) => user.id != action.payload),
+				users: state.users.filter((user) => user.id !== action.payload),
 			}
 		case 'GET_PRODUCTS_IN_CART':
 			return {

@@ -248,7 +248,6 @@ export default function SignUp(props) {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                placeholder={inputs.name}
                 name="nameProduct"
                 variant="outlined"
                 value={inputs.name}
@@ -279,19 +278,17 @@ export default function SignUp(props) {
                 fullWidth
                 id="outlined-textarea"
                 label="Descripción"
-                placeholder={inputs.description}
                 value={inputs.description}
                 multiline
                 variant="outlined"
                 onChange={handleInputs}
-                requiered
+                required
                 name='description'
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 onChange={handleInputs}
-                placeholder={inputs.price}
                 value={inputs.price}
                 variant="outlined"
                 required
@@ -304,7 +301,6 @@ export default function SignUp(props) {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                placeholder={inputs.stock}
                 value={inputs.stock}
                 onChange={handleInputs}
                 variant="outlined"
@@ -344,7 +340,7 @@ export default function SignUp(props) {
             </div>)
           } */}
           <Button onClick={handleSubmit}
-            disabled={!inputs.name || !inputs.description || !inputs.price || !inputs.stock}
+            disabled={!inputs.name || !inputs.description || !inputs.price || !inputs.stock || !check}
             type="submit"
             fullWidth
             variant="contained"

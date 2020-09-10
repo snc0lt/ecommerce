@@ -46,26 +46,26 @@ server.get('/:id', (req, res) => {
 
 
 
-
 // crear orden completa
 server.post('/:userId', async (req, res) => {
+  const {state, productId, price, quantity} = req.body;
 	const order = await Order.findOrCreate({
 		where: {
 				userId: req.params.userId,
-				state: "completa"
+				state
 				}
 	})
 	 await Order_product.findOrCreate({
 		where: {
 			orderId: order[0].id,
-			productId: req.body.productId,
-            price: req.body.price,
-            quantity: req.body.quantity
+			productId: productId,
+            price: price,
+            quantity: quantity
 		}
     })
 
 	const product = await Order.findOne({
-		where: { userId: req.params.userId, state: 'completa' },
+		where: { userId: req.params.userId, state },
 		include: [Product],
 	})
 

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,6 +14,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Copyright from '../utils/Copyright'
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../actions";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -42,7 +45,14 @@ export default function SignIn() {
     email: '',
     password: '',
   });
-  
+  const history = useHistory()
+  const dispatch = useDispatch()
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    dispatch(loginUser(values))
+    
+    history.push('/')
+  } 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -53,7 +63,7 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Iniciar sesión
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleSubmit} >
           <TextField
             variant="outlined"
             margin="normal"

@@ -13,7 +13,7 @@ import Categorias from './components/Categorias/Categorias';
 import SignUp from './components/SignUp/SignUp'
 import Register from './components/SignUp/Register'
 import Container from '@material-ui/core/Container'
-
+import { Cart } from './components/Cart'
 
 function App() {
   const url = useLocation();
@@ -74,12 +74,12 @@ function App() {
           <Route exact path='/user/login' component={SignUp} />
 
           <Route exact path='/user/register' component={Register} />
+          <Route exact path='/cart' component={Cart} />
           </Container>
         </Switch>
 
     </div>
   );
-
 
 }
 
