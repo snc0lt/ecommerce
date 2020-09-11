@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Categorias from '../Categorias/Categorias'
 import GridList from '../GridListProducts/GridListProducts'
 import Grid from '@material-ui/core/Grid'
-import { getProducts, getProductsBySearch } from "../../actions";
+import { getProducts, getProductsBySearch, getProductsByCategory } from "../../actions";
 
 function useQuery() {
 	return new URLSearchParams(useLocation().search);
@@ -19,12 +19,12 @@ export default function () {
 	console.log(products)
 	useEffect(() => {
 		if (id) {
-			
-			fetch(`http://localhost:3001/category/${id}`)
-				.then((res) => res.json())
-				.then((data) => {
-					setProductos(data)
-				})
+			dispatch(getProductsByCategory(id))
+			// fetch(`http://localhost:3001/category/${id}`)
+			// 	.then((res) => res.json())
+			// 	.then((data) => {
+			// 		setProductos(data)
+			// 	})
 		}
 		else if (query) {
 			dispatch(getProductsBySearch(query))

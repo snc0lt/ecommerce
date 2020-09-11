@@ -25,19 +25,32 @@ export const getProducts = () => async dispatch => {
 	// }
 }
 
-export function getProductsByCategory(query) {
-	return function (dispatch) {
-		return fetch(`http://localhost:3001/category/${query}`, {
-			credentials: 'include',
-		})
-			.then((res) => res.json())
-			.then((products) => {
+export const getProductsByCategory = (id) => dispatch => {
+	try {
+		fetch(`http://localhost:3001/category/${id}`)
+			.then((data) => data.json())
+			.then((res) => {
 				dispatch({
-					type: 'GET_PRODUCTS',
-					payload: products.products,
+					type: 'SET_PRODUCTS',
+					payload: res
 				})
 			})
+	} catch (err) {
+		console.log(err)
 	}
+
+	// return function (dispatch) {
+	// 	return fetch(`http://localhost:3001/category/${id}`, {
+	// 		credentials: 'include',
+	// 	})
+	// 		.then((res) => res.json())
+	// 		.then((products) => {
+	// 			dispatch({
+	// 				type: 'GET_PRODUCTS',
+	// 				payload: products.products,
+	// 			})
+	// 		})
+	// }
 }
 
 export const getProductsBySearch = (query) => dispatch => {
@@ -406,7 +419,7 @@ export const addUser = (user) => dispatch => {
 
 export const loginUser = (data) => dispatch => {
 	try {
-		fetch(`http://localhost:3001/login`,{
+		fetch(`http://localhost:3001/login`, {
 			method: 'POST',
 			body: JSON.stringify(data),
 			headers: {
@@ -414,13 +427,13 @@ export const loginUser = (data) => dispatch => {
 				'Content-Type': 'application/json'
 			}
 		})
-		.then(data => data.json())
-		.then(res => {
-			dispatch({
-				type: 'LOGIN_USER',
-				payload: res
+			.then(data => data.json())
+			.then(res => {
+				dispatch({
+					type: 'LOGIN_USER',
+					payload: res
+				})
 			})
-		})
 	} catch (err) {
 		console.log(err)
 	}
@@ -448,9 +461,10 @@ export function removeUser(id) {
 	}
 }
 
-export function getProductsCart(userId) {
-	return function (dispatch) {
-		return fetch(`http://localhost:3001/user/${userId}/cart`, {
+export const getUserProductsCart = (userId) => dispatch => {
+
+	try {
+		fetch(`http://localhost:3001/user/${userId}/cart`, {
 			credentials: 'include',
 		})
 			.then((res) => res.json())
@@ -465,7 +479,26 @@ export function getProductsCart(userId) {
 						payload: order[0].products,
 					})
 			)
+	} catch (err) {
+		console.log(err)
 	}
+	// return function (dispatch) {
+	// 	return fetch(`http://localhost:3001/user/${userId}/cart`, {
+	// 		credentials: 'include',
+	// 	})
+	// 		.then((res) => res.json())
+	// 		.then((order) =>
+	// 			order.length === 0 || !order
+	// 				? dispatch({
+	// 					type: 'GET_PRODUCTS_IN_CART',
+	// 					payload: [],
+	// 				})
+	// 				: dispatch({
+	// 					type: 'GET_PRODUCTS_IN_CART',
+	// 					payload: order[0].products,
+	// 				})
+	// 		)
+	// }
 }
 
 export function deleteProductInCart(userId, idProduct) {
@@ -489,9 +522,9 @@ export function deleteProductInCart(userId, idProduct) {
 	}
 }
 
-export function updateCountProductInCart(userId, idProduct, count) {
-	return function (dispatch) {
-		return fetch(`http://localhost:3001/user/${userId}/cart`, {
+export const updateCountProductInCart = (userId, idProduct, count) => dispatch => {
+	try {
+		fetch(`http://localhost:3001/user/${userId}/cart`, {
 			method: 'PUT',
 			credentials: 'include',
 			headers: {
@@ -508,7 +541,28 @@ export function updateCountProductInCart(userId, idProduct, count) {
 				})
 			})
 			.catch(console.log)
+	} catch (err) {
+		console.log(err)
 	}
+	// return function (dispatch) {
+	// 	return fetch(`http://localhost:3001/user/${userId}/cart`, {
+	// 		method: 'PUT',
+	// 		credentials: 'include',
+	// 		headers: {
+	// 			Accept: 'application/json',
+	// 			'Content-Type': 'application/json',
+	// 		},
+	// 		body: JSON.stringify({ productId: idProduct, quantity: count }),
+	// 	})
+	// 		.then((res) => res.json())
+	// 		.then((data) => {
+	// 			dispatch({
+	// 				type: 'UPDATE_COUNT_PRODUCT',
+	// 				payload: data.products,
+	// 			})
+	// 		})
+	// 		.catch(console.log)
+	// }
 }
 
 export function addProductCart(idUser, idProduct, priceProduct) {
@@ -624,7 +678,6 @@ export function userLogin(input) {
 					type: 'USER_LOGGED',
 					payload: response.user,
 				})
-				return response
 			})
 			.catch((error) => {
 				return { error: true, message: 'Error en login, intente otra vez' }
