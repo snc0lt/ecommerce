@@ -75,6 +75,8 @@ function App() {
 
           <Route exact path='/user/register' component={Register} />
           <Route exact path='/cart' component={Cart} />
+
+          <Route exact path='/user/cart' component={Cart} />
           </Container>
         </Switch>
 
