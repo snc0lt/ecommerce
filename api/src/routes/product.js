@@ -54,9 +54,10 @@ server.get('/', (req, res) => {
 			},
 		}).then((products) => {
 			if (products.length == 0) {
-				res.status(404).send('No se encontraron resultados')
+				res.status(404).send({msg: 'No se encontro ningun producto'})
+				console.log({msg: 'No se encontro ningun producto'})
 			} else {
-				res.send(products)
+				res.status(200).send(products)
 			}
 		})
 	} else {
@@ -98,7 +99,7 @@ server.post('/', (req, res) => {
 		// product
 		// 	.setCategories(category)
 		// 	.then(() => 
-			res.status(201).send({msg: 'producto creado exitosamente'})
+			res.status(201).send({msg: 'producto creado exitosamente', product})
 			console.log(product)
 	}).catch ((err) => {
 		console.log("error: ",err);
@@ -129,7 +130,7 @@ server.put('/:id', (req, res) => {
 		!image ||
 		category.length === 0
 	) {
-		res.status(400).send('Debe enviar los campos requeridos')
+		res.status(400).send({msg: 'Debe enviar los campos requeridos'})
 		return
 	}
 
@@ -143,7 +144,7 @@ server.put('/:id', (req, res) => {
 			product.category = req.body.category || product.category
 			// product.removeCategories()
 			product.save().then((prod) => {
-				res.status(204).send({msg: 'producto actualizado exitosamente'})
+				res.status(204).send({msg: 'producto actualizado exitosamente', prod})
 				// prod.setCategories(categories).then(() =>
 				// 	res.status(201).send(product)
 				// )

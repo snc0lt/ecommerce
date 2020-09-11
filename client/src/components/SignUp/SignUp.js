@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -40,9 +39,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
   const classes = useStyles();
   const [values, setValues] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
+    username: '',
     password: '',
   });
   const history = useHistory()
@@ -50,9 +47,16 @@ export default function SignIn() {
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch(loginUser(values))
-    
     history.push('/')
   } 
+
+  const handleChange = (e) => {
+    e.preventDefault()
+    setValues({
+      ...values, [e.target.name]: e.target.value
+    })
+    console.log(values)
+  }
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -65,17 +69,21 @@ export default function SignIn() {
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit} >
           <TextField
+            value={values.username}
+            onChange={handleChange}
             variant="outlined"
             margin="normal"
             required
             fullWidth
             id="email"
             label="Correo electronico"
-            name="email"
+            name="username"
             autoComplete="email"
             autoFocus
           />
           <TextField
+            value={values.password}
+            onChange={handleChange}
             variant="outlined"
             margin="normal"
             required
@@ -96,18 +104,17 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            href="http://localhost:3000/admin/panel"
           >
             Ingresar
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link to='/user/change_pass' variant="body2">
                 ¿Has olvidado la contraseña?
               </Link>
             </Grid>
             <Grid item>
-              <Link href="/user/register" variant="body2">
+              <Link to='/user/register'>
                 Regístrate
               </Link>
             </Grid>

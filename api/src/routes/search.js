@@ -26,9 +26,9 @@ server.get('/', (req, res) => {
 			},
 		}).then((products) => {
 			if (products.length == 0) {
-				res.status(404).send('No se encontraron resultados');
+				res.status(404).send({msg: 'No se encontro ningun producto'});
 			} else {
-				res.send(products)
+				res.status(200).send(products)
 			}
 		})
 	} else {

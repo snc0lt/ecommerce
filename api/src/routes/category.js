@@ -66,7 +66,7 @@ server.post('/', async (req, res) => {
 					name: capName,
 					description,
 				})
-				res.status(201).send({msg: 'categoria creada exitosamente', status: 201})
+				res.status(201).send({msg: 'categoria creada exitosamente', status: 201, newCategory})
 			} catch (err) {
 				console.log(err)
 				res.status(400)
