@@ -136,7 +136,6 @@ server.post('/:userId/cart', async (req, res) => {
 })
 
 //Retorna todos los elementos del carrito
-
 server.get('/:userId/cart', (req, res) => {
 	Order.findAll({
 		where: { userId: req.params.userId, state: 'creada' },

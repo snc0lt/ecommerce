@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -15,10 +15,17 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import { Link, useHistory } from 'react-router-dom';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import { Tooltip, Container } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import { useSelector, useDispatch } from "react-redux";
+import { getUserProductsCart } from "../../actions";
+
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
   grow: {
     flexGrow: 1,
   },
@@ -82,17 +89,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const StyledBadge = withStyles((theme) => ({
-  badge: {
-    right: -5,
-    top: 5  ,
-    color:'black',
-    border: `3px solid #2a98cb`,
-    padding: '0 4px',
-    backgroundColor: 'white'
-  },
-}))(Badge);
-
 export default function SearchBar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -100,7 +96,18 @@ export default function SearchBar() {
   const [searchInput, setSearchInput] = useState('')
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
+  const cart = useSelector(state => state.cart)
+  const dispatch = useDispatch()
+  const userId = useSelector( state => state.userDetails)
+  const logged = useSelector( state => state.userLogged)
+	
+	useEffect(() => {
+		if(logged && userId) {
+      dispatch(getUserProductsCart(userId.id))
+    }
+		// console.log(cart)
+  }, [])
+  
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -118,7 +125,6 @@ export default function SearchBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  var cart_items = 5;
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -214,18 +220,17 @@ export default function SearchBar() {
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
 
-            <Link to ='/user/cart'>
-                            <IconButton
-                                  aria-label="cart"
-                                      color="white"
-
-                                  >
-
-                                      <StyledBadge badgeContent={cart_items} color="secondary">
-                                              <ShoppingCartIcon color="white" />
-                                      </StyledBadge>
-                            </IconButton>
-              </Link>
+              <div className={classes.root}>
+                <Link to='/user/cart'>
+                  <IconButton
+                    aria-label="cart"
+                    color="white">
+                    <Badge badgeContent={cart && cart.length} color="secondary">
+                      <ShoppingCartIcon color="white" />
+                    </Badge>
+                  </IconButton>
+                </Link>
+              </div>
 
               <Tooltip title='dashboard'>
                 <Link to='/admin/panel'>

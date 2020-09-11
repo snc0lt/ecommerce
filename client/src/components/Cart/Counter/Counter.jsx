@@ -1,19 +1,26 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { useState } from 'react'
 import { updateCountProductInCart } from '../../../actions'
+import { useDispatch } from "react-redux";
 
-export const Counter = ({ idProduct, updateQuantity, quantity }) => {
+
+export const Counter = ({ idProduct , quantity, userId, stock }) => {
 	const [count, setCount] = useState(quantity)
+	const dispatch = useDispatch()
+	
+
 	const handleCount = (e) => {
 		const value = e.target.value
 
 		if (value <= 1) {
-			updateQuantity(1, idProduct, 1)
 			setCount(1)
+			dispatch(updateCountProductInCart(userId, idProduct, count))
+		} else if(value > stock) {
+			setCount(stock)
+			dispatch(updateCountProductInCart(userId, idProduct, value))
 		} else {
-			updateQuantity(1, idProduct, value)
 			setCount(value)
+			dispatch(updateCountProductInCart(userId, idProduct, value))
 		}
 	}
 
@@ -30,11 +37,4 @@ export const Counter = ({ idProduct, updateQuantity, quantity }) => {
 	)
 }
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		updateQuantity: (userId, idProduct, count) =>
-			dispatch(updateCountProductInCart(userId, idProduct, count)),
-	}
-}
-
-export default connect(null, mapDispatchToProps)(Counter)
+export default Counter

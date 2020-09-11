@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Copyright from '../utils/Copyright'
 import { useDispatch } from "react-redux";
-import { loginUser } from "../../actions";
+import { loginUser, userLogin } from "../../actions";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -46,8 +46,9 @@ export default function SignIn() {
   const dispatch = useDispatch()
   const handleSubmit = (e) => {
     e.preventDefault()
-    dispatch(loginUser(values))
+    dispatch(userLogin(values))
     history.push('/')
+    console.log('loggeado exitosamente')
   } 
 
   const handleChange = (e) => {

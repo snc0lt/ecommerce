@@ -4,7 +4,7 @@ const initialstate = {
 	productDetail: {},
 	categoryDetail: {},
 	users: [],
-	userDetails: null,
+	userDetails: {},
 	cart: [],
 	closedOrders: [],
 	userLogged: false,
@@ -114,7 +114,7 @@ export default function rootReducer(state = initialstate, action) {
 		case 'ADD_PRODUCT_IN_CART':
 			return {
 				...state,
-				cart: action.payload,
+				cart: action.payload
 			}
 
 		case 'CLEAN_ORDER':
@@ -146,12 +146,14 @@ export default function rootReducer(state = initialstate, action) {
 		case 'USER_LOGGED':
 			return {
 				...state,
-				userLogged: action.payload,
+				userDetails: action.payload,
+				userLogged: true
 			}
 		case 'USER_LOGOUT':
 			return {
 				...state,
-				userLogged: '',
+				userDetails: {},
+				userLogged: false,
 			}
 		case 'USER_CHANGE_PASSWORD':
 			return {

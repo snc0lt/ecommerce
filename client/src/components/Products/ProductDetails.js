@@ -13,7 +13,9 @@ import iphoneImage from '../../testImages/iphone.jpeg'
 import CarouselCard from '../ImgProductCardCarousel/CarouselCard';
 import ProductDetailsDescription from './ProductDetailsDescription'
 import { useDispatch, useSelector } from "react-redux";
-import { getProductDetail } from "../../actions";
+import { getProductDetail, addProductCart } from "../../actions";
+
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,6 +55,7 @@ export default function ProductDetails() {
   // const [ producto, setProducto ] = useState()
   const dispatch = useDispatch()
   const product = useSelector( state => state.productDetail)
+  const userId = useSelector(state => state.userDetails)
 
 
   useEffect(() => {
@@ -63,6 +66,13 @@ export default function ProductDetails() {
     //       setProducto(data)
     //     })
   }, [])
+
+  const addtoCart = (e) => {
+    e.preventDefault()
+    if(product){
+      dispatch(addProductCart(userId.user.id, id, product.price))
+    }
+  }
 
   return (
     <Container maxWidth="md">
@@ -104,7 +114,10 @@ export default function ProductDetails() {
             <Button disable = {!product || product.stock === 0} variant="contained" color="primary" size="medium" style={{ padding: '5px 25px' }}>
               buy
             </Button>
-            <Button disable = {!product || product.stock === 0} variant="outlined" color="primary" size='medium' style={{ marginLeft: 'auto', padding: '5px 25px' }}>
+            <Button 
+            onClick={addtoCart}
+            disable = {!product || product.stock === 0} variant="outlined" 
+            color="primary" size='medium' style={{ marginLeft: 'auto', padding: '5px 25px' }}>
               add cart
             </Button>
           </div>
