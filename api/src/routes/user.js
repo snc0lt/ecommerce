@@ -62,6 +62,7 @@ server.post('/', (req, res) => {
 	})
 })
 
+
 // usuario cambia su contraseña
 server.put('/password', isAuthenticated, async (req, res) => {
 	try {

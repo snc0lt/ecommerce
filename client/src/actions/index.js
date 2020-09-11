@@ -418,7 +418,7 @@ export const loginUser = (data) => dispatch => {
 		.then(res => {
 			dispatch({
 				type: 'LOGIN_USER',
-				payload: res.user
+				payload: res
 			})
 		})
 	} catch (err) {

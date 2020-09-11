@@ -4,7 +4,7 @@ const initialstate = {
 	productDetail: {},
 	categoryDetail: {},
 	users: [],
-	userDetail: {},
+	userDetails: null,
 	cart: [],
 	closedOrders: [],
 	userLogged: false,
@@ -33,7 +33,7 @@ export default function rootReducer(state = initialstate, action) {
 		case 'REMOVE_PRODUCT': /*listo */
 			return {
 				...state,
-				producs: state.products.filter(
+				products: state.products.filter(
 					(product) => product.id !== action.payload
 				),
 			}
@@ -72,7 +72,7 @@ export default function rootReducer(state = initialstate, action) {
 		case 'LOGIN_USER': /*listo */
 			return {
 				...state,
-				userDetail: action.payload,
+				userDetails: action.payload,
 				userLogged: true,
 			}
 		// case 'GET_USER_DETAIL':
