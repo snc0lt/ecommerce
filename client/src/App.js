@@ -18,27 +18,25 @@ import { Cart } from './components/Cart'
 function App() {
   const url = useLocation();
 
-  // const displayNoneCarrousel = url.pathname.includes('/admin')
-  // ? null
-  // : url.pathname.includes('/user')
-  // ? null
-  // : <Carrousel />
+  const displayNoneCarrousel = url.pathname.includes('/admin') 
+  ? null
+  : url.pathname.includes('/user') 
+  ? null
+  : <Carrousel />
 
 
   return (
     <div className="App">
       <SearchBar />
-      {/*displayNoneCarrousel*/}
+      {displayNoneCarrousel}
       {/* <Carrousel /> */}
-      <Route exact path='/' render={() => <Carrousel />} />
-      <Route exact path='/' component={Catalogo} />
-
-
       <Switch>
-          <Container maxWidth='lg' >
+        <Container maxWidth='lg' >
+          {/* <Route exact path='/' render={() => <Carrousel />} /> */}
 
+          <Route exact path='/' component={Catalogo} />
 
-         <Route exact path='/products' component={Catalogo} />
+          {/* <Route exact path='/products' component={Catalogo} /> */}
 
           <Route exact path='/products/:id' component={ProductDetails} />
 
@@ -76,8 +74,7 @@ function App() {
           <Route exact path='/user/login' component={SignUp} />
 
           <Route exact path='/user/register' component={Register} />
-
-          <Route exact path='/user/cart' component={Cart} />
+          <Route exact path='/cart' component={Cart} />
           </Container>
         </Switch>
 

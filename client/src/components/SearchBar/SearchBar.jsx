@@ -16,11 +16,6 @@ import { Link, useHistory } from 'react-router-dom';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import { Tooltip, Container } from '@material-ui/core';
 
-import { withStyles } from '@material-ui/core/styles';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-
-
-
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -85,17 +80,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const StyledBadge = withStyles((theme) => ({
-  badge: {
-    right: -5,
-    top: 5  ,
-    color:'black',
-    border: `3px solid #2a98cb`,
-    padding: '0 4px',
-    backgroundColor: 'white'
-  },
-}))(Badge);
-
 
 
 export default function SearchBar() {
@@ -122,9 +106,6 @@ export default function SearchBar() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-
-  var cart_items = 5;
-
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -180,7 +161,6 @@ export default function SearchBar() {
         </IconButton>
         <p>Profile</p>
       </MenuItem>
-
     </Menu>
   );
 
@@ -220,22 +200,7 @@ export default function SearchBar() {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-
-            <Link to ='/user/cart'>
-                            <IconButton
-                                  aria-label="cart"
-                                      color="white"
-
-                                  >
-
-                                      <StyledBadge badgeContent={cart_items} color="secondary">
-                                              <ShoppingCartIcon color="white" />
-                                      </StyledBadge>
-                            </IconButton>
-              </Link>
-
               <Tooltip title='dashboard'>
-
                 <Link to='/admin/panel'>
                   <IconButton color="inherit">
                     <DashboardIcon />
