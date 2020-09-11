@@ -103,7 +103,7 @@ export default function SearchBar() {
 	
 	useEffect(() => {
 		if(logged && userId) {
-      dispatch(getUserProductsCart(userId.user.id))
+      dispatch(getUserProductsCart(userId.id))
     }
 		// console.log(cart)
   }, [])

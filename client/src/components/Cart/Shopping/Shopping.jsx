@@ -13,7 +13,7 @@ export const Shopping = () => {
 	const cart = useSelector(state => state.cart)
 	// console.log(object)
 	useEffect(() => {
-		dispatch(getUserProductsCart(userId.user.id))
+		dispatch(getUserProductsCart(userId.id))
 		console.log(cart)
 	}, [])
 	
@@ -47,7 +47,7 @@ export const Shopping = () => {
 									quantity={
 										product.order_product.quantity
 									}
-									userId={userId.user.id}
+									userId={userId.id}
 									stock={product.stock}
 								/>
 								<button

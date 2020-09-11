@@ -39,20 +39,21 @@ const useStyles = makeStyles((theme) => ({
 export default function ProductCard(props) {
   const dispatch = useDispatch()
   const userId = useSelector(state => state.userDetails)
-  const logged = useSelector( state => state.userLogged)
+  const logged = useSelector(state => state.userLogged)
   const classes = useStyles();
   const url = useLocation();
   const history = useHistory()
+
   const addtoCart = (e) => {
     e.preventDefault()
     if (logged && props.productos) {
-      dispatch(addProductCart(userId.user.id, props.productos.id, props.productos.price))
+      dispatch(addProductCart(userId.id, props.productos.id, props.productos.price))
     } else {
       history.push('/user/login')
     }
   }
 
-  const boton = url.pathname === '/admin/products/edit'
+  const boton = url.pathname === '/admin/props.productos/edit'
     ? (<>
       <Link to={`/admin/editproduct/${props.productos.id}`}>
         <IconButton>
@@ -65,7 +66,7 @@ export default function ProductCard(props) {
       <DeleteDialog props={props} />
 
     </>)
-    : url.pathname === '/admin/products/edit_category'
+    : url.pathname === '/admin/props.productos/edit_category'
       ? (<IconButton>
         <Tooltip title='Editar categoria'>
           <CategoryIcon color='primary' />
@@ -83,31 +84,36 @@ export default function ProductCard(props) {
       </>)
 
   return (
-    <Link to={`/products/${props.productos.id}`}>
-      <Card className={classes.root}>
-        <CardHeader
-          // action={
-          //   <Rating />
-          // }
-        />
-        <CardMedia
-          className={classes.media}
-          image={`http://localhost:3001/images/${props.productos.image[0]}`}
-        />
-        <CardContent>
-          <Rating />
-          <Typography variant='body2' color="textSecondary" component="p">
-            {props.productos.name}
-          </Typography>
-          <Typography gutterBottom variant='body1' color='primary' component='p'>
-            {props.productos.price}
-          </Typography>
+    <>
+      {
+        props.productos &&
+        <Link to={`/props.productos/${props.productos.id}`}>
+          <Card className={classes.root}>
+            <CardHeader
+            // action={
+            //   <Rating />
+            // }
+            />
+            <CardMedia
+              className={classes.media}
+              image={`http://localhost:3001/images/${props.productos.image[0]}`}
+            />
+            <CardContent>
+              <Rating />
+              <Typography variant='body2' color="textSecondary" component="p">
+                {props.productos.name}
+              </Typography>
+              <Typography gutterBottom variant='body1' color='primary' component='p'>
+                {props.productos.price}
+              </Typography>
 
-        </CardContent>
-        <CardActions disableSpacing>
-          {boton}
-        </CardActions>
-      </Card>
-    </Link>
+            </CardContent>
+            <CardActions disableSpacing>
+              {boton}
+            </CardActions>
+          </Card>
+        </Link>
+      }
+    </>
   );
 }
