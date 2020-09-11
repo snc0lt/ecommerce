@@ -1,3 +1,4 @@
+import swal from 'sweetalert';
 export const getProducts = () => async dispatch => {
 	try {
 		const data = await fetch('http://localhost:3001/products')
@@ -237,11 +238,19 @@ export const addCategory = (category, msg) => async dispatch => {
 			}
 		})
 		const res = await data.json()
-		dispatch({
-			type: 'ADD_CATEGORY',
-			payload: res.newCategory
-		})
-		msg(res.msg)
+		if(res.status === 201){
+			dispatch({
+				type: 'ADD_CATEGORY',
+				payload: res.newCategory
+			})
+			msg(res.msg)
+			swal("Genial!", "Se ha creado la categoria exitosamente!", "success")
+		} else if (res.status === 400){
+			dispatch({
+				type: 'SET_ERRORS'
+			})
+			swal("Opps!", "la categoria ya existe", "error")
+		}
 		// .then(data => data.json())
 		// .then((res) => {
 		// 	setMessage(res);

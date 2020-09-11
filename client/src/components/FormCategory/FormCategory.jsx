@@ -13,7 +13,7 @@ import Copyright from '../utils/Copyright.js';
 import swal from 'sweetalert';
 import { useDispatch } from 'react-redux'
 import { addCategory } from "../../actions";
-// HAY QUE LIMPIAR LOS ESTILOS Y METERLOS DENTRO DE UN CSS QUEDO SUCIO
+
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(8),

@@ -8,7 +8,8 @@ const initialstate = {
 	cart: [],
 	closedOrders: [],
 	userLogged: false,
-	reviews: []
+	reviews: [],
+	errors: null
 }
 
 export default function rootReducer(state = initialstate, action) {
@@ -163,7 +164,11 @@ export default function rootReducer(state = initialstate, action) {
 				...state,
 				reviews: state.reviews.concat(action.payload)
 			}
-		
+		case 'SET_ERRORS':
+			return {
+				...state,
+				errors: true
+			}
 		default:
 			return state
 	}
