@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { cleanOrder } from '../../../actions'
 import { useDispatch, useSelector } from "react-redux";
+import {Link} from 'react-router-dom'
 
 
 
@@ -16,7 +17,9 @@ export const Summary = ({ total }) => {
 			<hr />
 			<h3>Total $ {total * 1.12}</h3>
 			<hr />
-			<button className='btn btn-primary'>Finalizar compra</button>
+			<Link to='/user/checkout'>
+			<button className='btn btn-primary'>Comprar</button>
+			</Link>
 			<button
 				onClick={() => dispatch(cleanOrder(userId.id))}
 				className='btn btn-danger ml-3'

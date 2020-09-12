@@ -66,22 +66,31 @@ export default function ProductCard(props) {
       <DeleteDialog props={props} />
 
     </>)
-    : url.pathname === '/admin/roducts/edit_category'
-      ? (<IconButton>
-        <Tooltip title='Editar categoria'>
-          <CategoryIcon color='primary' />
-        </Tooltip>
-      </IconButton>)
-      : (<>
-        {/* <Button variant="contained" color="primary" size="small">
-          Comprar
-        </Button> */}
-        <Tooltip title='Añadir al carrito'>
-          <IconButton aria-label="addToCart" onClick={addtoCart}>
+    : props.productos.stock===0?
+
+    <span>No disponible</span>
+    
+    : <Tooltip title='Añadir al carrito'>
+           <IconButton aria-label="addToCart" onClick={addtoCart}>
             <ShoppingCartIcon color='primary' />
           </IconButton>
-        </Tooltip>
-      </>)
+      </Tooltip>
+    // : url.pathname === '/admin/roducts/edit_category'
+    //   ? (<IconButton>
+    //     <Tooltip title='Editar categoria'>
+    //       <CategoryIcon color='primary' />
+    //     </Tooltip>
+    //   </IconButton>)
+    //   : (<>
+    //     {/* <Button variant="contained" color="primary" size="small">
+    //       Comprar
+    //     </Button> */}
+    //     <Tooltip title='Añadir al carrito'>
+    //       <IconButton aria-label="addToCart" onClick={addtoCart}>
+    //         <ShoppingCartIcon color='primary' />
+    //       </IconButton>
+    //     </Tooltip>
+    //   </>)
 
   return (
     <>
