@@ -1,6 +1,6 @@
 import React from 'react';
 import ProductDetails from './components/Products/ProductDetails';
-import { BrowserRouter as Router, Route, Switch, useLocation } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
 import CreateProduct from './components/CreateProduct/CreateProduct'
 import Dashboard from './components/AdminPanel/Dashboard';
 import Catalogo from './components/Catalog/Catalog';
@@ -8,12 +8,12 @@ import FormCategory from './components/FormCategory/FormCategory';
 import SearchBar from './components/SearchBar/SearchBar';
 import { Carrousel } from './components/Carrousel/Carrousel';
 import EditCategory from './components/FormCategory/FormUpdateDeleteCategory';
-// import { Footer } from './Components/Footer/Footer'
 import Categorias from './components/Categorias/Categorias';
 import SignUp from './components/SignUp/SignUp'
 import Register from './components/SignUp/Register'
 import Container from '@material-ui/core/Container'
 import { Cart } from './components/Cart'
+// import { Footer } from './Components/Footer/Footer'
 
 function App() {
   const url = useLocation();

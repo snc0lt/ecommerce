@@ -1,3 +1,5 @@
+import swal from 'sweetalert';
+
 export const getProducts = () => async dispatch => {
 	try {
 		const data = await fetch('http://localhost:3001/products')
@@ -239,7 +241,7 @@ export const getCategories = () => dispatch => {
 	// }
 }
 
-export const addCategory = (category, msg) => async dispatch => {
+export const addCategory = (category) => async dispatch => {
 	try {
 		const data = await fetch('http://localhost:3001/category', {
 			method: 'POST',
@@ -250,11 +252,18 @@ export const addCategory = (category, msg) => async dispatch => {
 			}
 		})
 		const res = await data.json()
-		dispatch({
-			type: 'ADD_CATEGORY',
-			payload: res.newCategory
-		})
-		msg(res.msg)
+		if(res.status === 400) {
+			swal("Opps!", "la categoria ya existe!", "error")
+		} else if (res.status === 201){
+			dispatch({
+				type: 'ADD_CATEGORY',
+				payload: res.newCategory
+			})
+			 swal("Genial!", "Se ha creado la categoria exitosamente!", "success")
+		} else {
+			swal("Opps!", "algo salio mal, vuelve a intertarlo!", "error")
+		}
+		// msg(res.msg)
 		// .then(data => data.json())
 		// .then((res) => {
 		// 	setMessage(res);
@@ -422,6 +431,7 @@ export const loginUser = (data) => dispatch => {
 		fetch(`http://localhost:3001/login`, {
 			method: 'POST',
 			body: JSON.stringify(data),
+			credentials: 'include',
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
@@ -431,11 +441,34 @@ export const loginUser = (data) => dispatch => {
 			.then(res => {
 				dispatch({
 					type: 'LOGIN_USER',
-					payload: res
+					payload: res.user
 				})
 			})
 	} catch (err) {
 		console.log(err)
+	}
+}
+
+export function userLogin(input) {
+	return function (dispatch) {
+		return fetch(`http://localhost:3001/login`, {
+			method: 'POST',
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(input),
+		})
+			.then((res) => res.json())
+			.then((response) => {
+				dispatch({
+					type: 'USER_LOGGED',
+					payload: response.user,
+				})
+			})
+			.catch((error) => {
+				return { error: true, message: 'Error en login, intente otra vez' }
+			})
 	}
 }
 
@@ -586,9 +619,9 @@ export function addProductCart(idUser, idProduct, priceProduct) {
 	}
 }
 
-export function cleanOrder(idUser) {
-	return function (dispatch) {
-		return fetch(`http://localhost:3001/user/${idUser}/cart`, {
+export const cleanOrder = (idUser) => dispatch => {
+	try {
+		fetch(`http://localhost:3001/user/${idUser}/cart`, {
 			method: 'DELETE',
 			credentials: 'include',
 			headers: {
@@ -602,7 +635,26 @@ export function cleanOrder(idUser) {
 				})
 				: alert('Error al cancelar la orden', '', 'error')
 		)
+	} catch (err) {
+		console.log(err)
 	}
+
+	// return function (dispatch) {
+	// 	return fetch(`http://localhost:3001/user/${idUser}/cart`, {
+	// 		method: 'DELETE',
+	// 		credentials: 'include',
+	// 		headers: {
+	// 			Accept: 'application/json',
+	// 			'Content-Type': 'application/json',
+	// 		},
+	// 	}).then((res) =>
+	// 		res.status === 200
+	// 			? dispatch({
+	// 				type: 'CLEAN_ORDER',
+	// 			})
+	// 			: alert('Error al cancelar la orden', '', 'error')
+	// 	)
+	// }
 }
 
 export function getClosedOrders() {
@@ -662,28 +714,28 @@ export function resetPassword(userId) {
 	}
 }
 
-export function userLogin(input) {
-	return function (dispatch) {
-		return fetch(`http://localhost:3001/login`, {
-			method: 'POST',
-			credentials: 'include',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(input),
-		})
-			.then((res) => res.json())
-			.then((response) => {
-				dispatch({
-					type: 'USER_LOGGED',
-					payload: response.user,
-				})
-			})
-			.catch((error) => {
-				return { error: true, message: 'Error en login, intente otra vez' }
-			})
-	}
-}
+// export function userLogin(input) {
+// 	return function (dispatch) {
+// 		return fetch(`http://localhost:3001/login`, {
+// 			method: 'POST',
+// 			credentials: 'include',
+// 			headers: {
+// 				'Content-Type': 'application/json',
+// 			},
+// 			body: JSON.stringify(input),
+// 		})
+// 			.then((res) => res.json())
+// 			.then((response) => {
+// 				dispatch({
+// 					type: 'USER_LOGGED',
+// 					payload: response.user,
+// 				})
+// 			})
+// 			.catch((error) => {
+// 				return { error: true, message: 'Error en login, intente otra vez' }
+// 			})
+// 	}
+// }
 
 export function userLogout() {
 	return function (dispatch) {

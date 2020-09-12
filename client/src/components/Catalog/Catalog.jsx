@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useLocation, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Categorias from '../Categorias/Categorias'
@@ -11,7 +11,6 @@ function useQuery() {
 }
 
 export default function () {
-	const [productos, setProductos] = useState(null)
 	const { id } = useParams()
 	let query = useQuery().get('search');
 	const products = useSelector(state => state.products)
@@ -41,24 +40,24 @@ export default function () {
 			// 	})
 			dispatch(getProducts())
 			// setProductos(products)
-			
+
 		}
 	}, [query, id])
-
+	
 	return (
-		<Grid container direction='row'>
-			<Grid item xs={12} sm={2} md={2}>
-				<Categorias />
+		<div className = 'grid_container'>
+			<Grid container direction='row' spacing={4}>
+				<Grid item xs={12} sm={3} md={3}>
+					<Categorias />
+				</Grid>
+				<Grid item xs={12} sm={9} md={9}>
+					{
+						products.length === 0
+							? <h2>no hay productos</h2>
+							: <GridList productos={products} />
+					}
+				</Grid>
 			</Grid>
-			<Grid item xs={12} sm={10} md={10}>
-				{
-						products === null
-						? <h2>no hay productos</h2>
-						: <GridList productos={products} />
-				}
-
-			</Grid>
-
-		</Grid>
+		</div>
 	)
 }

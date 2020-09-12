@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from "react-redux";
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -16,10 +16,10 @@ import Copyright from '../utils/Copyright.js'
 import { useParams, useLocation } from 'react-router-dom';
 import FormGroup from '@material-ui/core/FormGroup';
 import Checkbox from '@material-ui/core/Checkbox';
-// import ImagesPreview from '../utils/ImagesPreview'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import swal from 'sweetalert';
 import { createProduct } from "../../actions";
+// import ImagesPreview from '../utils/ImagesPreview'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -64,7 +64,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-
 export default function SignUp(props) {
   const classes = useStyles();
   const { id } = useParams()
@@ -73,6 +72,12 @@ export default function SignUp(props) {
   const [files, setFiles] = useState(null);
   const [check, setCheck] = useState(null);
   const [msg, setMsg] = useState(null)
+  const [errors, setErrors] = useState({
+    errName: '',
+    errDesc: '',
+    errPrice: '',
+    errStock: ''
+  })
   const [inputs, setInputs] = useState({
     name: '',
     description: '',
@@ -84,15 +89,20 @@ export default function SignUp(props) {
 
   const handleInputs = (e) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value })
+    setErrors({
+      errName: '',
+      errDesc: '',
+      errPrice: '',
+      errStock: ''
+    })
   }
 
-  const resetForm = () => {
+  const resetForm = (e) => {
     setInputs({ ...inputs, name: '', description: '', stock: 0, price: 0, image: null, category: null })
     setFiles(null)
   }
 
   const dispatch = useDispatch()
-  
 
   useEffect(() => {
     fetch('http://localhost:3001/category', {
@@ -104,7 +114,7 @@ export default function SignUp(props) {
       .then(function (arr) {
         setCategories(arr);
       })
-  }, []);
+  }, [check]);
 
   useEffect(() => {
     if (url.pathname.includes('/admin/editproduct')) {
@@ -124,10 +134,31 @@ export default function SignUp(props) {
     }
   }, [url])
 
+  const onBlurName = () => {
+    if (!inputs.name || inputs.name.length === 0) setErrors({ ...errors, errName: 'este campo es requerido' })
+  }
+  const onBlurDescription = () => {
+    if (!inputs.description || inputs.description.length === 0) setErrors({ ...errors, errDesc: 'este campo es requerido' })
+  }
+  const onBlurStock = () => {
+    if (!inputs.stock || inputs.stock.length === 0) setErrors({ ...errors, errStock: 'este campo es requerido' })
+  }
+  const onBlurPrice = () => {
+    if (!inputs.price || inputs.price.length === 0) setErrors({ ...errors, errPrice: 'este campo es requerido' })
+  }
+
   const uploadImage = async () => {
     let formData = new FormData();
     for (var i = 0; i < files.length; i++) {
       formData.append('images', files[i]);
+    }
+
+    let cat = []
+
+    for (let i in check) {
+      if (check[i] === true) {
+        cat.push(i)
+      }
     }
     try {
       const uploadImg = await fetch('http://localhost:3001/image', {
@@ -142,60 +173,21 @@ export default function SignUp(props) {
         price: inputs.price,
         stock: inputs.stock,
         image: img,
-        category: Object.keys(check)
+        category: cat
       };
       if (url.pathname === `/admin/editproduct/${id}`) {
         editProduct(product)
+        resetForm()
       }
       else {
         dispatch(createProduct(product, setMsg))
         createProduct(product)
+        resetForm()
       }
     } catch (err) {
       console.log(err)
     }
-
-    resetForm()
-    // .then(res => res.json())
-    // .then(data => {
-    //   const product = {
-    //     name: inputs.name,
-    //     description: inputs.description,
-    //     price: inputs.price,
-    //     stock: inputs.stock,
-    //     image: data,
-    //     category: Object.keys(check)
-    //   };
-    //   if (url.pathname === `/admin/editproduct/${id}`) {
-    //     editProduct(product)
-    //   }
-    //   else {
-    //     createProduct(product)
-    //   }
-    // })
-    // .catch(err => console.log(err))
   }
-
-  // const createProduct = (product) => {
-  //   try {
-  //     const newProduct = fetch('http://localhost:3001/products', {
-  //       method: 'POST',
-  //       body: JSON.stringify(product),
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       }
-  //     })
-  //       .then(data => data.json())
-  //       .then(res => {
-  //         console.log(res)
-  //         setMsg(res.msg)
-  //       })
-  //   } catch (error) {
-  //     console.log(error)
-  //     alert('something went wrong..!')
-  //   }
-
-  // }
 
   const editProduct = (product) => {
     try {
@@ -218,14 +210,12 @@ export default function SignUp(props) {
     e.preventDefault()
     uploadImage()
     swal("Genial!", "Se ha creado el producto exitosamente!", "success");
-
+    resetForm()
   }
 
   const filesHandler = function (event) {
     setFiles(event.target.files)
   };
-
-
 
   const handleChange = (event) => {
     setCheck({ ...check, [event.target.name]: event.target.checked });
@@ -236,6 +226,7 @@ export default function SignUp(props) {
     newFiles.splice(i, 1)
     setFiles(newFiles)
   }
+
 
   return (
     <Container component="main" maxWidth="xs">
@@ -248,7 +239,7 @@ export default function SignUp(props) {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                name="nameProduct"
+                onBlur={onBlurName}
                 variant="outlined"
                 value={inputs.name}
                 required
@@ -259,6 +250,12 @@ export default function SignUp(props) {
                 name='name'
               />
             </Grid>
+            {
+              errors.errName &&
+              <div className={classes.msg} style={{ background: '#ff4f4f' }}>
+                <span>{errors.errName}</span>
+              </div>
+            }
             <Grid item xs={12} className={classes.checkbox}>
               {categories && categories.map((cat, i) => (
                 <FormGroup row key={i}>
@@ -275,6 +272,7 @@ export default function SignUp(props) {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                onBlur={onBlurDescription}
                 fullWidth
                 id="outlined-textarea"
                 label="Descripción"
@@ -286,8 +284,15 @@ export default function SignUp(props) {
                 name='description'
               />
             </Grid>
+            {
+              errors.errDesc &&
+              <div className={classes.msg} style={{ background: '#ff4f4f' }}>
+                <span>{errors.errDesc}</span>
+              </div>
+            }
             <Grid item xs={12}>
               <TextField
+                  onBlur={onBlurPrice}
                 onChange={handleInputs}
                 value={inputs.price}
                 variant="outlined"
@@ -295,12 +300,18 @@ export default function SignUp(props) {
                 fullWidth
                 label="Precio"
                 type='number'
-                name="precio"
                 name='price'
               />
             </Grid>
+            {
+              errors.errPrice &&
+              <div className={classes.msg} style={{ background: '#ff4f4f' }}>
+                <span>{errors.errPrice}</span>
+              </div>
+            }
             <Grid item xs={12}>
               <TextField
+                onBlur={onBlurStock}
                 value={inputs.stock}
                 onChange={handleInputs}
                 variant="outlined"
@@ -311,6 +322,12 @@ export default function SignUp(props) {
                 type="number"
               />
             </Grid>
+            {
+              errors.errStock &&
+              <div className={classes.msg} style={{ background: '#ff4f4f' }}>
+                <span>{errors.errStock}</span>
+              </div>
+            }
           </Grid>
           <UploadImgButton onChange={filesHandler} />
           {files &&
@@ -340,7 +357,7 @@ export default function SignUp(props) {
             </div>)
           } */}
           <Button onClick={handleSubmit}
-            disabled={!inputs.name || !inputs.description || !inputs.price || !inputs.stock || !check}
+            disabled={!inputs.name || !inputs.description || !inputs.price || !inputs.stock || !check }
             type="submit"
             fullWidth
             variant="contained"
@@ -350,12 +367,6 @@ export default function SignUp(props) {
             Crear
           </Button>
         </form>
-        {
-          msg &&
-          <div className={classes.msg} style={{ background: `${msg.status === 400 ? '#ff4f4f' : '#1df5a9'}` }}>
-            <span>{msg.msg}</span>
-          </div>
-        }
       </div>
       <Box mt={5}>
         <Copyright />
