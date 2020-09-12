@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useParams } from "react-router-dom";
+import { useParams, useHistory} from "react-router-dom";
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
@@ -55,6 +55,8 @@ export default function ProductDetails() {
   const product = useSelector( state => state.productDetail)
   const userId = useSelector(state => state.userDetails)
 
+  const history=useHistory();
+
 
   useEffect(() => {
     dispatch(getProductDetail(id))
@@ -69,7 +71,9 @@ export default function ProductDetails() {
     e.preventDefault()
     if(product){
       dispatch(addProductCart(userId.id, id, product.price))
+      history.push("/user/checkout")
     }
+
   }
 
   return (
@@ -100,21 +104,21 @@ export default function ProductDetails() {
             { product && product.stock !== 0 ? `${product.stock} - Disponible` : 'No Dispoble'}
             </Typography>
           </div>
-          <div className={classes.paper}>
+          {/* <div className={classes.paper}>
             <Typography variant='body1' color='textPrimary'>
               Color:  Negro
           </Typography>
             <Typography variant='subtitle2' color='textSecondary'>
               <span>Cantidad</span>: (select) (...disponibles)
           </Typography>
-          </div>
+          </div> */}
           <div className={classes.buttons}>
-            <Button disable = {!product || product.stock === 0} variant="contained" color="primary" size="medium" style={{ padding: '5px 25px' }}>
+              <Button onClick={addtoCart} disabled = {!product || product.stock === 0} variant="contained" color="primary" size="medium" style={{ padding: '5px 25px' }}>
               buy
-            </Button>
+              </Button>
             <Button 
             onClick={addtoCart}
-            disable = {!product || product.stock === 0} variant="outlined" 
+            disabled = {!product || product.stock === 0} variant="outlined" 
             color="primary" size='medium' style={{ marginLeft: 'auto', padding: '5px 25px' }}>
               add cart
             </Button>

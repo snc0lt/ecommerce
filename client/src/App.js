@@ -13,6 +13,8 @@ import SignUp from './components/SignUp/SignUp'
 import Register from './components/SignUp/Register'
 import Container from '@material-ui/core/Container'
 import { Cart } from './components/Cart'
+import Checkout from './components/Checkout/Checkout'
+import Orders from './components/AdminPanel/Orders'
 // import { Footer } from './Components/Footer/Footer'
 
 function App() {
@@ -77,6 +79,8 @@ function App() {
           <Route exact path='/cart' component={Cart} />
 
           <Route exact path='/user/cart' component={Cart} />
+          <Route exact path='/user/checkout' component={Checkout} />
+          <Route exact path='/admin/orders' component={Orders} />
           </Container>
         </Switch>
 
