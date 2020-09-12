@@ -8,9 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import { red } from '@material-ui/core/colors';
-import iphoneImage from '../../testImages/iphone.jpeg'
 import Rating from '../Rating/Rating'
-import Button from '@material-ui/core/Button';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { Tooltip } from '@material-ui/core';
 import { useLocation, Link, useHistory } from 'react-router-dom';
@@ -19,6 +17,8 @@ import CategoryIcon from '@material-ui/icons/Category';
 import DeleteDialog from '../ConfirmationDialog/DeleteDialog'
 import { useDispatch, useSelector } from "react-redux";
 import { addProductCart } from "../../actions";
+// import iphoneImage from '../../testImages/iphone.jpeg'
+// import Button from '@material-ui/core/Button';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -53,7 +53,7 @@ export default function ProductCard(props) {
     }
   }
 
-  const boton = url.pathname === '/admin/props.productos/edit'
+  const boton = url.pathname === '/admin/products/edit'
     ? (<>
       <Link to={`/admin/editproduct/${props.productos.id}`}>
         <IconButton>
@@ -66,7 +66,7 @@ export default function ProductCard(props) {
       <DeleteDialog props={props} />
 
     </>)
-    : url.pathname === '/admin/props.productos/edit_category'
+    : url.pathname === '/admin/roducts/edit_category'
       ? (<IconButton>
         <Tooltip title='Editar categoria'>
           <CategoryIcon color='primary' />
@@ -87,7 +87,7 @@ export default function ProductCard(props) {
     <>
       {
         props.productos &&
-        <Link to={`/props.productos/${props.productos.id}`}>
+        <Link to={`/products/${props.productos.id}`}>
           <Card className={classes.root}>
             <CardHeader
             // action={

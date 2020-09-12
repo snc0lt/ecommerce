@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { useHistory } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -37,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp() {
+  const history = useHistory()
   const classes = useStyles();
   const [values, setValues] = useState({
     firstName: '',
@@ -65,6 +67,7 @@ export default function SignUp() {
     e.preventDefault()
     dispatch(addUser(values))	
     resetForm()
+    history.push('/user/login')
   }
 
 

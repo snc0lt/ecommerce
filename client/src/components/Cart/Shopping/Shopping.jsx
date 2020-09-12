@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
 import Counter from '../Counter/Counter'
-import { getProductsCart, deleteProductInCart, getUserProductsCart } from '../../../actions'
+import { deleteProductInCart, getUserProductsCart } from '../../../actions'
 import { useDispatch, useSelector } from "react-redux";
 
 
@@ -53,7 +52,7 @@ export const Shopping = () => {
 								<button
 									className='btn btn-danger align-self-start'
 									onClick={() => {
-										deleteProductInCart(userId, product.id)
+										dispatch(deleteProductInCart(userId.id, product.id))
 									}}
 								>
 									X
@@ -67,19 +66,5 @@ export const Shopping = () => {
 		</div>
 	)
 }
-
-// const mapStateToProps = (store) => {
-// 	return {
-// 		products: store.cart,
-// 	}
-// }
-
-// const mapDispatchToProps = (dispatch) => {
-// 	return {
-// 		getProductsCart: (userId) => dispatch(getProductsCart(userId)),
-// 		deleteProductInCart: (userId, productId) =>
-// 			dispatch(deleteProductInCart(userId, productId)),
-// 	}
-// }
 
 export default Shopping

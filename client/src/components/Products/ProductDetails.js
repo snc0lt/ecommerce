@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,8 +14,6 @@ import CarouselCard from '../ImgProductCardCarousel/CarouselCard';
 import ProductDetailsDescription from './ProductDetailsDescription'
 import { useDispatch, useSelector } from "react-redux";
 import { getProductDetail, addProductCart } from "../../actions";
-
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,7 +68,7 @@ export default function ProductDetails() {
   const addtoCart = (e) => {
     e.preventDefault()
     if(product){
-      dispatch(addProductCart(userId.user.id, id, product.price))
+      dispatch(addProductCart(userId.id, id, product.price))
     }
   }
 
