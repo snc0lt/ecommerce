@@ -7,7 +7,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import IconButton from '@material-ui/core/IconButton';
-import { Tooltip, Icon } from '@material-ui/core';
+import { Tooltip } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch } from "react-redux";
@@ -27,7 +27,7 @@ export default function AlertDialogSlide({props, categoria}) {
   const dispatch = useDispatch()
   const url = useLocation()
   console.log(url.pathname)
-  const history = useHistory()
+  // const history = useHistory()
   const handleClose = (e) => {
     e.preventDefault()
     if (url.pathname === '/admin/editCategory') {

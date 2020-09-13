@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useEffect} from 'react'
 import { NavLink } from 'react-router-dom'
 import { useLocation, Link } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
@@ -29,8 +29,8 @@ export default function () {
 	}, [])
 
 	return (
-		<div className='p-3'>
-			<h1>Categorias</h1>
+		<div >
+			<h3>Categorias</h3>
 			<hr />
 			<ul className='list-group'>
 				{categories &&

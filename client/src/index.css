@@ -10,7 +10,9 @@ a:-webkit-any-link {
   text-decoration: none;
   color: inherit;
 }
-
+.grid_container{
+  margin-top: 3%;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

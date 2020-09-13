@@ -10,10 +10,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container' ;
 import '../UploadImageButton/styleButtonUpload.css';
 import Copyright from '../utils/Copyright.js';
-import swal from 'sweetalert';
 import { useDispatch } from 'react-redux'
 import { addCategory } from "../../actions";
-// HAY QUE LIMPIAR LOS ESTILOS Y METERLOS DENTRO DE UN CSS QUEDO SUCIO
+
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -76,7 +75,7 @@ export default function FormCategory ({ match }) {
         e.preventDefault();
         const newCategory = { name: input.name, description: input.description }
         dispatch(addCategory(newCategory))
-        swal("Genial!", "Se ha creado la categoria exitosamente!", "success")
+        // swal("Genial!", "Se ha creado la categoria exitosamente!", "success")
         resetForm();
         // fetch('http://localhost:3001/category', {
         //     method: 'POST',
