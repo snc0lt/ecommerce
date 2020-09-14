@@ -96,11 +96,11 @@ export default function ProductCard(props) {
     <>
       {
         props.productos &&
-        <Link to={`/products/${props.productos.id}`}>
           <Card className={classes.root}>
+            <Link to={`/products/${props.productos.id}`}>
             <CardHeader
             // action={
-            //   <Rating />
+              //   <Rating />
             // }
             />
             <CardMedia
@@ -117,11 +117,11 @@ export default function ProductCard(props) {
               </Typography>
 
             </CardContent>
+            </Link>
             <CardActions disableSpacing>
               {boton}
             </CardActions>
           </Card>
-        </Link>
       }
     </>
   );

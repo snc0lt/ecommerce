@@ -18,7 +18,6 @@ export const Shopping = () => {
 	
 	return (
 		<div>
-			hola
 			{cart && cart.length !== 0
 				? cart.map((product) => (
 					<div className='card mb-3 p-3' key={product.id}>

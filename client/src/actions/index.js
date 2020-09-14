@@ -385,10 +385,15 @@ export const addUser = (user) => dispatch => {
 		})
 			.then(data => data.json())
 			.then(res => {
-				dispatch({
-					type: 'ADD_USER',
-					payload: res.user,
-				})
+				if (res.status === 400) {
+					swal("Ups!", "El email ya esta siendo utilizado", "error")
+				} else if (res.status === 201) {
+					dispatch({
+						type: 'ADD_USER',
+						payload: res.user,
+					})
+					swal("Success", "Usuario creado con exito", "success")
+				}
 			})
 			.catch((error) => { console.log(error) })
 	} catch (err) {
@@ -426,28 +431,28 @@ export const addUser = (user) => dispatch => {
 	// }
 }
 
-export const loginUser = (data) => dispatch => {
-	try {
-		fetch(`http://localhost:3001/login`, {
-			method: 'POST',
-			body: JSON.stringify(data),
-			credentials: 'include',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			}
-		})
-			.then(data => data.json())
-			.then(res => {
-				dispatch({
-					type: 'LOGIN_USER',
-					payload: res.user
-				})
-			})
-	} catch (err) {
-		console.log(err)
-	}
-}
+// export const loginUser = (data) => dispatch => {
+// 	try {
+// 		fetch(`http://localhost:3001/login`, {
+// 			method: 'POST',
+// 			body: JSON.stringify(data),
+// 			credentials: 'include',
+// 			headers: {
+// 				'Accept': 'application/json',
+// 				'Content-Type': 'application/json'
+// 			}
+// 		})
+// 			.then(data => data.json())
+// 			.then(res => {
+// 				dispatch({
+// 					type: 'LOGIN_USER',
+// 					payload: res.user
+// 				})
+// 			})
+// 	} catch (err) {
+// 		console.log(err)
+// 	}
+// }
 
 export function userLogin(input) {
 	return function (dispatch) {
@@ -461,10 +466,16 @@ export function userLogin(input) {
 		})
 			.then((res) => res.json())
 			.then((response) => {
-				dispatch({
-					type: 'USER_LOGGED',
-					payload: response.user,
-				})
+				if (response.status === 401) {
+					swal("Ups!", "Error en el inicio de sesion", "error")
+				}
+				else if (response.status === 200) {
+					dispatch({
+						type: 'USER_LOGGED',
+						payload: response.user,
+					})
+					swal("Success", "Usuario logueado con exito", "success")
+				}
 			})
 			.catch((error) => {
 				return { error: true, message: 'Error en login, intente otra vez' }

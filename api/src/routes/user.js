@@ -36,7 +36,7 @@ server.get('/:id', (req, res) => {
 })
 
 //crear usuariopassword
-server.post('/', (req, res) => {
+server.post('/', async (req, res) => {
 	const { firstName, lastName, email, password, isAdmin } = req.body
 
 	if (!firstName || !lastName || !email || !password) {
@@ -45,21 +45,39 @@ server.post('/', (req, res) => {
 			message: 'Debe enviar los campos requeridos'
 		})
 	}
+	try {
+		const usuario = await User.findOne({
+			where: {
+				email: email
+			}
+		})
+		if (usuario) {
+			res.status(400).send({ msg: 'El email ya existe', status: 400})
+		} else {
+			try {
+				const user = await User.create({firstName, lastName, email, password, isAdmin})
+				res.status(201).send({msg: 'Usuario creado con exito', user, status: 201})
+			}
+			catch (err) { res.status(400).send(err)}
+		}
+	} catch (err) {
+		res.status(500).send(err)
+	}
 
-	User.create({ firstName, lastName, email, password, isAdmin })
-	.then((user) => {
-		res.status(201).json({
-			success: true,
-			message: 'El usuario fue creado correctamente!!!!',
-			user: user
-		})
-	})
-	.catch( err => {
-		res.status(500).json({
-			error: true,
-			message: 'El email ya esta siendo utilizado!!!'
-		})
-	})
+	// User.create({ firstName, lastName, email, password, isAdmin })
+	// .then((user) => {
+	// 	res.status(201).json({
+	// 		success: true,
+	// 		message: 'El usuario fue creado correctamente!!!!',
+	// 		user: user
+	// 	})
+	// })
+	// .catch( err => {
+	// 	res.status(500).json({
+	// 		error: true,
+	// 		message: 'El email ya esta siendo utilizado!!!'
+	// 	})
+	// })
 })
 
 

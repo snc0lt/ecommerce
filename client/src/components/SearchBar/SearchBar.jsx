@@ -17,7 +17,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import { Tooltip, Container } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { useSelector, useDispatch } from "react-redux";
-import { getUserProductsCart } from "../../actions";
+import { getUserProductsCart, userLogout} from "../../actions";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -137,8 +137,8 @@ export default function SearchBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose} component="a" href={`http://localhost:3000/user/login`}>Ingresar</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Opcion 2</MenuItem>
+      <MenuItem onClick={handleMenuClose}><Link to='/user/login'>Ingresar</Link></MenuItem>
+      {/* <MenuItem onClick={handleMenuClose}></MenuItem> */}
     </Menu>
   );
 
@@ -239,6 +239,7 @@ export default function SearchBar() {
                   </IconButton>
                 </Link>
               </Tooltip>
+              {logged && <button onClick={() => dispatch(userLogout())}>Cerrar sesion</button>}
               <IconButton
                 edge="end"
                 aria-label="account of current user"

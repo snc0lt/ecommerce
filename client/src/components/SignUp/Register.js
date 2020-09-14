@@ -35,21 +35,28 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  danger: {
+    color: 'red'
+  }
 }));
 
 export default function SignUp() {
   const history = useHistory()
   const classes = useStyles();
+  const [errors, setErrors] = useState({})
   const [values, setValues] = useState({
     firstName: '',
     lastName: '',
     email: '',
-    password: '',
+    password: ''
   });
+
+  const [confirmPassword, setconfirmPassword] = useState('')
   
   const dispatch = useDispatch()
 
   const handleChange = (event) => {
+    setErrors(validate({ ...values, [event.target.name]: event.target.value }))
     setValues({ ...values, [event.target.name]: event.target.value });
   };
 
@@ -61,15 +68,44 @@ export default function SignUp() {
         email: '',
         password: ''
     })
+    setconfirmPassword('')
   }
 
   const handleSubmit = function (e) {
     e.preventDefault()
-    dispatch(addUser(values))	
+    dispatch(addUser(values))
     resetForm()
     history.push('/user/login')
   }
 
+  function validate(values) {
+    let errors = {};
+    if (!values.firstName  || values.firstName.length === 0) {
+      errors.firstName = 'El nombre es requerido';
+    }
+
+    if (!values.lastName || values.lastName.length === 0) {
+      errors.lastName = 'El apellido es requerido';
+    }
+
+    if (!values.email  || values.email.length === 0) {
+      errors.email = 'Email requerido';
+    } else if (!/\S+@\S+\.\S+/.test(values.email)) {
+      errors.email = 'Email invalido';
+    }
+    
+    if (!values.password  || values.password.length === 0) {
+      errors.password = 'Contraseña requerida';
+    } else if (!/(?=.*[0-9])/.test(values.password)) {
+      errors.password = 'Contraseña invalida';
+    } else if(values.password.length < 8){
+      errors.password = 'La contraseña debe tener 8 o más caracteres'
+    }
+    // if (confirmPassword !== values.password) {
+    //   errors.confirmPassword = 'No coinciden las contraseñas'
+    // }
+    return errors
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -96,6 +132,7 @@ export default function SignUp() {
                 label="Nombre"
                 autoFocus
               />
+              {errors.firstName && (<p className={classes.danger}>{errors.firstName}</p>)}
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -109,6 +146,7 @@ export default function SignUp() {
                 name="lastName"
                 autoComplete="lname"
               />
+            {errors.lastName && (<p className={classes.danger}>{errors.lastName}</p>)}
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -121,8 +159,10 @@ export default function SignUp() {
                 label="Correo electronico"
                 name="email"
                 autoComplete="email"
+                type="email"
               />
             </Grid>
+            {errors.email && (<p className={classes.danger}>{errors.email}</p>)}
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -137,6 +177,22 @@ export default function SignUp() {
                 autoComplete="current-password"
               />
             </Grid>
+            {errors.password && (<p className={classes.danger}>{errors.password}</p>)}
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                onChange={(e) => setconfirmPassword(e.target.value)}
+                value={confirmPassword}
+                name="confirmPassword"
+                label="Confirmar Contraseña"
+                type="password"
+                id="confirmPassword"
+                autoComplete="current-password"
+              />
+            </Grid>
+            {confirmPassword !== values.password ? (<p className={classes.danger}>No coinciden las contraseñas</p>) : null}
             <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}

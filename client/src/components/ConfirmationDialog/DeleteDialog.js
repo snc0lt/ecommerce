@@ -28,6 +28,11 @@ export default function AlertDialogSlide({props, categoria}) {
   const url = useLocation()
   console.log(url.pathname)
   // const history = useHistory()
+
+  const handleCancel = () => {
+    setOpen(false)
+  }
+
   const handleClose = (e) => {
     e.preventDefault()
     if (url.pathname === '/admin/editCategory') {
@@ -69,7 +74,7 @@ export default function AlertDialogSlide({props, categoria}) {
         open={open}
         TransitionComponent={Transition}
         keepMounted
-        onClose={handleClose}
+        onClose={handleCancel}
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
@@ -80,7 +85,7 @@ export default function AlertDialogSlide({props, categoria}) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleCancel} color="primary">
             Cancelar
           </Button>
           <Button onClick={handleClose} color="primary">
