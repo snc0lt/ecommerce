@@ -13,7 +13,7 @@ import iphoneImage from '../../testImages/iphone.jpeg'
 import CarouselCard from '../ImgProductCardCarousel/CarouselCard';
 import ProductDetailsDescription from './ProductDetailsDescription'
 import { useDispatch, useSelector } from "react-redux";
-import { getProductDetail, addProductCart } from "../../actions";
+import { getProductDetail, addProductCart, addProductToGuestCart } from "../../actions";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -82,9 +82,12 @@ export default function ProductDetails() {
     e.preventDefault()
     if(product && logged){
       dispatch(addProductCart(userId.id, id, product.price))
-    } else {
-      history.push('/user/login')
+    } else if(!logged && product){
+      dispatch(addProductToGuestCart(product))
     }
+    // else {
+    //   history.push('/user/login')
+    // }
   }
 
   return (

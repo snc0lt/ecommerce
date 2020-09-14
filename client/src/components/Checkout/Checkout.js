@@ -13,6 +13,11 @@ import Typography from '@material-ui/core/Typography';
 import AddressForm from './AddressForm';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
+import { cleanOrder } from "../../actions";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import EmptyCart from '../../components/Cart/EmptyCart'
+
 
 function Copyright() {
   return (
@@ -80,10 +85,37 @@ function getStepContent(step) {
 }
 
 export default function Checkout() {
+  const history = useHistory()
+  const dispatch = useDispatch()
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
+  const logged = useSelector( state => state.userLogged)
+  const user = useSelector( state => state.user)
+  const cart = useSelector(state => state.cart)
+
+  const updateOrder = (orderId, state) => {
+		if (logged) {
+			try {
+				const data = fetch(`http://localhost:3001/orders/detail/${orderId}`, {
+					method: 'PUT',
+					body: JSON.stringify(state),
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				})
+			} catch (err) { console.log(err) }
+			history.push('/')
+		} else if (!logged) {
+			history.push('/user/login')
+		}
+	}
 
   const handleNext = () => {
+    if(activeStep === steps.length - 1 && cart && cart.length > 0 && user){
+      const orderId = cart[0].order_product.orderId
+      updateOrder(orderId, { state: 'completa'})
+      dispatch(cleanOrder())
+    }
     setActiveStep(activeStep + 1);
   };
 
@@ -92,7 +124,8 @@ export default function Checkout() {
   };
 
   return (
-    <React.Fragment>
+    <>{ cart && cart.length > 0 && logged
+      ? <>
       <CssBaseline />
       <main className={classes.layout}>
         <Paper className={classes.paper}>
@@ -129,7 +162,7 @@ export default function Checkout() {
                   <Button
                     variant="contained"
                     color="primary"
-                    onClick={handleNext}
+                    onClick={() => handleNext()}
                     className={classes.button}
                   >
                     {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
@@ -141,6 +174,9 @@ export default function Checkout() {
         </Paper>
         <Copyright />
       </main>
-    </React.Fragment>
+    </>
+    : <EmptyCart />
+    }
+    </>
   );
 }

@@ -6,6 +6,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.App {
+  background-color: white !important;
+}
 a:-webkit-any-link {
   text-decoration: none;
 }

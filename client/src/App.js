@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ProductDetails from './components/Products/ProductDetails';
 import { Route, Switch, useLocation } from "react-router-dom";
 import CreateProduct from './components/CreateProduct/CreateProduct'
@@ -15,16 +15,36 @@ import Container from '@material-ui/core/Container'
 import { Cart } from './components/Cart'
 import Checkout from './components/Checkout/Checkout'
 import Orders from './components/AdminPanel/Orders'
+import { useDispatch } from "react-redux";
+import { setUser, setGuestCart, setUserSign } from "./actions";
 // import { Footer } from './Components/Footer/Footer'
+
 
 function App() {
   const url = useLocation();
+  const dispatch = useDispatch()
+  const guestCart = JSON.parse(localStorage.getItem('guest_cart'))
 
-  const displayNoneCarrousel = url.pathname.includes('/admin') 
-  ? null
-  : url.pathname.includes('/user') 
-  ? null
-  : <Carrousel />
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    const user_sign = JSON.parse(localStorage.getItem('user_sign'));
+    // console.log(guestCart)
+    if (user) {
+      dispatch(setUser(user))
+    }
+    if(!user && user_sign){
+      dispatch(setUserSign(user_sign))
+    }
+    if(guestCart) {
+      dispatch(setGuestCart(guestCart))
+    }
+  }, [guestCart])
+
+  const displayNoneCarrousel = url.pathname.includes('/admin')
+    ? null
+    : url.pathname.includes('/user')
+      ? null
+      : <Carrousel />
 
 
   return (
@@ -81,8 +101,8 @@ function App() {
           <Route exact path='/user/cart' component={Cart} />
           <Route exact path='/user/checkout' component={Checkout} />
           <Route exact path='/admin/orders' component={Orders} />
-          </Container>
-        </Switch>
+        </Container>
+      </Switch>
 
     </div>
   );

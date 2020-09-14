@@ -85,7 +85,6 @@ server.post('/', (req, res) => {
 		category.length === 0
 	) {
 		res.status(400).send({msg: 'Todos los campos requeridos'})
-		return
 	}
 
 	Product.create({
