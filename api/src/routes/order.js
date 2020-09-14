@@ -10,7 +10,6 @@ server.get('/admin', (req, res) => {
     if (req.query.search){
         Order.findAll({
             where: {
-                
                 state: req.query.search 
             },
             include: [{
@@ -21,7 +20,14 @@ server.get('/admin', (req, res) => {
               }]
         }).then( orders => res.send(orders))
     } else {
-        Order.findAll()
+        Order.findAll({
+          include: [{
+            model: Product
+          },
+          {
+            model: User,
+          }]
+        })
         .then( orders => res.send(orders) )
     }
 })
@@ -81,5 +87,27 @@ server.get('/:userId/completa', (req, res) => {
   .catch(() => res.status(400).send("error"))
 })
 
+server.get('/detail/:orderId', (req, res) => {
+  try {
+   Order.findAll({
+    where: {
+      id: req.params.orderId
+    },
+    include: [{model: User}, {model: Product}]
+  })
+  .then(order => res.send(order))
+  .catch(err => res.send(err))
+} catch (err) {res.send(err)}
+})
+
+server.put('/detail/:orderId', async (req, res) => {
+  try {
+    const order = await Order.findByPk(req.params.orderId);
+    const updatedOrder = await order.update({
+      state: req.body.state
+    })
+    res.send(order)
+  } catch (err) {res.send(err)}
+})
 
 module.exports = server

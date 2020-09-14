@@ -154,6 +154,7 @@ export default function rootReducer(state = initialstate, action) {
 				...state,
 				userDetails: {},
 				userLogged: false,
+				cart: []
 			}
 		case 'USER_CHANGE_PASSWORD':
 			return {
