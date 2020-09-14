@@ -110,7 +110,7 @@ server.post('/login', function (req, res, next) {
     passport.authenticate('local', function (err, user) {
         if (err) {
             return res.status(500).json({
-				errot: true,
+				error: true,
 				message: err
 			})
 
@@ -125,10 +125,11 @@ server.post('/login', function (req, res, next) {
             if (err) {
                 return next(err)
             }
-            return res.json({
+            return res.status(200).send({
 				success: true,
 				message: 'Login correcto',
-				user
+				user,
+				status: 200
 			})
         })
     })(req, res, next)

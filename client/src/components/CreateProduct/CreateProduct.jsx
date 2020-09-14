@@ -357,7 +357,7 @@ export default function SignUp(props) {
             </div>)
           } */}
           <Button onClick={handleSubmit}
-            disabled={!inputs.name || !inputs.description || !inputs.price || !inputs.stock || !check }
+            disabled={!inputs.name || !inputs.description || !inputs.price || !inputs.stock || !check || !files}
             type="submit"
             fullWidth
             variant="contained"

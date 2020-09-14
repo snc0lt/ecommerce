@@ -3,9 +3,10 @@ const initialstate = {
 	categories: [],
 	productDetail: {},
 	categoryDetail: {},
-	users: [],
+	user: null,
 	userDetails: {},
 	cart: [],
+	guestCart: [],
 	closedOrders: [],
 	userLogged: false,
 	reviews: []
@@ -64,6 +65,13 @@ export default function rootReducer(state = initialstate, action) {
 				),
 			}
 
+		case 'SET_USER':
+			return{
+				...state,
+				userDetails: action.payload,
+				userLogged: true,
+			}
+
 		case 'GET_USERS': 
 			return {
 				...state,
@@ -84,8 +92,9 @@ export default function rootReducer(state = initialstate, action) {
 		case 'ADD_USER':
 			return {
 				...state,
-				users: state.users.concat(action.payload),
+				user: action.payload,
 			}
+		
 		case 'REMOVE_USER':
 			return {
 				...state,
@@ -116,6 +125,22 @@ export default function rootReducer(state = initialstate, action) {
 				...state,
 				cart: action.payload
 			}
+		case 'SET_GUEST_CART':
+			return{
+				...state,
+				guestCart: action.payload
+			}
+		case 'ADD_PRODUCT_IN_GUEST_CART':
+			return{
+				...state,
+				guestCart: [...state.guestCart, action.payload]
+			}
+
+		case 'REMOVE_GUEST_ITEM':
+			return {
+				...state,
+				guestCart: action.payload
+			} 
 
 		case 'CLEAN_ORDER':
 			return {
@@ -152,8 +177,11 @@ export default function rootReducer(state = initialstate, action) {
 		case 'USER_LOGOUT':
 			return {
 				...state,
+				user: null,
+				guestCart: [],
 				userDetails: {},
 				userLogged: false,
+				cart: []
 			}
 		case 'USER_CHANGE_PASSWORD':
 			return {

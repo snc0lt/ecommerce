@@ -37,7 +37,7 @@ export default function () {
 					categories.map((c) => {
 						if (url.pathname === '/admin/editCategory') {
 							return (
-								<div className='botones'>
+								<div className='botones' key={c.id}>
 							<NavLink
 								to={`/products/category/${c.id}`}
 								key={c.id}
@@ -62,7 +62,7 @@ export default function () {
 						}
 						else {
 							return (
-							<div className='botones'>
+							<div className='botones' key={c.id}>
 							<NavLink
 								to={`/products/category/${c.id}`}
 								key={c.id}

@@ -17,7 +17,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import { Tooltip, Container } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { useSelector, useDispatch } from "react-redux";
-import { getUserProductsCart } from "../../actions";
+import { getUserProductsCart, userLogout } from "../../actions";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -98,16 +98,17 @@ export default function SearchBar() {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const cart = useSelector(state => state.cart)
   const dispatch = useDispatch()
-  const userId = useSelector( state => state.userDetails)
-  const logged = useSelector( state => state.userLogged)
-	
-	useEffect(() => {
-		if(logged && userId) {
+  const userId = useSelector(state => state.userDetails)
+  const logged = useSelector(state => state.userLogged)
+  const guestCart = useSelector(state => state.guestCart)
+
+  useEffect(() => {
+    if (logged && userId) {
       dispatch(getUserProductsCart(userId.id))
     }
-		// console.log(cart)
+    // console.log(cart)
   }, [logged])
-  
+
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -137,8 +138,8 @@ export default function SearchBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose} component="a" href={`http://localhost:3000/user/login`}>Ingresar</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Opcion 2</MenuItem>
+      <MenuItem onClick={handleMenuClose}><Link to='/user/login'>Ingresar</Link></MenuItem>
+      {/* <MenuItem onClick={handleMenuClose}></MenuItem> */}
     </Menu>
   );
 
@@ -190,6 +191,10 @@ export default function SearchBar() {
 
     history.push(`/products/?search=${searchInput}`)
   }
+  const logOut = () => {
+    dispatch(userLogout())
+    history.push('/')
+  }
   return (
     <div className={classes.grow}>
       <AppBar position="static">
@@ -225,9 +230,19 @@ export default function SearchBar() {
                   <IconButton
                     aria-label="cart"
                     color="white">
-                    <Badge badgeContent={cart && cart.length} color="secondary">
-                      <ShoppingCartIcon color="white" />
-                    </Badge>
+                    {cart && cart.length > 0
+                      ?
+                      <Badge badgeContent={cart.length} color="secondary">
+                        <ShoppingCartIcon color="white" />
+                      </Badge>
+                      : guestCart && guestCart.length > 0
+                        ? <Badge badgeContent={guestCart.length} color="secondary">
+                          <ShoppingCartIcon color="white" />
+                        </Badge>
+                        : <Badge badgeContent={0} color="secondary">
+                          <ShoppingCartIcon color="white" />
+                        </Badge>
+                    }
                   </IconButton>
                 </Link>
               </div>
@@ -239,6 +254,7 @@ export default function SearchBar() {
                   </IconButton>
                 </Link>
               </Tooltip>
+              {logged && <button onClick={logOut}>Cerrar sesion</button>}
               <IconButton
                 edge="end"
                 aria-label="account of current user"

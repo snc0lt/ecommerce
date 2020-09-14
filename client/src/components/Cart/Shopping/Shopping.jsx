@@ -1,24 +1,27 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Counter from '../Counter/Counter'
-import { deleteProductInCart, getUserProductsCart } from '../../../actions'
+import { deleteProductInCart, getUserProductsCart, removeGuestItem } from '../../../actions'
 import { useDispatch, useSelector } from "react-redux";
 
 
 
-export const Shopping = () => {
+export const Shopping = ({ guestCart }) => {
 	const dispatch = useDispatch()
 	// const products = useSelector(state => state.products)
-	const userId = useSelector( state => state.userDetails)
+	const userId = useSelector(state => state.userDetails)
 	const cart = useSelector(state => state.cart)
-	// console.log(object)
+
+
 	useEffect(() => {
-		dispatch(getUserProductsCart(userId.id))
-		console.log(cart)
+		if (userId) {
+			dispatch(getUserProductsCart(userId.id))
+		} else if (guestCart) {
+			console.log(guestCart)
+		}
 	}, [])
-	
+
 	return (
 		<div>
-			hola
 			{cart && cart.length !== 0
 				? cart.map((product) => (
 					<div className='card mb-3 p-3' key={product.id}>
@@ -61,7 +64,48 @@ export const Shopping = () => {
 						</div>
 					</div>
 				))
-				: null
+				: guestCart && guestCart.length > 0
+					? guestCart.map((g) => (
+						<div className='card mb-3 p-3' key={g.id}>
+							<div className='row'>
+								<div className='col-md-4'>
+									<img
+										src={`http://localhost:3001/images/${g.image[0]}`}
+										className='card-img'
+										alt='...'
+									/>
+								</div>
+								<div className='col-md-5'>
+									<div className='card-body'>
+										<h5 className='card-title'>
+											{g.name}
+										</h5>
+										<p className='card-text'>
+											{g.price}
+										</p>
+									</div>
+								</div>
+								<div className='col-md-3 d-flex align-items-center justify-content-center'>
+									{/* <Counter
+										idProduct={g.id}
+										quantity={
+											g.order_product.quantity
+										}
+										userId={userId.id}
+										stock={g.stock}
+									/> */}
+									<button
+										className='btn btn-danger align-self-start'
+										onClick={() => dispatch(removeGuestItem(g.id))}
+											// dispatch(deleteProductInCart(userId.id, g.id))}
+									>
+										X
+								</button>
+								</div>
+							</div>
+						</div>
+					))
+					: null
 			}
 		</div>
 	)

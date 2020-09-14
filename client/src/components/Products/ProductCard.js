@@ -16,7 +16,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import CategoryIcon from '@material-ui/icons/Category';
 import DeleteDialog from '../ConfirmationDialog/DeleteDialog'
 import { useDispatch, useSelector } from "react-redux";
-import { addProductCart } from "../../actions";
+import { addProductCart, addProductToGuestCart } from "../../actions";
 // import iphoneImage from '../../testImages/iphone.jpeg'
 // import Button from '@material-ui/core/Button';
 
@@ -45,12 +45,16 @@ export default function ProductCard(props) {
   const history = useHistory()
 
   const addtoCart = (e) => {
+    
     e.preventDefault()
     if (logged && props.productos) {
       dispatch(addProductCart(userId.id, props.productos.id, props.productos.price))
-    } else {
-      history.push('/user/login')
+    } else if(!logged && props.productos){
+      dispatch(addProductToGuestCart(props.productos))
     }
+  //   else {
+  //     history.push('/user/login')
+  //   }
   }
 
   const boton = url.pathname === '/admin/products/edit'
@@ -96,11 +100,11 @@ export default function ProductCard(props) {
     <>
       {
         props.productos &&
-        <Link to={`/products/${props.productos.id}`}>
           <Card className={classes.root}>
+            <Link to={`/products/${props.productos.id}`}>
             <CardHeader
             // action={
-            //   <Rating />
+              //   <Rating />
             // }
             />
             <CardMedia
@@ -117,11 +121,11 @@ export default function ProductCard(props) {
               </Typography>
 
             </CardContent>
+            </Link>
             <CardActions disableSpacing>
               {boton}
             </CardActions>
           </Card>
-        </Link>
       }
     </>
   );

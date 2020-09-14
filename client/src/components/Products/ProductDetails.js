@@ -13,7 +13,8 @@ import iphoneImage from '../../testImages/iphone.jpeg'
 import CarouselCard from '../ImgProductCardCarousel/CarouselCard';
 import ProductDetailsDescription from './ProductDetailsDescription'
 import { useDispatch, useSelector } from "react-redux";
-import { getProductDetail, addProductCart } from "../../actions";
+import { getProductDetail, addProductCart, addProductToGuestCart } from "../../actions";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,7 +55,7 @@ export default function ProductDetails() {
   const dispatch = useDispatch()
   const product = useSelector( state => state.productDetail)
   const userId = useSelector(state => state.userDetails)
-
+  const logged = useSelector(state => state.logged)
   const history=useHistory();
 
 
@@ -67,13 +68,26 @@ export default function ProductDetails() {
     //     })
   }, [])
 
-  const addtoCart = (e) => {
+  const comprar = (e) => {
     e.preventDefault()
-    if(product){
+    if(product && logged){
       dispatch(addProductCart(userId.id, id, product.price))
       history.push("/user/checkout")
+    } else {
+      history.push('/user/login')
     }
+  }
 
+  const addtoCart = (e) => {
+    e.preventDefault()
+    if(product && logged){
+      dispatch(addProductCart(userId.id, id, product.price))
+    } else if(!logged && product){
+      dispatch(addProductToGuestCart(product))
+    }
+    // else {
+    //   history.push('/user/login')
+    // }
   }
 
   return (
@@ -101,7 +115,7 @@ export default function ProductDetails() {
             { product && product.price}
             </Typography>
             <Typography variant='subtitle2' color='textSecondary'>
-            { product && product.stock !== 0 ? `${product.stock} - Disponible` : 'No Dispoble'}
+            { product && product.stock !== 0 ? `${product.stock} - Disponible` : 'No Disponible - Sin Stock'}
             </Typography>
           </div>
           {/* <div className={classes.paper}>
@@ -113,14 +127,14 @@ export default function ProductDetails() {
           </Typography>
           </div> */}
           <div className={classes.buttons}>
-              <Button onClick={addtoCart} disabled = {!product || product.stock === 0} variant="contained" color="primary" size="medium" style={{ padding: '5px 25px' }}>
-              buy
+              <Button onClick={comprar} disabled = {!product || product.stock === 0} variant="contained" color="primary" size="medium" style={{ padding: '5px 25px' }}>
+              Comprar
               </Button>
             <Button 
             onClick={addtoCart}
             disabled = {!product || product.stock === 0} variant="outlined" 
             color="primary" size='medium' style={{ marginLeft: 'auto', padding: '5px 25px' }}>
-              add cart
+              Carrito
             </Button>
           </div>
         </Grid>

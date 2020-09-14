@@ -127,6 +127,7 @@ export const createProduct = (producto, msg) => async dispatch => {
 			}
 		})
 		const res = await data.json()
+		
 		dispatch({
 			type: 'CREATE_PRODUCT',
 			payload: res.product,
@@ -385,10 +386,16 @@ export const addUser = (user) => dispatch => {
 		})
 			.then(data => data.json())
 			.then(res => {
-				dispatch({
-					type: 'ADD_USER',
-					payload: res.user,
-				})
+				if (res.status === 400) {
+					swal("Ups!", "El email ya esta siendo utilizado", "error")
+				} else if (res.status === 201) {
+					localStorage.setItem('user_sign', JSON.stringify(res.user))
+					dispatch({
+						type: 'ADD_USER',
+						payload: res.user,
+					})
+					swal("Success", "Usuario creado con exito", "success")
+				}
 			})
 			.catch((error) => { console.log(error) })
 	} catch (err) {
@@ -426,27 +433,40 @@ export const addUser = (user) => dispatch => {
 	// }
 }
 
-export const loginUser = (data) => dispatch => {
-	try {
-		fetch(`http://localhost:3001/login`, {
-			method: 'POST',
-			body: JSON.stringify(data),
-			credentials: 'include',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			}
-		})
-			.then(data => data.json())
-			.then(res => {
-				dispatch({
-					type: 'LOGIN_USER',
-					payload: res.user
-				})
-			})
-	} catch (err) {
-		console.log(err)
-	}
+// export const loginUser = (data) => dispatch => {
+// 	try {
+// 		fetch(`http://localhost:3001/login`, {
+// 			method: 'POST',
+// 			body: JSON.stringify(data),
+// 			credentials: 'include',
+// 			headers: {
+// 				'Accept': 'application/json',
+// 				'Content-Type': 'application/json'
+// 			}
+// 		})
+// 			.then(data => data.json())
+// 			.then(res => {
+// 				dispatch({
+// 					type: 'LOGIN_USER',
+// 					payload: res.user
+// 				})
+// 			})
+// 	} catch (err) {
+// 		console.log(err)
+// 	}
+// }
+
+export const setUser = (user) => dispatch => {
+	dispatch({
+		type: 'SET_USER',
+		payload: user
+	})
+}
+export const setUserSign = (user) => dispatch => {
+	dispatch({
+		type: 'ADD_USER',
+		payload: user
+	})
 }
 
 export function userLogin(input) {
@@ -461,10 +481,17 @@ export function userLogin(input) {
 		})
 			.then((res) => res.json())
 			.then((response) => {
-				dispatch({
-					type: 'USER_LOGGED',
-					payload: response.user,
-				})
+				if (response.status === 401) {
+					swal("Ups!", "Error en el inicio de sesion", "error")
+				}
+				else if (response.status === 200) {
+					localStorage.setItem('user', JSON.stringify(response.user))
+					dispatch({
+						type: 'USER_LOGGED',
+						payload: response.user,
+					})
+					swal("Success", "Usuario logueado con exito", "success")
+				}
 			})
 			.catch((error) => {
 				return { error: true, message: 'Error en login, intente otra vez' }
@@ -619,25 +646,61 @@ export function addProductCart(idUser, idProduct, priceProduct) {
 	}
 }
 
-export const cleanOrder = (idUser) => dispatch => {
-	try {
-		fetch(`http://localhost:3001/user/${idUser}/cart`, {
-			method: 'DELETE',
-			credentials: 'include',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-		}).then((res) =>
-			res.status === 200
-				? dispatch({
-					type: 'CLEAN_ORDER',
-				})
-				: alert('Error al cancelar la orden', '', 'error')
-		)
-	} catch (err) {
-		console.log(err)
-	}
+export const setGuestCart = (guest) => dispatch => {
+	dispatch({
+		type: 'SET_GUEST_CART',
+		payload: guest
+	})
+}
+
+export const addProductToGuestCart = (guestCart) => dispatch => {
+	let gCart = []
+	gCart = JSON.parse(localStorage.getItem('guest_cart')) || []
+	gCart.push(guestCart)
+
+	localStorage.setItem('guest_cart', JSON.stringify(gCart))
+	dispatch({
+		type: 'ADD_PRODUCT_IN_GUEST_CART',
+		payload: guestCart
+	})
+}
+
+export const removeGuestItem = (index) => dispatch =>  {
+	let gCart = []
+	gCart = JSON.parse(localStorage.getItem('guest_cart')) || []
+	// gCart.slice(index, 1)
+	const newGuest = gCart.filter(g => g.id !== index)
+	
+	localStorage.setItem('guest_cart', JSON.stringify(newGuest))
+	dispatch({
+		type: 'REMOVE_GUEST_ITEM',
+		payload: newGuest
+	})
+}
+
+
+export const cleanOrder = () => dispatch => {
+	dispatch({
+		type: 'CLEAN_ORDER'
+	})
+	// try {
+	// 	fetch(`http://localhost:3001/user/${idUser}/cart`, {
+	// 		method: 'DELETE',
+	// 		credentials: 'include',
+	// 		headers: {
+	// 			Accept: 'application/json',
+	// 			'Content-Type': 'application/json',
+	// 		},
+	// 	}).then((res) =>
+	// 		res.status === 200
+	// 			? dispatch({
+	// 				type: 'CLEAN_ORDER',
+	// 			})
+	// 			: alert('Error al cancelar la orden', '', 'error')
+	// 	)
+	// } catch (err) {
+	// 	console.log(err)
+	// }
 
 	// return function (dispatch) {
 	// 	return fetch(`http://localhost:3001/user/${idUser}/cart`, {
@@ -741,10 +804,12 @@ export function userLogout() {
 	return function (dispatch) {
 		return fetch('http://localhost:3001/logout', {
 			credentials: 'include',
-		}).then(() =>
+		}).then(() =>{
+			localStorage.clear()
 			dispatch({
 				type: 'USER_LOGOUT',
 			})
+		}	
 		)
 	}
 }

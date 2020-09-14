@@ -35,8 +35,26 @@ server.get('/:id', (req, res) => {
 	})
 })
 
+server.post('/email', async (req, res) => {
+	
+	try {
+		const usuario = await User.findOne({
+			where: {
+				email: req.body.email
+			}
+		})
+		if (usuario) {
+			res.status(200).send({ msg: 'este es tu usuario', status: 200, usuario})
+		} else {
+			res.status(400).send({ msg: 'usuario no existe', status: 400})
+		}
+	} catch (err) {
+		res.status(500).send(err)
+	}
+})
+
 //crear usuariopassword
-server.post('/', (req, res) => {
+server.post('/', async (req, res) => {
 	const { firstName, lastName, email, password, isAdmin } = req.body
 
 	if (!firstName || !lastName || !email || !password) {
@@ -45,21 +63,39 @@ server.post('/', (req, res) => {
 			message: 'Debe enviar los campos requeridos'
 		})
 	}
+	try {
+		const usuario = await User.findOne({
+			where: {
+				email: email
+			}
+		})
+		if (usuario) {
+			res.status(400).send({ msg: 'El email ya existe', status: 400})
+		} else {
+			try {
+				const user = await User.create({firstName, lastName, email, password, isAdmin})
+				res.status(201).send({msg: 'Usuario creado con exito', user, status: 201})
+			}
+			catch (err) { res.status(400).send(err)}
+		}
+	} catch (err) {
+		res.status(500).send(err)
+	}
 
-	User.create({ firstName, lastName, email, password, isAdmin })
-	.then((user) => {
-		res.status(201).json({
-			success: true,
-			message: 'El usuario fue creado correctamente!!!!',
-			user: user
-		})
-	})
-	.catch( err => {
-		res.status(500).json({
-			error: true,
-			message: 'El email ya esta siendo utilizado!!!'
-		})
-	})
+	// User.create({ firstName, lastName, email, password, isAdmin })
+	// .then((user) => {
+	// 	res.status(201).json({
+	// 		success: true,
+	// 		message: 'El usuario fue creado correctamente!!!!',
+	// 		user: user
+	// 	})
+	// })
+	// .catch( err => {
+	// 	res.status(500).json({
+	// 		error: true,
+	// 		message: 'El email ya esta siendo utilizado!!!'
+	// 	})
+	// })
 })
 
 
@@ -147,7 +183,7 @@ server.get('/:userId/cart', (req, res) => {
 
 server.delete('/:userId/cart', async (req, res) => {
 	const order = await Order.findOne({
-		where: { userId: req.params.userId, state: 'creada' },
+		where: { userId: req.params.userId, state: 'procesando' },
 	})
 
 	if (req.body.productId) {
@@ -155,7 +191,7 @@ server.delete('/:userId/cart', async (req, res) => {
 			where: {
 				[Op.and]: [
 					{
-						orderId: order.id,
+						id: order.id,
 					},
 					{
 						productId: req.body.productId,

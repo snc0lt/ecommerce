@@ -11,8 +11,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Copyright from '../utils/Copyright'
-import { useDispatch } from "react-redux";
-import { loginUser, userLogin } from "../../actions";
+import { useDispatch, useSelector } from "react-redux";
+import { userLogin, addProductCart } from "../../actions";
 // import FormControlLabel from '@material-ui/core/FormControlLabel';
 // import Checkbox from '@material-ui/core/Checkbox';
 
@@ -37,15 +37,35 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
+  const guestCart = useSelector(state => state.guestCart) 
+  const guestUser = useSelector(state => state.user) 
   const classes = useStyles();
   const [values, setValues] = useState({
     username: '',
     password: '',
   });
+
   const history = useHistory()
   const dispatch = useDispatch()
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    if(!guestUser){
+      try {
+        const user = await fetch('http://localhost:3001/user/email', {
+          method: 'POST',
+          body: JSON.stringify(values.username)
+        })
+        const userId = user.usuario.id
+        guestCart.map(g => dispatch(addProductCart(userId, g.id, g.price)))
+        localStorage.removeItem('guest_cart')
+			} catch (err) {console.log(err)}
+    }
+    if(guestCart){
+      try {
+        guestCart.map(g => dispatch(addProductCart(guestUser.id, g.id, g.price)))
+        localStorage.removeItem('guest_cart')
+			} catch (err) {console.log(err)}
+    }
     dispatch(userLogin(values))
     history.push('/')
     console.log('loggeado exitosamente')
