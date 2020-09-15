@@ -4,12 +4,12 @@ const { User } = require('../db.js')
 server.get( "/", (req, res) => {
     User.create({
         firstName: "Admin",
-        lastName: "Prueba",
-        email: "hola@gmail.com",
-        password: "1234Prueba",
+        lastName: "Admin",
+        email: "admin@admin.com",
+        password: "admin123",
         isAdmin: true
-    }).then(() => {
-        res.status(201).send("creado")
+    }).then((userAdmin) => {
+        res.status(201).send(userAdmin)
     }).catch(err => console.log( "error de usuario" + err))
 } ) 
 
