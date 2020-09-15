@@ -20,7 +20,7 @@ export default function PrimaryListItems(){
 
     return (
     <div>
-      <ListItem button component="a" href="https://localhost:3000/admin/panel">
+      <ListItem button component="a" href="http://localhost:3000/admin/panel">
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
@@ -36,13 +36,14 @@ export default function PrimaryListItems(){
       </ListItem>
       </Link>
   
-  
-      <ListItem button component="a" href="http://localhost:3000/admin/panel">
+      <Link to='/admin/users'>
+      <ListItem button>
         <ListItemIcon>
           <PeopleIcon />
         </ListItemIcon>
         <ListItemText primary="Clientes" />
       </ListItem>
+      </Link>
   
   
       <ListItem button component="a" href="http://localhost:3000/admin/createproduct">

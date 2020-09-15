@@ -17,6 +17,7 @@ import Checkout from './components/Checkout/Checkout'
 import Orders from './components/AdminPanel/Orders'
 import { useDispatch } from "react-redux";
 import { setUser, setGuestCart, setUserSign } from "./actions";
+import UsersList from './components/AdminPanel/UsersList'
 // import { Footer } from './Components/Footer/Footer'
 
 
@@ -101,6 +102,7 @@ function App() {
           <Route exact path='/user/cart' component={Cart} />
           <Route exact path='/user/checkout' component={Checkout} />
           <Route exact path='/admin/orders' component={Orders} />
+          <Route exact path='/admin/users' component={UsersList} />
         </Container>
       </Switch>
 

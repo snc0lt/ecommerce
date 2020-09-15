@@ -11,6 +11,7 @@ body {
 }
 a:-webkit-any-link {
   text-decoration: none;
+  color: inherit
 }
 .grid_container{
   margin-top: 3%;

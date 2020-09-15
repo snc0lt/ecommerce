@@ -17,7 +17,7 @@ function isAdmin(req, res, next) {
 	}
 }
 
-server.put('/promote/:id', isAuthenticated, isAdmin, (req, res) => {
+server.put('/promote/:id', (req, res) => {
 	User.findByPk(req.params.id)
 		.then((user) => {
 			if (!user) return res.status(404).send('Id no válido')
