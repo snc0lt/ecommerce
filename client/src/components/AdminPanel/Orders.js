@@ -8,7 +8,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import { useLocation, Link } from "react-router-dom";
 
-
 // Generate Order Data
 function createData(id, date, name, shipTo, paymentMethod, amount) {
   return { id, date, name, shipTo, paymentMethod, amount };

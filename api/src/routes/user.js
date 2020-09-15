@@ -245,7 +245,7 @@ server.put('/:userId/cart', async (req, res) => {
 	res.send(product)
 })
 
-server.post('/:id/passwordReset', isAuthenticated, isAdmin, (req, res) => {
+server.post('/:id/passwordReset', /*isAuthenticated, isAdmin,*/ (req, res) => {
 	User.findByPk(req.params.id)
 		.then((user) => {
 			if (!user) return res.status(404).send('Id no valido')

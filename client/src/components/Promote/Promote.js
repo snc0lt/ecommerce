@@ -6,9 +6,9 @@ import PromoteDisplay from './PromoteDisplay';
 export default function Promote() {
     const users = useSelector(state => state.users)
     const dispatch = useDispatch()
-	useEffect(() => {
-	dispatch(getUsers())		
-	}, [users])
+	// useEffect(() => {
+	// dispatch(getUsers())		
+	// }, [users])
       
 	return (
 		<div>
