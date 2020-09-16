@@ -7,6 +7,11 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
+import DeleteIcon from '@material-ui/icons/Delete';
+import CardMedia from '@material-ui/core/CardMedia';
+import Card from '@material-ui/core/Card';
+import { CardHeader, Tooltip } from '@material-ui/core';
+import ImageUploader from 'react-images-upload';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import '../UploadImageButton/styleButtonUpload.css'
@@ -16,9 +21,10 @@ import Copyright from '../utils/Copyright.js'
 import { useParams, useLocation } from 'react-router-dom';
 import FormGroup from '@material-ui/core/FormGroup';
 import Checkbox from '@material-ui/core/Checkbox';
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+// import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import swal from 'sweetalert';
 import { createProduct } from "../../actions";
+
 // import ImagesPreview from '../utils/ImagesPreview'
 
 
@@ -61,7 +67,16 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     justifyContent: 'center',
     borderRadius: '10px',
-  }
+  },
+  root:{
+    width: 200,
+    margin:'3%'
+  },
+  media:{
+    height:140,
+    objectFit:'contain',
+  },
+
 }));
 
 export default function SignUp(props) {
@@ -70,6 +85,7 @@ export default function SignUp(props) {
   const url = useLocation();
   const [categories, setCategories] = useState([]);
   const [files, setFiles] = useState(null);
+  const [pictures,setPictures] = useState([]);
   const [check, setCheck] = useState(null);
   const [msg, setMsg] = useState(null)
   const [errors, setErrors] = useState({
@@ -81,8 +97,8 @@ export default function SignUp(props) {
   const [inputs, setInputs] = useState({
     name: '',
     description: '',
-    stock: 0,
-    price: 0,
+    stock: '',
+    price: '',
     image: null,
     category: null
   })
@@ -167,12 +183,20 @@ export default function SignUp(props) {
       })
 
       const img = await uploadImg.json()
+      console.log("multer: ",img);
+      console.log("imagen previa: ",inputs.image);
+      let prevImg=[]
+      if(inputs.image){
+        for(let j of inputs.image){
+          prevImg.push(j);
+        }
+      }
       const product = {
         name: inputs.name,
         description: inputs.description,
         price: inputs.price,
         stock: inputs.stock,
-        image: img,
+        image: [...img,...prevImg],
         category: cat
       };
       if (url.pathname === `/admin/editproduct/${id}`) {
@@ -213,8 +237,8 @@ export default function SignUp(props) {
     resetForm()
   }
 
-  const filesHandler = function (event) {
-    setFiles(event.target.files)
+  const filesHandler = function (files) {
+    setFiles(files)
   };
 
   const handleChange = (event) => {
@@ -222,9 +246,20 @@ export default function SignUp(props) {
   }
 
   const removeFile = (i) => {
-    const newFiles = Array.from(files)
-    newFiles.splice(i, 1)
-    setFiles(newFiles)
+    // const newFiles = Array.from(files)
+    let prevImages = inputs.image
+    prevImages.splice(i,1)
+    setInputs({
+      ...inputs,
+      name: inputs.name,
+      description: inputs.description,
+      price: inputs.price,
+      stock: inputs.stock,
+      image: prevImages,
+      category: inputs.category
+    })
+    // newFiles.splice(i, 1)
+    // setFiles(newFiles)
   }
 
 
@@ -329,7 +364,25 @@ export default function SignUp(props) {
               </div>
             }
           </Grid>
-          <UploadImgButton onChange={filesHandler} />
+          <div style={{display:'flex'}}>
+          {inputs.image && inputs.image.length>0 && inputs.image.map((img, i) =>
+            <>
+            <Card className={classes.root} key={img}>
+              <CardHeader action={
+                <Tooltip title='Eliminar imagen'>
+                <IconButton aria-label="deleteImage" onClick={() => removeFile(i)} >
+                  <DeleteIcon  />
+                </IconButton>
+              </Tooltip>}/>
+              
+              {console.log("este es el img", img)}
+              <CardMedia className={classes.media} image={`http://localhost:3001/images/${img}`}/>
+            </Card>
+            
+            </>
+          )}
+          </div>
+          {/* <UploadImgButton onChange={filesHandler} />
           {files &&
             // <ImagePreview images={files}/>
             Array.from(files).map((file, i) => <div className={classes.imageName}>
@@ -342,7 +395,15 @@ export default function SignUp(props) {
                 </IconButton>
               </div>
             </div>)
-          }
+          } */}
+           <ImageUploader
+                withIcon={false}
+                buttonText='Adjuntar imágenes'
+                onChange={filesHandler}
+                imgExtension={['.jpg', '.jpeg', '.png','.PNG']}
+                maxFileSize={52428800}
+                withPreview={true}
+            />
           {/* para el editado mostrar las imagenes con un preview (Claudio) */}
           {/* {inputs.image &&
             inputs.image.map((img, i) => <div className={classes.imageName}>
@@ -357,7 +418,7 @@ export default function SignUp(props) {
             </div>)
           } */}
           <Button onClick={handleSubmit}
-            disabled={!inputs.name || !inputs.description || !inputs.price || !inputs.stock || !check || !files}
+            disabled={!inputs.name || !inputs.description || !inputs.price || !inputs.stock || !check || (!files && inputs.image===false)}
             type="submit"
             fullWidth
             variant="contained"
