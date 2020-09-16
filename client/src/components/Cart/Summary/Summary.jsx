@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { cleanOrder } from '../../../actions'
+import { cleanOrder, cleanGuestOrder } from '../../../actions'
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { Button } from '@material-ui/core';
 
 export const Summary = ({ total, orderId }) => {
@@ -27,7 +27,10 @@ export const Summary = ({ total, orderId }) => {
 			history.push('/user/login')
 		}
 	}
-
+	const handleGuestLogin = () => {
+		dispatch(cleanGuestOrder())
+		history.push('/user/login')
+	}
 	return (
 		<>{
 			logged
@@ -51,9 +54,9 @@ export const Summary = ({ total, orderId }) => {
 				</>
 				: <>
 					<h4>Logueate para seguir avanzado con tu compra..!</h4>
-					<Link to='/user/login'>
-						<Button color='primary' variant="outlined" >login</Button >
-					</Link>
+					{/* <Link to='/user/login'> */}
+						<Button onClick={handleGuestLogin} color='primary' variant="outlined" >login</Button >
+					{/* </Link> */}
 				</>
 		}
 		</>

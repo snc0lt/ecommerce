@@ -26,7 +26,7 @@ function App() {
   const users = useSelector(state => state.users)
 
   useEffect(() => {
-    const user = localStorage.getItem('user');
+    const user = JSON.parse(localStorage.getItem('user'));
     const user_sign = JSON.parse(localStorage.getItem('user_sign'));
     // console.log(guestCart)
     if (user) {

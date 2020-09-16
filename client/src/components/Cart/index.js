@@ -11,9 +11,6 @@ export const Cart = () => {
 	const cart = useSelector(state => state.cart)
 
 	const guestCart = useSelector(state => state.guestCart)
-	if (guestCart) {
-		console.log(guestCart)
-	}
 
 	useEffect(() => {
 		let sum = 0
