@@ -18,11 +18,11 @@ export const Shopping = ({ guestCart }) => {
 		} else if (guestCart) {
 			console.log(guestCart)
 		}
-	}, [])
+	}, [cart])
 
 	return (
 		<div>
-			{cart && cart.length !== 0
+			{userId && cart && cart.length > 0
 				? cart.map((product) => (
 					<div className='card mb-3 p-3' key={product.id}>
 						<div className='row'>
@@ -55,6 +55,7 @@ export const Shopping = ({ guestCart }) => {
 								<button
 									className='btn btn-danger align-self-start'
 									onClick={() => {
+										console.log('me clickeaste..!')
 										dispatch(deleteProductInCart(userId.id, product.id))
 									}}
 								>

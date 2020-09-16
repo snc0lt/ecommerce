@@ -183,7 +183,7 @@ server.get('/:userId/cart', (req, res) => {
 
 server.delete('/:userId/cart', async (req, res) => {
 	const order = await Order.findOne({
-		where: { userId: req.params.userId, state: 'procesando' },
+		where: { userId: req.params.userId, state: 'creada' },
 	})
 
 	if (req.body.productId) {
@@ -191,7 +191,7 @@ server.delete('/:userId/cart', async (req, res) => {
 			where: {
 				[Op.and]: [
 					{
-						id: order.id,
+						orderId: order.id,
 					},
 					{
 						productId: req.body.productId,
@@ -200,7 +200,7 @@ server.delete('/:userId/cart', async (req, res) => {
 			},
 		})
 		await item.destroy()
-		res.send(item)
+		res.send({msg: 'item deleted', item})
 	} else {
 		await Order_product.destroy({
 			where: { orderId: order.id },

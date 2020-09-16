@@ -574,6 +574,7 @@ export function deleteProductInCart(userId, idProduct) {
 		})
 			.then((res) => res.json())
 			.then((product) => {
+				console.log('borraste es producto..!')
 				dispatch({
 					type: 'DELETE_PRODUCT_CART',
 					payload: product.productId,
@@ -678,6 +679,11 @@ export const removeGuestItem = (index) => dispatch =>  {
 	})
 }
 
+export const cleanGuestOrder = () => dispatch => {
+	dispatch({
+		type: 'CLEAN_GUEST_CART'
+	})
+}
 
 export const cleanOrder = () => dispatch => {
 	dispatch({

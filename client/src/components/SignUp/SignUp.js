@@ -12,7 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Copyright from '../utils/Copyright'
 import { useDispatch, useSelector } from "react-redux";
-import { userLogin, addProductCart } from "../../actions";
+import { userLogin, addProductCart, cleanGuestOrder } from "../../actions";
 // import FormControlLabel from '@material-ui/core/FormControlLabel';
 // import Checkbox from '@material-ui/core/Checkbox';
 
@@ -49,25 +49,33 @@ export default function SignIn() {
   const dispatch = useDispatch()
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if(!guestUser){
+    if(!guestUser && guestCart){
       try {
         const user = await fetch('http://localhost:3001/user/email', {
           method: 'POST',
           body: JSON.stringify(values.username)
         })
         const userId = user.usuario.id
-        guestCart.map(g => dispatch(addProductCart(userId, g.id, g.price)))
+        const storage = JSON.parse(localStorage.getItem('guest_cart'))
+        storage.map( s => dispatch(addProductCart(userId, s.id, s.price)))
+        // guestCart.map(g => dispatch(addProductCart(userId, g.id, g.price)))
         localStorage.removeItem('guest_cart')
+        dispatch(cleanGuestOrder())
+        dispatch(userLogin(values))
 			} catch (err) {console.log(err)}
     }
-    if(guestCart){
+    if(guestCart && guestCart){
       try {
         guestCart.map(g => dispatch(addProductCart(guestUser.id, g.id, g.price)))
         localStorage.removeItem('guest_cart')
+        dispatch(cleanGuestOrder())
+        dispatch(userLogin(values))
 			} catch (err) {console.log(err)}
-    }
+    } 
+    dispatch(cleanGuestOrder())
     dispatch(userLogin(values))
     history.push('/')
+    localStorage.removeItem('guest_cart')
     console.log('loggeado exitosamente')
   } 
 

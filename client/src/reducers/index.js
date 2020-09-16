@@ -3,7 +3,8 @@ const initialstate = {
 	categories: [],
 	productDetail: {},
 	categoryDetail: {},
-	user: null,
+	users: [],
+	user: {},
 	userDetails: {},
 	cart: [],
 	guestCart: [],
@@ -69,6 +70,7 @@ export default function rootReducer(state = initialstate, action) {
 			return{
 				...state,
 				userDetails: action.payload,
+				user: action.payload,
 				userLogged: true,
 			}
 
@@ -81,6 +83,7 @@ export default function rootReducer(state = initialstate, action) {
 			return {
 				...state,
 				userDetails: action.payload,
+				user: action.payload,
 				userLogged: true,
 			}
 		// case 'GET_USER_DETAIL':
@@ -141,7 +144,11 @@ export default function rootReducer(state = initialstate, action) {
 				...state,
 				guestCart: action.payload
 			} 
-
+		case 'CLEAN_GUEST_CART':
+			return {
+				...state,
+				guestCart: []
+			}
 		case 'CLEAN_ORDER':
 			return {
 				...state,
