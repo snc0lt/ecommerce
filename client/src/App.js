@@ -31,21 +31,65 @@ function App() {
     // console.log(guestCart)
     if (user) {
       dispatch(setUser(user))
-      dispatch(getUsers())
+      // dispatch(getUsers())
     }
     if(!user && user_sign){
       dispatch(setUserSign(user_sign))
-      dispatch(getUsers())
+      // dispatch(getUsers())
     }
     if(guestCart) {
       dispatch(setGuestCart(guestCart))
-      dispatch(getUsers())
+      // dispatch(getUsers())
     }
   }, [guestCart])
 
   // INTENTA CREAR EL USUARIO ADMIN AUNQUE YA ESTE CREADO (TIRA ERROR EN EL BACK)
+
+  ///////////////////////////////////////
+  // REVISAR CREACION DEL USUARIO ADMIN
+  ///////////////////////////////////////
+  
+  // useEffect(() => {
+  //   const email = 'admin@admin.com'
+  //   try {
+  //     const fetchData = async () => {
+  //       const data = await fetch('http://localhost:3001/user/email', {
+  //         method: 'POST',
+  //         body: JSON.stringify(email)
+  //       })
+  //       console.log('tirame la data', data)
+  //     if (data.status === 200) {
+  //       console.log('Usuario ya existe')
+  //     }
+  //     else if (data.status === 400) {
+  //       fetch(`http://localhost:3001/userAdmin`)
+  //       .then(() => console.log('Admin creado exitosamente'))
+  //     }
+  //   }
+  //   fetchData()
+  // }
+  //   catch (err) {console.log(err)}
+  // }, [])
+
   useEffect(() => {
-    fetch(`http://localhost:3001/userAdmin`)
+    const fetchData = async () => {
+      try {
+        const user = await fetch('http://localhost:3001/user/admin/email')
+        const { usuario } = await user.json()
+        if (usuario) {
+          console.log('admin user ya esta creado..!')
+        } else {
+          try {
+            const data = await fetch('http://localhost:3001/userAdmin')
+          } catch (err) {
+            console.log(err)
+          }
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchData()
   }, [])
 
   const displayNoneCarrousel = url.pathname.includes('/admin')

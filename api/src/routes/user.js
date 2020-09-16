@@ -53,6 +53,25 @@ server.post('/email', async (req, res) => {
 	}
 })
 
+// Encuentra el Administrador
+server.get('/admin/email', async (req, res) => {
+	try {
+	  const usuario = await User.findOne({
+		where: {
+		  email: 'admin@admin.com'
+		}
+	  })
+	  if (usuario) {
+		res.status(200).send({ msg: 'este es tu usuario', status: 200, usuario})
+	  } else {
+		res.status(400).send({ msg: 'usuario no existe', status: 400})
+	  }
+	} catch (err) {
+	  res.status(500).send(err)
+	  console.log(err)
+	}
+})
+
 //crear usuariopassword
 server.post('/', async (req, res) => {
 	const { firstName, lastName, email, password, isAdmin, } = req.body
@@ -344,7 +363,5 @@ function hashPassword(password) {
 		})
 	})
 }
-
-
 
 module.exports = server

@@ -95,7 +95,7 @@ export default function rootReducer(state = initialstate, action) {
 		case 'ADD_USER': /*listo*/
 			return {
 				...state,
-				users: [...state.users, action.payload]
+				user: action.payload
 			}
 		
 		case 'REMOVE_USER':

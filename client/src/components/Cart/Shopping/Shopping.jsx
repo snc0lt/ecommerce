@@ -18,7 +18,7 @@ export const Shopping = ({ guestCart }) => {
 		} else if (guestCart) {
 			console.log(guestCart)
 		}
-	}, [cart])
+	}, [])
 
 	return (
 		<div>
