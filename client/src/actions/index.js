@@ -12,19 +12,6 @@ export const getProducts = () => async dispatch => {
 		console.log(err)
 	}
 
-	// return function (dispatch) {
-	// 	return fetch('http://localhost:3001/products', {
-	// 		credentials: 'include',
-	// 	})
-	// 		.then((res) => res.json())
-	// 		.then((products) =>
-	// 			dispatch({
-	// 				type: 'GET_PRODUCTS',
-	// 				payload: products,
-	// 			})
-	// 		)
-	// 		.catch((error) => console.log(error))
-	// }
 }
 
 export const getProductsByCategory = (id) => dispatch => {
@@ -41,18 +28,6 @@ export const getProductsByCategory = (id) => dispatch => {
 		console.log(err)
 	}
 
-	// return function (dispatch) {
-	// 	return fetch(`http://localhost:3001/category/${id}`, {
-	// 		credentials: 'include',
-	// 	})
-	// 		.then((res) => res.json())
-	// 		.then((products) => {
-	// 			dispatch({
-	// 				type: 'GET_PRODUCTS',
-	// 				payload: products.products,
-	// 			})
-	// 		})
-	// }
 }
 
 export const getProductsBySearch = (query) => dispatch => {
@@ -69,21 +44,6 @@ export const getProductsBySearch = (query) => dispatch => {
 		console.log(err)
 	}
 
-	// return function (dispatch) {
-	// 	return fetch(`http://localhost:3001/products/${searchProduct}`, {
-	// 		credentials: 'include',
-	// 	})
-	// 		.then((res) => res.json())
-	// 		.then((products) =>
-	// 			dispatch({
-	// 				type: 'GET_PRODUCTS',
-	// 				payload: products,
-	// 			})
-	// 		)
-	// 		.catch((err) => {
-	// 			alert('No hay productos para esa busqueda!')
-	// 		})
-	// }
 }
 
 export const getProductDetail = (id) => dispatch => {
@@ -99,22 +59,6 @@ export const getProductDetail = (id) => dispatch => {
 	} catch (err) {
 		console.log(err)
 	}
-
-	// return function (dispatch) {
-	// 	return fetch(`http://localhost:3001/products/${id}`, {
-	// 		credentials: 'include',
-	// 	})
-	// 		.then((response) => response.json())
-	// 		.then((product) =>
-	// 			dispatch({
-	// 				type: 'GET_PRODUCT_DETAIL',
-	// 				payload: product,
-	// 			})
-	// 		)
-	// 		.catch((err) => {
-	// 			return { error: true }
-	// 		})
-	// }
 }
 
 export const createProduct = (producto, msg) => async dispatch => {
@@ -156,51 +100,9 @@ export const removeProduct = (id) => dispatch => {
 	} catch (err) {
 		console.log(err)
 	}
-
-
-	// return function (dispatch) {
-	// 	fetch(`http://localhost:3001/products/${id}`, {
-	// 		method: 'DELETE',
-	// 		credentials: 'include',
-	// 		headers: {
-	// 			Accept: 'application/json',
-	// 			'Content-Type': 'application/json',
-	// 		},
-	// 	})
-	// 		.then((res) => res.json())
-	// 		.then((product) => {
-	// 			dispatch({
-	// 				type: 'REMOVE_PRODUCT',
-	// 				payload: product.id,
-	// 			})
-	// 			alert('Se elimino el producto correctamente', '', 'success')
-	// 		})
-	// 		.catch((err) => console.log(err))
-	// }
+	
 }
 
-// export const updateProduct = (id, product, msg) => async dispatch => {
-
-// return function (dispatch) {
-// 	fetch(`http://localhost:3001/products/${id}`, {
-// 		method: 'PUT',
-// 		credentials: 'include',
-// 		headers: {
-// 			'Content-Type': 'application/json',
-// 		},
-// 		body: JSON.stringify(product),
-// 	})
-// 		.then((res) => res.json())
-// 		.then((product) => {
-// 			dispatch({
-// 				type: 'UPDATE_PRODUCTS',
-// 				payload: product,
-// 			})
-// 			alert('Se modifico el Producto', '', 'success')
-// 		})
-// 		.catch((err) => console.log(err))
-// }
-// }
 
 export const getCategories = () => dispatch => {
 
@@ -216,30 +118,10 @@ export const getCategories = () => dispatch => {
 			})
 			.catch(err => console.log(err))
 
-		// .then(function (response) {
-		// 	return response.json()
-		// })
-		// .then(function (category) {
-		// 	setCategorias(category)
-		// })
-		// .catch(function (err) {
-		// 	console.log(err)
-		// })
 	} catch (err) {
 		console.log(err)
 	}
-	// return function (dispatch) {
-	// 	return fetch('http://localhost:3001/category', {
-	// 		credentials: 'include',
-	// 	})
-	// 		.then((res) => res.json())
-	// 		.then((category) =>
-	// 			dispatch({
-	// 				type: 'GET_CATEGORIES',
-	// 				payload: category,
-	// 			})
-	// 		)
-	// }
+
 }
 
 export const addCategory = (category) => async dispatch => {
@@ -264,48 +146,10 @@ export const addCategory = (category) => async dispatch => {
 		} else {
 			swal("Opps!", "algo salio mal, vuelve a intertarlo!", "error")
 		}
-		// msg(res.msg)
-		// .then(data => data.json())
-		// .then((res) => {
-		// 	setMessage(res);
-		// 	swal("Genial!", "Se ha creado la categoria exitosamente!", "success");
-		// 	resetForm();
-		// })
-		// .catch((err) => {
-		// 	console.log(err);
-		// 	swal("Upa!", "¡Algo salio mal!", "error")
-
-		// })
+	
 	} catch (err) {
 		console.log(err)
-	}
-
-	// return function (dispatch) {
-	// 	return fetch('http://localhost:3001/category', {
-	// 		method: 'POST',
-	// 		credentials: 'include',
-	// 		body: JSON.stringify(category),
-	// 		headers: {
-	// 			Accept: 'application/json',
-	// 			'Content-Type': 'application/json',
-	// 		},
-	// 	})
-	// 		.then((res) => res.json())
-	// 		.then((response) => {
-	// 			if (response.error) {
-	// 				return response
-	// 			} else {
-	// 				dispatch({
-	// 					type: 'ADD_CATEGORY',
-	// 					payload: response.category,
-	// 				})
-	// 				return response
-	// 			}
-	// 		})
-	// 		.catch((error) => {
-	// 			return { error: true, message: 'Error durante la creacion de la catgoria. Intentar otra vez!' }
-	// 		})
-	// }
+	}	
 }
 
 export const removeCategory = (id) => dispatch => {
@@ -324,39 +168,23 @@ export const removeCategory = (id) => dispatch => {
 	} catch (err) {
 		console.log(err)
 	}
-	// return function (dispatch) {
-	// 	return fetch(`http://localhost:3001/category/${id}`, {
-	// 		method: 'DELETE',
-	// 		credentials: 'include',
-	// 		headers: {
-	// 			Accept: 'application/json',
-	// 			'Content-Type': 'application/json',
-	// 		},
-	// 	})
-	// 		.then((res) => res.json())
-	// 		.then((category) => {
-	// 			dispatch({
-	// 				type: 'REMOVE_CATEGORY',
-	// 				payload: category.id,
-	// 			})
-	// 			alert('Categoria eliminada', '', 'success')
-	// 		})
-	// 		.catch((err) => console.log(err))
-	// }
+	
 }
 
-export function getUsers() {
-	return function (dispatch) {
-		return fetch('http://localhost:3001/user', { credentials: 'include' })
-			.then((res) => res.json())
-			.then((users) =>
-				dispatch({
-					type: 'GET_USERS',
-					payload: users,
-				})
-			)
-	}
-}
+export const getUsers = () => dispatch =>{
+	try {
+		fetch('http://localhost:3001/user', { credentials: 'include' })
+		.then((res) => res.json())
+		.then((users) =>
+			dispatch({
+				type: 'GET_USERS',
+				payload: users,
+			})
+		)
+		.catch((error) => { console.log(error) })
+	} catch (err) {
+		console.log(err)
+}}
 
 export function getUserDetail(id) {
 	return function (dispatch) {
@@ -373,88 +201,7 @@ export function getUserDetail(id) {
 	}
 }
 
-export const addUser = (user) => dispatch => {
-	try {
-		fetch('http://localhost:3001/user', {
-			method: 'POST',
-			credentials: 'include',
-			body: JSON.stringify(user),
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-		})
-			.then(data => data.json())
-			.then(res => {
-				if (res.status === 400) {
-					swal("Ups!", "El email ya esta siendo utilizado", "error")
-				} else if (res.status === 201) {
-					localStorage.setItem('user_sign', JSON.stringify(res.user))
-					dispatch({
-						type: 'ADD_USER',
-						payload: res.user,
-					})
-					swal("Success", "Usuario creado con exito", "success")
-				}
-			})
-			.catch((error) => { console.log(error) })
-	} catch (err) {
-		console.log(err)
-	}
-	// return function (dispatch) {
-	// 	return fetch('http://localhost:3001/user', {
-	// 		method: 'POST',
-	// 		credentials: 'include',
-	// 		body: JSON.stringify(user),
-	// 		headers: {
-	// 			Accept: 'application/json',
-	// 			'Content-Type': 'application/json',
-	// 		},
-	// 	})
-	// 		.then((res) => res.json())
-	// 		.then((response) => {
-	// 			// el response que viene del back es un objeto con las propiedades: 
-	// 			// - success, message y user (si fue creado)
-	// 			// - error, message (si no se creo)
-	// 			//aca meteria return response
-	// 			if (response.error) {
-	// 				return response
-	// 			} else {
-	// 				dispatch({
-	// 					type: 'ADD_USER',
-	// 					payload: response.user,
-	// 				})
-	// 				return response
-	// 			}
-	// 		})
-	// 		.catch((error) => {
-	// 			return { error: true, message: 'Error durante la creacion del usuario. Intentar otra vez!' }
-	// 		})
-	// }
-}
 
-// export const loginUser = (data) => dispatch => {
-// 	try {
-// 		fetch(`http://localhost:3001/login`, {
-// 			method: 'POST',
-// 			body: JSON.stringify(data),
-// 			credentials: 'include',
-// 			headers: {
-// 				'Accept': 'application/json',
-// 				'Content-Type': 'application/json'
-// 			}
-// 		})
-// 			.then(data => data.json())
-// 			.then(res => {
-// 				dispatch({
-// 					type: 'LOGIN_USER',
-// 					payload: res.user
-// 				})
-// 			})
-// 	} catch (err) {
-// 		console.log(err)
-// 	}
-// }
 
 export const setUser = (user) => dispatch => {
 	dispatch({
@@ -542,23 +289,7 @@ export const getUserProductsCart = (userId) => dispatch => {
 	} catch (err) {
 		console.log(err)
 	}
-	// return function (dispatch) {
-	// 	return fetch(`http://localhost:3001/user/${userId}/cart`, {
-	// 		credentials: 'include',
-	// 	})
-	// 		.then((res) => res.json())
-	// 		.then((order) =>
-	// 			order.length === 0 || !order
-	// 				? dispatch({
-	// 					type: 'GET_PRODUCTS_IN_CART',
-	// 					payload: [],
-	// 				})
-	// 				: dispatch({
-	// 					type: 'GET_PRODUCTS_IN_CART',
-	// 					payload: order[0].products,
-	// 				})
-	// 		)
-	// }
+	
 }
 
 export function deleteProductInCart(userId, idProduct) {
@@ -605,25 +336,7 @@ export const updateCountProductInCart = (userId, idProduct, count) => dispatch =
 	} catch (err) {
 		console.log(err)
 	}
-	// return function (dispatch) {
-	// 	return fetch(`http://localhost:3001/user/${userId}/cart`, {
-	// 		method: 'PUT',
-	// 		credentials: 'include',
-	// 		headers: {
-	// 			Accept: 'application/json',
-	// 			'Content-Type': 'application/json',
-	// 		},
-	// 		body: JSON.stringify({ productId: idProduct, quantity: count }),
-	// 	})
-	// 		.then((res) => res.json())
-	// 		.then((data) => {
-	// 			dispatch({
-	// 				type: 'UPDATE_COUNT_PRODUCT',
-	// 				payload: data.products,
-	// 			})
-	// 		})
-	// 		.catch(console.log)
-	// }
+	
 }
 
 export function addProductCart(idUser, idProduct, priceProduct) {
@@ -708,22 +421,7 @@ export const cleanOrder = () => dispatch => {
 	// 	console.log(err)
 	// }
 
-	// return function (dispatch) {
-	// 	return fetch(`http://localhost:3001/user/${idUser}/cart`, {
-	// 		method: 'DELETE',
-	// 		credentials: 'include',
-	// 		headers: {
-	// 			Accept: 'application/json',
-	// 			'Content-Type': 'application/json',
-	// 		},
-	// 	}).then((res) =>
-	// 		res.status === 200
-	// 			? dispatch({
-	// 				type: 'CLEAN_ORDER',
-	// 			})
-	// 			: alert('Error al cancelar la orden', '', 'error')
-	// 	)
-	// }
+	
 }
 
 export function getClosedOrders() {
@@ -741,27 +439,57 @@ export function getClosedOrders() {
 	}
 }
 
-export function promoteToAdmin(id) {
-	return function (dispatch) {
-		return fetch(`http://localhost:3001/admin/promote/${id}`, {
+export const promoteToAdmin = (id,estado) => {
+	try {
+		fetch(`http://localhost:3001/admin/promote/${id}`, {
 			method: 'PUT',
 			credentials: 'include',
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
-			}
+			},
+			body: JSON.stringify({ isAdmin: estado })
 		})
-			.then((res) => res.json())
-			.then((user) => {
-				dispatch({
-					type: 'PROMOTE_TO_ADMIN',
-					payload: user,
-				})
-				alert('Usuario Promovido a Admin', '', 'success')
+			.then(estado
+				? swal('Usuario Promovido a Admin', '', 'success')
+			    : swal('Usuario Revocado de Admin', '', 'success'))
+			.catch((err) => console.log(err));	
+	} catch (err) {
+		console.log(err)
+}
+}
+
+
+export const addUser = (user) => dispatch => {
+	try {
+		fetch('http://localhost:3001/user', {
+			method: 'POST',
+			credentials: 'include',
+			body: JSON.stringify(user),
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+		})
+			.then(data => data.json())
+			.then(res => {
+				if (res.status === 400) {
+					swal("Ups!", "El email ya esta siendo utilizado", "error")
+				} else if (res.status === 201) {
+					localStorage.setItem('user_sign', JSON.stringify(res.user))
+					dispatch({
+						type: 'ADD_USER',
+						payload: res.user,
+					})
+					swal("Success", "Usuario creado con exito", "success")
+				}
 			})
-			.catch((err) => console.log(err))
+			.catch((error) => { console.log(error) })
+	} catch (err) {
+		console.log(err)
 	}
 }
+	
 
 export function resetPassword(userId) {
 	return function (dispatch) {
@@ -783,28 +511,6 @@ export function resetPassword(userId) {
 	}
 }
 
-// export function userLogin(input) {
-// 	return function (dispatch) {
-// 		return fetch(`http://localhost:3001/login`, {
-// 			method: 'POST',
-// 			credentials: 'include',
-// 			headers: {
-// 				'Content-Type': 'application/json',
-// 			},
-// 			body: JSON.stringify(input),
-// 		})
-// 			.then((res) => res.json())
-// 			.then((response) => {
-// 				dispatch({
-// 					type: 'USER_LOGGED',
-// 					payload: response.user,
-// 				})
-// 			})
-// 			.catch((error) => {
-// 				return { error: true, message: 'Error en login, intente otra vez' }
-// 			})
-// 	}
-// }
 
 export function userLogout() {
 	return function (dispatch) {

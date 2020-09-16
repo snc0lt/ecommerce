@@ -66,7 +66,7 @@ export default function rootReducer(state = initialstate, action) {
 				),
 			}
 
-		case 'SET_USER':
+		case 'SET_USER': /// lo mismo que LOGIN_USER !!
 			return{
 				...state,
 				userDetails: action.payload,
@@ -74,7 +74,7 @@ export default function rootReducer(state = initialstate, action) {
 				userLogged: true,
 			}
 
-		case 'GET_USERS': 
+		case 'GET_USERS': /*listo*/
 			return {
 				...state,
 				users: action.payload,
@@ -92,10 +92,10 @@ export default function rootReducer(state = initialstate, action) {
 		// 		userDetail: action.payload,
 		// 	}
 
-		case 'ADD_USER':
+		case 'ADD_USER': /*listo*/
 			return {
 				...state,
-				user: action.payload,
+				users: [...state.users, action.payload]
 			}
 		
 		case 'REMOVE_USER':
@@ -165,23 +165,23 @@ export default function rootReducer(state = initialstate, action) {
 				ordersDetail: action.payload,
 			}
 		
-		case "PROMOTE_TO_ADMIN":
-			return {
-				...state,
-				userDetail: action.payload,
-			}
+		// // case "PROMOTE_TO_ADMIN":
+		// 	return {
+		// 		...state,
+		// 		userDetail: action.payload,
+		// 	}
 		case 'RESET_PASSWORD':
 			return {
 				...state,
 				users: action.payload,
 			}
-		case 'USER_LOGGED':
+		case 'USER_LOGGED': // lo mismo que LOGIN_USER!!!
 			return {
 				...state,
 				userDetails: action.payload,
 				userLogged: true
 			}
-		case 'USER_LOGOUT':
+		case 'USER_LOGOUT': /*listo*/
 			return {
 				...state,
 				user: null,

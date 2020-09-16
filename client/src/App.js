@@ -15,15 +15,15 @@ import Container from '@material-ui/core/Container'
 import { Cart } from './components/Cart'
 import Checkout from './components/Checkout/Checkout'
 import Orders from './components/AdminPanel/Orders'
-import { useDispatch } from "react-redux";
-import { setUser, setGuestCart, setUserSign } from "./actions";
-// import { Footer } from './Components/Footer/Footer'
-
+import { useDispatch, useSelector } from "react-redux";
+import { setUser, setGuestCart, setUserSign, getUsers } from "./actions";
+import UsersList from './components/AdminPanel/UsersList'
 
 function App() {
   const url = useLocation();
   const dispatch = useDispatch()
   const guestCart = JSON.parse(localStorage.getItem('guest_cart'))
+  const users = useSelector(state => state.users)
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -31,14 +31,22 @@ function App() {
     // console.log(guestCart)
     if (user) {
       dispatch(setUser(user))
+      dispatch(getUsers())
     }
     if(!user && user_sign){
       dispatch(setUserSign(user_sign))
+      dispatch(getUsers())
     }
     if(guestCart) {
       dispatch(setGuestCart(guestCart))
+      dispatch(getUsers())
     }
   }, [guestCart])
+
+  // INTENTA CREAR EL USUARIO ADMIN AUNQUE YA ESTE CREADO (TIRA ERROR EN EL BACK)
+  useEffect(() => {
+    fetch(`http://localhost:3001/userAdmin`)
+  }, [])
 
   const displayNoneCarrousel = url.pathname.includes('/admin')
     ? null
@@ -101,6 +109,7 @@ function App() {
           <Route exact path='/user/cart' component={Cart} />
           <Route exact path='/user/checkout' component={Checkout} />
           <Route exact path='/admin/orders' component={Orders} />
+          <Route exact path='/admin/users' component={UsersList} />
         </Container>
       </Switch>
 

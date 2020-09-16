@@ -36,7 +36,7 @@ server.get('/:id', (req, res) => {
 })
 
 server.post('/email', async (req, res) => {
-	
+
 	try {
 		const usuario = await User.findOne({
 			where: {
@@ -55,7 +55,7 @@ server.post('/email', async (req, res) => {
 
 //crear usuariopassword
 server.post('/', async (req, res) => {
-	const { firstName, lastName, email, password, isAdmin } = req.body
+	const { firstName, lastName, email, password, isAdmin, } = req.body
 
 	if (!firstName || !lastName || !email || !password) {
 		res.status(400).json({
@@ -73,7 +73,7 @@ server.post('/', async (req, res) => {
 			res.status(400).send({ msg: 'El email ya existe', status: 400})
 		} else {
 			try {
-				const user = await User.create({firstName, lastName, email, password, isAdmin})
+				const user = await User.create({firstName, lastName, email, password, isAdmin, active : true})
 				res.status(201).send({msg: 'Usuario creado con exito', user, status: 201})
 			}
 			catch (err) { res.status(400).send(err)}
@@ -130,6 +130,8 @@ server.put('/:id', (req, res) => {
 		})
 		.catch((err) => res.status(400).send('Id no valido'))
 })
+
+
 //eliminar usuario
 server.delete('/:id', (req, res) => {
 	User.findByPk(req.params.id)
@@ -245,7 +247,7 @@ server.put('/:userId/cart', async (req, res) => {
 	res.send(product)
 })
 
-server.post('/:id/passwordReset', isAuthenticated, isAdmin, (req, res) => {
+server.post('/:id/passwordReset', /*isAuthenticated, isAdmin,*/ (req, res) => {
 	User.findByPk(req.params.id)
 		.then((user) => {
 			if (!user) return res.status(404).send('Id no valido')
@@ -255,7 +257,6 @@ server.post('/:id/passwordReset', isAuthenticated, isAdmin, (req, res) => {
 		.catch((err) => res.status(500).send(err))
 })
 
-module.exports = server
 // Hooks oara encriptar la contraseña antes de crear o modificar usuario
 User.addHook('beforeCreate', (user) => {
 	return hashPassword(user.password)
@@ -266,6 +267,55 @@ User.addHook('beforeCreate', (user) => {
 			if (err) console.log(err)
 		})
 })
+
+// Modifica el status de Active
+// ACEPTA LOS VALORES DE ENABLE / DISABLE
+server.put('/:id/active/:status', (req, res) => {
+
+	User.findByPk(req.params.id)
+	 .then((user) => {
+			if (!user) {
+									return res.status(404).send('Id de usuario no valido');
+								}
+
+		  if (req.params.status === 'ENABLE')
+								{
+									user.update({ active: true });
+									return res.status(201).send(user);
+
+								}
+			if (req.params.status === 'DISABLE')
+								{
+								user.update({ active: false });
+								return res.status(201).send(user);
+								}
+
+		  return res.status(400).send('PARAMETRO NO VALIDO');
+		});
+});
+
+// BUSCA SI EL STATUS DE UN USUARIO
+server.get('/:id/active/', (req, res) => {
+		User.findByPk(req.params.id)
+		.then((user) => {
+											if (!user) {
+																	return res.status(404).send('Id de usuario no valido');
+																};
+
+								      if (user) {
+															return res.status(200).send(user.active)
+																}
+
+											else
+															{
+																return res.status(404).send('ERROR');
+															}
+
+										});
+									});
+
+
+
 
 // User.addHook('beforeUpdate', (user) => {
 // 	if (user.resetPassword) {
@@ -294,5 +344,7 @@ function hashPassword(password) {
 		})
 	})
 }
+
+
 
 module.exports = server
