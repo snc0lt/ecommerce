@@ -159,7 +159,6 @@ if(!score || !comments ){
 	res.status(400).send('Debe enviar los campos requeridos')
 	return
 }
-
 	Review.create({
 	comments,
 	score,
@@ -168,6 +167,48 @@ if(!score || !comments ){
 	})
 	.then(review => res.status(201).send(review))
 	.catch(err=> res.status(400).send("ERROR EN REVIEW " + err))
+})
+
+// Trae reviews de un usuario en particular
+server.get('/:userId/review', isAuthenticated, async (req, res) => {
+	try {
+		const data = await Review.findAll({
+			where: {
+				userId: req.params.userId
+			}
+		})
+		if (data) {
+			res.status(200).send(data)
+		}
+		else {
+			res.status(404).send('Reviews no encontradas')
+		}
+	}
+	catch (err) {console.log(err)}
+})
+
+// Trae reviews de un producto en particular
+server.get('/:productId/productreview', isAuthenticated, async (req, res) => {
+	try {
+		const data = await Review.findAll({
+			where: {
+				productId: req.params.productId
+			},
+			include: [{
+				model: Product
+			},
+			{
+				model: User
+			}]
+		})
+		if (data) {
+			res.status(200).send(data)
+		}
+		else {
+			res.status(404).send('Reviews no encontradas')
+		}
+	}
+	catch (err) {console.log(err)}
 })
 
 //eliminar reviews

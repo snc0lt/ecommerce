@@ -43,34 +43,6 @@ function App() {
     }
   }, [guestCart])
 
-  // INTENTA CREAR EL USUARIO ADMIN AUNQUE YA ESTE CREADO (TIRA ERROR EN EL BACK)
-
-  ///////////////////////////////////////
-  // REVISAR CREACION DEL USUARIO ADMIN
-  ///////////////////////////////////////
-  
-  // useEffect(() => {
-  //   const email = 'admin@admin.com'
-  //   try {
-  //     const fetchData = async () => {
-  //       const data = await fetch('http://localhost:3001/user/email', {
-  //         method: 'POST',
-  //         body: JSON.stringify(email)
-  //       })
-  //       console.log('tirame la data', data)
-  //     if (data.status === 200) {
-  //       console.log('Usuario ya existe')
-  //     }
-  //     else if (data.status === 400) {
-  //       fetch(`http://localhost:3001/userAdmin`)
-  //       .then(() => console.log('Admin creado exitosamente'))
-  //     }
-  //   }
-  //   fetchData()
-  // }
-  //   catch (err) {console.log(err)}
-  // }, [])
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -103,57 +75,44 @@ function App() {
     <div className="App">
       <SearchBar />
       {displayNoneCarrousel}
-      {/* <Carrousel /> */}
       <Switch>
         <Container maxWidth='lg' >
-          {/* <Route exact path='/' render={() => <Carrousel />} /> */}
-
+        
           <Route exact path='/' component={Catalogo} />
-
-          {/* <Route exact path='/products' component={Catalogo} /> */}
-
-          <Route exact path='/products/:id' component={ProductDetails} />
 
           <Route exact path='/:name' component={Catalogo} />
 
           <Route path='/category/:idCategory'
             render={({ match }) => (
               <FormCategory match={match} />
-            )} />
+              )} />
 
+          <Route exact path='/products/:id' component={ProductDetails} />
           <Route path='/products/category/:id' component={Catalogo} />
 
 
           <Route exact path='/admin/panel' component={Dashboard} />
-
           <Route exact path='/admin/createProduct' component={CreateProduct} />
-
           <Route exact path='/admin/createCategory'
             render={({ match }) => <FormCategory match={match} />}
           />
-
           <Route exact path='/admin/editCategory' component={Categorias} />
-
           <Route exact path='/admin/products/edit' component={Catalogo} />
-
           <Route exact path="/admin/editproduct/:id" component={CreateProduct} />
-
           <Route exact path='/admin/editCategory/:name'
             render={({ match }) => (
               <EditCategory match={match} />
-            )}
+              )}
           />
+          <Route exact path='/admin/orders' component={Orders} />
+          <Route exact path='/admin/users' component={UsersList} />
 
 
           <Route exact path='/user/login' component={SignUp} />
-
           <Route exact path='/user/register' component={Register} />
-          <Route exact path='/cart' component={Cart} />
-
           <Route exact path='/user/cart' component={Cart} />
           <Route exact path='/user/checkout' component={Checkout} />
-          <Route exact path='/admin/orders' component={Orders} />
-          <Route exact path='/admin/users' component={UsersList} />
+          <Route exact path='/cart' component={Cart} />
         </Container>
       </Switch>
 
