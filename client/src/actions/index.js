@@ -537,12 +537,16 @@ export function userChangePassword(input) {
 			body: JSON.stringify({ password: input }),
 		})
 			.then((res) => res.json())
-			.then((data) =>
+			.then((data) =>{
 				dispatch({
-					type: 'USER_CHANGE_PASSWORD',
+					type: 'ADD_USER',
 					payload: data,
 				})
-			)
+				swal("Success","Password cambiado satisfactoriamente","success")
+
+			})
+			.catch(err => swal("Ups","Ocurrió un error al cambiar la contraseña","error"))
+		
 	}
 }
 
