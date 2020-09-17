@@ -17,6 +17,7 @@ import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
 import Copyright from '../utils/Copyright'
+import { useLocation } from 'react-router-dom'
 // import NotificationsIcon from '@material-ui/icons/Notifications';
 // import Link from '@material-ui/core/Link';
 // import Badge from '@material-ui/core/Badge';
@@ -94,6 +95,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Dashboard() {
+  const url = useLocation();
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {

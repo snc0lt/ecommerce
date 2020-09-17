@@ -152,8 +152,8 @@ server.put('/:id', (req, res) => {
 		.catch((err) => res.status(404).send('Id no valido'))
 })
 //crear reviews
-server.post("/:id/review", isAuthenticated,  (req, res) => {
-	const {comments, score, userId} = req.body
+server.post("/postreview", isAuthenticated,  (req, res) => {
+	const {comments, score, userId, productId} = req.body
 	
 if(!score || !comments ){
 	res.status(400).send('Debe enviar los campos requeridos')
@@ -162,14 +162,14 @@ if(!score || !comments ){
 	Review.create({
 	comments,
 	score,
-	productId: req.params.id,
+	productId,
 	userId
 	})
 	.then(review => res.status(201).send(review))
 	.catch(err=> res.status(400).send("ERROR EN REVIEW " + err))
 })
 
-// Trae reviews de un usuario en particular
+// Trae reviews de un usuario en particular, panel usuario
 server.get('/:userId/review', isAuthenticated, async (req, res) => {
 	try {
 		const data = await Review.findAll({
@@ -187,7 +187,7 @@ server.get('/:userId/review', isAuthenticated, async (req, res) => {
 	catch (err) {console.log(err)}
 })
 
-// Trae reviews de un producto en particular
+// Trae reviews de un producto en particular, detalle producto
 server.get('/:productId/productreview', isAuthenticated, async (req, res) => {
 	try {
 		const data = await Review.findAll({
