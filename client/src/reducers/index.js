@@ -191,11 +191,11 @@ export default function rootReducer(state = initialstate, action) {
 				userLogged: false,
 				cart: []
 			}
-		case 'USER_CHANGE_PASSWORD':
-			return {
-				...state,
-				userLogged: action.payload,
-			}
+		// case 'USER_CHANGE_PASSWORD':
+		// 	return {
+		// 		...state,
+		// 		userLogged: action.payload,
+		// 	}
 		case "ADD_REVIEWS":
 			return {
 				...state,
