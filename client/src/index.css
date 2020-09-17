@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -6,12 +8,28 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 .App {
   background-color: white !important;
 }
+
+.App_container{
+  margin-top: 2%;
+}
+
 a:-webkit-any-link {
   text-decoration: none;
   color: inherit
+}
+.logo{
+  font-family: 'Josefin Sans', sans-serif;
+  letter-spacing: 7px;
+  /* margin-top: 15%; */
+}
+.small_logo{
+  position: absolute;
+  top: 35px;
+  letter-spacing: 11px;
 }
 .grid_container{
   margin-top: 3%;

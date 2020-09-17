@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser, setGuestCart, setUserSign, getUsers } from "./actions";
 import UsersList from './components/AdminPanel/UsersList'
 
+
 function App() {
   const url = useLocation();
   const dispatch = useDispatch()
@@ -76,7 +77,7 @@ function App() {
       <SearchBar />
       {displayNoneCarrousel}
       <Switch>
-        <Container maxWidth='lg' >
+        <Container maxWidth='lg' className='App_container'>
         
           <Route exact path='/' component={Catalogo} />
 
@@ -106,7 +107,6 @@ function App() {
           />
           <Route exact path='/admin/orders' component={Orders} />
           <Route exact path='/admin/users' component={UsersList} />
-
 
           <Route exact path='/user/login' component={SignUp} />
           <Route exact path='/user/register' component={Register} />

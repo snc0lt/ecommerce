@@ -201,9 +201,8 @@ export default function SearchBar() {
         <Container maxWidth='lg'>
           <Toolbar>
             <Link to='/'>
-              <div>
-                <h3 className='text-white'>Home</h3>
-              </div>
+                <h3 className='text-white logo'>ivAe</h3>
+                <small className='small_logo'>store</small>
             </Link>
             <div className={classes.search}>
               <form onSubmit={handleSubmit}>
@@ -229,18 +228,18 @@ export default function SearchBar() {
                 <Link to='/user/cart'>
                   <IconButton
                     aria-label="cart"
-                    color="white">
+                    >
                     {cart && cart.length > 0
                       ?
                       <Badge badgeContent={cart.length} color="secondary">
-                        <ShoppingCartIcon color="white" />
+                        <ShoppingCartIcon style={{color: 'white'}} />
                       </Badge>
                       : guestCart && guestCart.length > 0
                         ? <Badge badgeContent={guestCart.length} color="secondary">
-                          <ShoppingCartIcon color="white" />
+                          <ShoppingCartIcon style={{color: 'white'}} />
                         </Badge>
                         : <Badge badgeContent={0} color="secondary">
-                          <ShoppingCartIcon color="white" />
+                          <ShoppingCartIcon style={{color: 'white'}} />
                         </Badge>
                     }
                   </IconButton>
