@@ -133,8 +133,8 @@ server.put('/password', isAuthenticated, async (req, res) => {
 })
 
 //modificar usuario
-server.put('/:id', (req, res) => {
-	const { firstName, lastName, email, password } = req.body
+server.patch('/:id', (req, res) => {
+	const { firstName, lastName, email, password, address, phone } = req.body
 
 	User.findByPk(req.params.id)
 		.then((user) => {
@@ -142,6 +142,8 @@ server.put('/:id', (req, res) => {
 			user.lastName = lastName || user.lastName
 			user.email = email || user.email
 			user.password = password || user.password
+			user.address = address || user.address
+			user.phone = phone || user.phone
 			user.resetPassword = false
 			user.save().then((user) => {
 				res.status(201).send(user)

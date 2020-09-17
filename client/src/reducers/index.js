@@ -86,11 +86,12 @@ export default function rootReducer(state = initialstate, action) {
 				user: action.payload,
 				userLogged: true,
 			}
-		// case 'GET_USER_DETAIL':
-		// 	return {
-		// 		...state,
-		// 		userDetail: action.payload,
-		// 	}
+		case 'GET_USER_DETAIL':
+			return {
+				...state,
+				user: action.payload,
+				userDetail: action.payload,
+			}
 
 		case 'ADD_USER': /*listo*/
 			return {
