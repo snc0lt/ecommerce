@@ -5,7 +5,7 @@ export default function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="http://localhost:3000/">
-        ElectroHenry
+        ivAe
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}

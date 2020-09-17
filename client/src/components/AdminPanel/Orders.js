@@ -7,6 +7,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import { useLocation, Link } from "react-router-dom";
+import AdminOrder from './AdminOrder';
 
 // Generate Order Data
 function createData(id, date, name, shipTo, paymentMethod, amount) {
@@ -49,7 +50,7 @@ export default function Orders() {
     }
   }, [orders])
 
-  console.log(price)
+  // console.log(price)
 
   useEffect(() => {
     if (query) {
@@ -82,22 +83,23 @@ export default function Orders() {
                 <TableCell>Hora</TableCell>
                 <TableCell>Cliente</TableCell>
                 <TableCell>Estado</TableCell>
+                <TableCell>Detalle</TableCell>
                 <TableCell align="right">Monto total</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {orders.map((row, i) => (
-                row.state === 'creada' 
-                ? null
-                :
-                <TableRow key={row.id} hover={true}>
-                  <TableCell>{row.id}</TableCell>
-                  <TableCell>{row.createdAt.slice('T', 10)}</TableCell>
-                  <TableCell>{row.createdAt.split('T')[1].slice(0, 5)}</TableCell>
-                  <TableCell>{row.user.firstName + ' ' + row.user.lastName}</TableCell>
-                  <TableCell>{row.state}</TableCell>
-                  <TableCell align="right">$ {price[i]}</TableCell>
-                </TableRow>
+                row.state === 'creada'
+                  ? null
+                  : <TableRow key={row.id} hover={true}>
+                    <TableCell>{row.id}</TableCell>
+                    <TableCell>{row.createdAt.slice('T', 10)}</TableCell>
+                    <TableCell>{row.createdAt.split('T')[1].slice(0, 5)}</TableCell>
+                    <TableCell>{row.user.firstName + ' ' + row.user.lastName}</TableCell>
+                    <TableCell>{row.state}</TableCell>
+                    <TableCell><AdminOrder orderId={row.id} /></TableCell>
+                    <TableCell align="right">$ {price[i]}</TableCell>
+                  </TableRow>
               ))}
             </TableBody>
           </Table>
