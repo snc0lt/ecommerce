@@ -17,8 +17,9 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import { Tooltip, Container } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { useSelector, useDispatch } from "react-redux";
-import { getUserProductsCart, userLogout } from "../../actions";
-
+import { getUserDetail, getUserProductsCart, userLogout } from "../../actions";
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -104,10 +105,11 @@ export default function SearchBar() {
 
   useEffect(() => {
     if (logged && userId) {
+      dispatch(getUserDetail(userId.id))
       dispatch(getUserProductsCart(userId.id))
     }
     // console.log(cart)
-  }, [logged])
+  }, [logged, userId])
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -138,10 +140,12 @@ export default function SearchBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}><Link to='/user/login'>Ingresar</Link></MenuItem>
-      {/* <MenuItem onClick={handleMenuClose}></MenuItem> */}
-    </Menu>
-  );
+      {!logged
+        ? <MenuItem onClick={handleMenuClose}><Link to='/user/login'>Ingresar</Link></MenuItem>
+        : null}
+    </Menu>)
+
+
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
@@ -186,6 +190,11 @@ export default function SearchBar() {
 
   const history = useHistory()
 
+  const capitalize = (s) => {
+    if (typeof s !== 'string') return ''
+    return s.charAt(0).toUpperCase() + s.slice(1)
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
 
@@ -201,8 +210,8 @@ export default function SearchBar() {
         <Container maxWidth='lg'>
           <Toolbar>
             <Link to='/'>
-                <h3 className='text-white logo'>ivAe</h3>
-                <small className='small_logo'>store</small>
+              <h3 className='text-white logo'>ivAe</h3>
+              <small className='small_logo'>store</small>
             </Link>
             <div className={classes.search}>
               <form onSubmit={handleSubmit}>
@@ -221,6 +230,9 @@ export default function SearchBar() {
                 />
               </form>
             </div>
+            {logged && <Typography className={classes.title} variant="h6" noWrap>
+              Bienvenido, {capitalize(userId.firstName)} {capitalize(userId.lastName)}
+            </Typography>}
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
 
@@ -228,32 +240,32 @@ export default function SearchBar() {
                 <Link to='/user/cart'>
                   <IconButton
                     aria-label="cart"
-                    >
+                  >
                     {cart && cart.length > 0
                       ?
                       <Badge badgeContent={cart.length} color="secondary">
-                        <ShoppingCartIcon style={{color: 'white'}} />
+                        <ShoppingCartIcon style={{ color: 'white' }} />
                       </Badge>
                       : guestCart && guestCart.length > 0
                         ? <Badge badgeContent={guestCart.length} color="secondary">
-                          <ShoppingCartIcon style={{color: 'white'}} />
+                          <ShoppingCartIcon style={{ color: 'white' }} />
                         </Badge>
                         : <Badge badgeContent={0} color="secondary">
-                          <ShoppingCartIcon style={{color: 'white'}} />
+                          <ShoppingCartIcon style={{ color: 'white' }} />
                         </Badge>
                     }
                   </IconButton>
                 </Link>
               </div>
 
-              <Tooltip title='dashboard'>
-                <Link to= {userId.isAdmin?'/admin/panel':`/user/panel/${userId.id}`}>
+              {logged && <Tooltip title={userId.isAdmin ? 'Dashboard' : 'Mi perfil'}>
+                <Link to={userId.isAdmin ? '/admin/panel' : `/user/panel/${userId.id}`}>
                   <IconButton color="inherit">
                     <DashboardIcon />
                   </IconButton>
                 </Link>
-              </Tooltip>
-              {logged && <button onClick={logOut}>Cerrar sesion</button>}
+              </Tooltip>}
+              {logged && <Button color="inherit" onClick={logOut}>Cerrar sesion</Button>}
               <IconButton
                 edge="end"
                 aria-label="account of current user"
