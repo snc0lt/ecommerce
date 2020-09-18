@@ -19,15 +19,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function LetterAvatars() {
+export default function LetterAvatars({ alguien }) {
   const classes = useStyles();
-  const user = useSelector(state => state.userDetails)
+  const user = useSelector(state => state.user)
 
   return (
-    <div className={classes.root}>
-      {user &&
-        <Avatar className={classes.orange}>{user.firstName.substring(0, 1)}{user.lastName.substring(0,1)}</Avatar>
+    <>
+      {user ?
+        <div className={classes.root}>
+          <Avatar className={classes.orange}>{user.firstName.substring(0, 1)}{user.lastName.substring(0, 1)}</Avatar>
+        </div>
+        :
+        <div className={classes.root}>
+          <Avatar className={classes.orange}>{alguien.firstName.substring(0, 1)}{alguien.lastName.substring(0, 1)}</Avatar>
+        </div>
       }
-    </div>
+    </>
   );
 }

@@ -3,23 +3,19 @@ import React from 'react';
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
 
-// const useStyles = makeStyles({
-//   root: {
-//     width: 200,
-//     display: 'flex',
-//     alignItems: 'center',
-//   },
-// });
 
-export default function HoverRating() {
+export default function HoverRating({ review, total }) {
   const [value, setValue] = React.useState(2);
   // const classes = useStyles();
-
+  console.log(typeof review)
   return (
     <div>
+      { review && 
       <Box component="fieldset" mb={3} borderColor="transparent">
-        <Rating name="read-only" value={value} readOnly />
-      </Box>
+      <Rating name="read-only" value={review} readOnly />
+      <small style={{marginLeft: '10px'}}>({review}) - {total.length} reviews</small>
+    </Box>
+    }
     </div>
   );
 }

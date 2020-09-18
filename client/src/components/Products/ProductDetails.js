@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from "react-router-dom";
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -58,6 +58,11 @@ export default function ProductDetails() {
   const logged = useSelector(state => state.logged)
   const history = useHistory();
 
+  const [review, setReview] = useState()
+
+  if (review) {
+    console.log(review)
+  }
 
   useEffect(() => {
     dispatch(getProductDetail(id))
@@ -67,6 +72,19 @@ export default function ProductDetails() {
     //       setProducto(data)
     //     })
   }, [])
+  if (product) {
+    console.log(product.id)
+  }
+  useEffect(() => {
+    if (product) {
+      fetch(`http://localhost:3001/products/${id}/productreview`)
+        .then(data => data.json())
+        .then(res => setReview(res))
+        .catch(err => console.log(err))
+    }
+
+  }, [])
+
 
   const comprar = (e) => {
     e.preventDefault()
@@ -89,59 +107,63 @@ export default function ProductDetails() {
     //   history.push('/user/login')
     // }
   }
-
+  let totalScore = 0
+  review && review.map(rev => totalScore = (totalScore + rev.score))
+  let score = review && (totalScore / review.length)
   return (
     <>{product && <>
-    <Container maxWidth="md">
-      <Grid container component="main" className={classes.root}>
-        <CssBaseline />
-        <Grid item xs={false} sm={6} md={7}>
-          <div className={classes.paper}>
-            <CarouselCard image={product && product.image} />
-          </div>
-        </Grid>
-        <Grid item xs={12} sm={6} md={5} component={Paper} elevation={6} square>
-          <div className={classes.paper}>
-            <Typography component="div">
-              <Box fontWeight="fontWeightBold" fontSize={26} m={1}>
-                {product && product.name}
-              </Box>
-            </Typography>
-            <div>
-              <Rating />
+      <Container maxWidth="md">
+        <Grid container component="main" className={classes.root}>
+          <CssBaseline />
+          <Grid item xs={false} sm={6} md={7}>
+            <div className={classes.paper}>
+              <CarouselCard image={product && product.image} />
             </div>
-          </div>
-          <div className={classes.paper}>
-            <Typography component="h4" variant="h4" color='primary'>
-              {product && product.price}
-            </Typography>
-            <Typography variant='subtitle2' color='textSecondary'>
-              {product && product.stock !== 0 ? `${product.stock} - Disponible` : 'No Disponible - Sin Stock'}
-            </Typography>
-          </div>
-          <div className={classes.paper}>
-            <Typography variant='body1' color='textPrimary'>
-              Descripción del producto
+          </Grid>
+          <Grid item xs={12} sm={6} md={5} component={Paper} elevation={6} square>
+            <div className={classes.paper}>
+              <Typography component="div">
+                <Box fontWeight="fontWeightBold" fontSize={26} m={1}>
+                  {product && product.name}
+                </Box>
+              </Typography>
+              <div>
+                <Rating review={score && score} total={review && review}/>
+              </div>
+            </div>
+            <div className={classes.paper}>
+              <Typography component="h4" variant="h4" color='primary'>
+                {product && product.price}
+              </Typography>
+              <Typography variant='subtitle2' color='textSecondary'>
+                {product && product.stock !== 0 ? `${product.stock} - Disponible` : 'No Disponible - Sin Stock'}
+              </Typography>
+            </div>
+            <div className={classes.paper}>
+              <Typography variant='body1' color='textPrimary'>
+                Descripción del producto
       </Typography>
-            <Typography variant='subtitle2' color='textSecondary'>
-              <span>{product && product.description}</span>
-            </Typography>
-          </div>
-          <div className={classes.buttons}>
-            <Button onClick={comprar} disabled={!product || product.stock === 0} variant="contained" color="primary" size="medium" style={{ padding: '5px 25px' }}>
-              Comprar
+              <Typography variant='subtitle2' color='textSecondary'>
+                <span>{product && product.description}</span>
+              </Typography>
+            </div>
+            <div className={classes.buttons}>
+              <Button onClick={comprar} disabled={!product || product.stock === 0} variant="contained" color="primary" size="medium" style={{ padding: '5px 25px' }}>
+                Comprar
           </Button>
-            <Button
-              onClick={addtoCart}
-              disabled={!product || product.stock === 0} variant="outlined"
-              color="primary" size='medium' style={{ marginLeft: 'auto', padding: '5px 25px' }}>
-              Carrito
+              <Button
+                onClick={addtoCart}
+                disabled={!product || product.stock === 0} variant="outlined"
+                color="primary" size='medium' style={{ marginLeft: 'auto', padding: '5px 25px' }}>
+                Carrito
         </Button>
-          </div>
+            </div>
+          </Grid>
         </Grid>
-      </Grid>
-      {/* <ProductDetailsDescription classes={classes} description={product && product.description} /> */}
-    </Container></>}</>
+        {review &&
+          <ProductDetailsDescription classes={classes} review={review} />
+        }
+      </Container></>}</>
 
   );
 }
