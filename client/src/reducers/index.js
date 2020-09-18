@@ -10,7 +10,9 @@ const initialstate = {
 	guestCart: [],
 	closedOrders: [],
 	userLogged: false,
-	reviews: []
+	reviews: [],
+	guestCount: [],
+	guestTotal: []
 }
 
 export default function rootReducer(state = initialstate, action) {
@@ -180,7 +182,8 @@ export default function rootReducer(state = initialstate, action) {
 			return {
 				...state,
 				userDetails: action.payload,
-				userLogged: true
+				userLogged: true,
+				guestTotal: [],		
 			}
 		case 'USER_LOGOUT': /*listo*/
 			return {
@@ -201,6 +204,19 @@ export default function rootReducer(state = initialstate, action) {
 				...state,
 				reviews: state.reviews.concat(action.payload)
 			}
+
+		case 'ADD_GUEST_COUNT':
+			return{
+				...state,
+				guestCount: action.payload
+			}
+
+		case 'ADD_GUEST_TOTAL':
+		return{
+			...state,
+			guestTotal: action.payload
+
+		}
 		
 		default:
 			return state

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory, Link } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -37,8 +37,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
-  const guestCart = useSelector(state => state.guestCart) 
-  const guestUser = useSelector(state => state.user) 
+  const guestCart = useSelector(state => state.guestCart)
+  const guestUser = useSelector(state => state.user)
+  const gCount = useSelector(state => state.guestCount)
   const classes = useStyles();
   const [values, setValues] = useState({
     username: '',
@@ -49,39 +50,47 @@ export default function SignIn() {
   const dispatch = useDispatch()
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if(!guestUser && guestCart){
+    if (!guestUser && guestCart) {
       try {
-        const user = await fetch('http://localhost:3001/user/email', {
+        const user = await fetch(`http://localhost:3001/user/email`, {
           method: 'POST',
-          body: JSON.stringify(values.username)
+          body: JSON.stringify({ email: 'asd@asd.com' }),
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
         })
-        const { usuario }  = await user.json()
-        console.log(usuario)
+        const { usuario } = await user.json()
+        let pId;
         const storage = JSON.parse(localStorage.getItem('guest_cart'))
-      //   storage.map( s => dispatch(addProductCart(userId, s.id, s.price)))
-        storage.map( s => dispatch(addProductCart(usuario.id, s.id, s.price)))
-      //   // guestCart.map(g => dispatch(addProductCart(userId, g.id, g.price)))
+        //   storage.map( s => dispatch(addProductCart(userId, s.id, s.price)))
+        storage.map(s => {
+          pId = s.id
+          dispatch(addProductCart(usuario.id, s.id, s.price))
+        })
+
+        //   // guestCart.map(g => dispatch(addProductCart(userId, g.id, g.price)))
         localStorage.removeItem('guest_cart')
         dispatch(cleanGuestOrder())
         dispatch(userLogin(values, history))
         console.log('loggeado exitosamente 1')
-			} catch (err) {console.log(err)}
+      } catch (err) { console.log(err) }
     }
-    if(guestCart && guestUser){
+    if (guestCart && guestUser) {
       try {
         guestCart.map(g => dispatch(addProductCart(guestUser.id, g.id, g.price)))
         localStorage.removeItem('guest_cart')
         dispatch(cleanGuestOrder())
         dispatch(userLogin(values, history))
         console.log('loggeado exitosamente 2')
-			} catch (err) {console.log(err)}
-    } 
+      } catch (err) { console.log(err) }
+    }
     dispatch(cleanGuestOrder())
     dispatch(userLogin(values, history))
     // history.push('/')
     localStorage.removeItem('guest_cart')
     console.log('loggeado exitosamente 3')
-  } 
+  }
 
   const handleChange = (e) => {
     e.preventDefault()

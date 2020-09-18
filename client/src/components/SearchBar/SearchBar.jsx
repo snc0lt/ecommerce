@@ -18,6 +18,9 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { useSelector, useDispatch } from "react-redux";
 import { getUserProductsCart, userLogout } from "../../actions";
 import CallMadeIcon from '@material-ui/icons/CallMade';
+import Typography from '@material-ui/core/Typography';
+import LetterAvatars from '../utils/Avatar';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -130,34 +133,30 @@ export default function SearchBar() {
     history.push('/')
   }
 
+  const capitalize = (s) => {
+    if (typeof s !== 'string') return ''
+    return s.charAt(0).toUpperCase() + s.slice(1)
+  }
+
   const menuId = 'primary-search-account-menu';
-  const renderMenu = (
+  const renderMenu = (logged &&
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       id={menuId}
-      keepMounted
+      // keepMounted
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}><Link to='/user/login'>Ingresar</Link></MenuItem>
-      {logged &&
-        <MenuItem onClick={handleProfileMenuOpen}>
-          <Tooltip title='Profile'>
-            <IconButton
-              aria-label="account of current user"
-              aria-controls="primary-search-account-menu"
-              aria-haspopup="true"
-              color='primary'
-            >
-              <AccountCircle />
-            </IconButton>
-          </Tooltip>
-        </MenuItem>
-      }
-    </Menu>
-  );
+      <MenuItem onClick={handleProfileMenuOpen}>
+        <Tooltip title='Profile'>
+          <IconButton>
+            <LetterAvatars />
+          </IconButton>
+        </Tooltip>
+      </MenuItem>
+    </Menu>)
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
@@ -201,7 +200,7 @@ export default function SearchBar() {
         <MenuItem onClick={handleMenuClose}>
           <Tooltip title='log out'>
             <IconButton onClick={logOut}>
-              <ExitToAppIcon color='primary' />
+              <CallMadeIcon color='primary' />
             </IconButton>
           </Tooltip>
         </MenuItem>
@@ -274,6 +273,10 @@ export default function SearchBar() {
                 />
               </form>
             </div>
+            {logged &&
+              <Typography className={classes.title} variant="h6" noWrap>
+                Bienvenido, {capitalize(userId.firstName)} {capitalize(userId.lastName)}
+              </Typography>}
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
 
@@ -297,27 +300,43 @@ export default function SearchBar() {
                     }
                   </IconButton>
                 </Link>
+                {logged
+                  ? null
+                  : <Link to='/user/login'>
+                    <Tooltip title='login'>
+                      <IconButton>
+                        <ExitToAppIcon style={{ color: 'white' }} />
+                      </IconButton>
+                    </Tooltip>
+                  </Link>}
               </div>
-              {logged &&
-                <Tooltip title='dashboard'>
-                  <Link to={userId.isAdmin ? `/admin/panel` : `/user/panel/${userId.id}`}>
-                    <IconButton color="inherit">
-                      <DashboardIcon />
+              {logged && userId && 
+                <>
+                  <Tooltip title='dashboard'>
+                    <Link to={userId.isAdmin ? `/admin/panel` : `/user/panel/${userId.id}`}>
+                      <IconButton color="inherit">
+                        <DashboardIcon />
+                      </IconButton>
+                    </Link>
+                  </Tooltip>
+                  <Tooltip title='log out'>
+                    <IconButton onClick={logOut}>
+                      <CallMadeIcon style={{ color: 'white' }} />
                     </IconButton>
-                  </Link>
-                </Tooltip>
+                  </Tooltip>
+                  {/* <Button color='inherit' >Cerrar sesion</Button> */}
+                  <IconButton
+                    edge="end"
+                    aria-label="account of current user"
+                    aria-controls={menuId}
+                    aria-haspopup="true"
+                    onClick={handleProfileMenuOpen}
+                    color="inherit"
+                  >
+                    <LetterAvatars />
+                  </IconButton>
+                </>
               }
-              {logged && <button onClick={logOut}>Cerrar sesion</button>}
-              <IconButton
-                edge="end"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
             </div>
             <div className={classes.sectionMobile}>
               <IconButton

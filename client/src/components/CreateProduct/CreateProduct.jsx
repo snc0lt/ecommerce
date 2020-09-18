@@ -68,13 +68,13 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     borderRadius: '10px',
   },
-  root:{
+  root: {
     width: 200,
-    margin:'3%'
+    margin: '3%'
   },
-  media:{
-    height:140,
-    objectFit:'contain',
+  media: {
+    height: 140,
+    objectFit: 'contain',
   },
 
 }));
@@ -85,7 +85,7 @@ export default function SignUp(props) {
   const url = useLocation();
   const [categories, setCategories] = useState([]);
   const [files, setFiles] = useState(null);
-  const [pictures,setPictures] = useState([]);
+  const [pictures, setPictures] = useState([]);
   const [check, setCheck] = useState(null);
   const [msg, setMsg] = useState(null)
   const [errors, setErrors] = useState({
@@ -183,11 +183,11 @@ export default function SignUp(props) {
       })
 
       const img = await uploadImg.json()
-      console.log("multer: ",img);
-      console.log("imagen previa: ",inputs.image);
-      let prevImg=[]
-      if(inputs.image){
-        for(let j of inputs.image){
+      console.log("multer: ", img);
+      console.log("imagen previa: ", inputs.image);
+      let prevImg = []
+      if (inputs.image) {
+        for (let j of inputs.image) {
           prevImg.push(j);
         }
       }
@@ -196,7 +196,7 @@ export default function SignUp(props) {
         description: inputs.description,
         price: inputs.price,
         stock: inputs.stock,
-        image: [...img,...prevImg],
+        image: [...img, ...prevImg],
         category: cat
       };
       if (url.pathname === `/admin/editproduct/${id}`) {
@@ -248,7 +248,7 @@ export default function SignUp(props) {
   const removeFile = (i) => {
     // const newFiles = Array.from(files)
     let prevImages = inputs.image
-    prevImages.splice(i,1)
+    prevImages.splice(i, 1)
     setInputs({
       ...inputs,
       name: inputs.name,
@@ -327,7 +327,7 @@ export default function SignUp(props) {
             }
             <Grid item xs={12}>
               <TextField
-                  onBlur={onBlurPrice}
+                onBlur={onBlurPrice}
                 onChange={handleInputs}
                 value={inputs.price}
                 variant="outlined"
@@ -364,23 +364,23 @@ export default function SignUp(props) {
               </div>
             }
           </Grid>
-          <div style={{display:'flex'}}>
-          {inputs.image && inputs.image.length>0 && inputs.image.map((img, i) =>
-            <>
-            <Card className={classes.root} key={img}>
-              <CardHeader action={
-                <Tooltip title='Eliminar imagen'>
-                <IconButton aria-label="deleteImage" onClick={() => removeFile(i)} >
-                  <DeleteIcon  />
-                </IconButton>
-              </Tooltip>}/>
-              
-              {console.log("este es el img", img)}
-              <CardMedia className={classes.media} image={`http://localhost:3001/images/${img}`}/>
-            </Card>
-            
-            </>
-          )}
+          <div style={{ display: 'flex' }}>
+            {inputs.image && inputs.image.length > 0 && inputs.image.map((img, i) =>
+              <>
+                <Card className={classes.root} key={img}>
+                  <CardHeader action={
+                    <Tooltip title='Eliminar imagen'>
+                      <IconButton aria-label="deleteImage" onClick={() => removeFile(i)} >
+                        <DeleteIcon />
+                      </IconButton>
+                    </Tooltip>} />
+
+                  {console.log("este es el img", img)}
+                  <CardMedia className={classes.media} image={`http://localhost:3001/images/${img}`} />
+                </Card>
+
+              </>
+            )}
           </div>
           {/* <UploadImgButton onChange={filesHandler} />
           {files &&
@@ -396,14 +396,14 @@ export default function SignUp(props) {
               </div>
             </div>)
           } */}
-           <ImageUploader
-                withIcon={false}
-                buttonText='Adjuntar imágenes'
-                onChange={filesHandler}
-                imgExtension={['.jpg', '.jpeg', '.png','.PNG']}
-                maxFileSize={52428800}
-                withPreview={true}
-            />
+          <ImageUploader
+            withIcon={false}
+            buttonText='Adjuntar imágenes'
+            onChange={filesHandler}
+            imgExtension={['.jpg', '.jpeg', '.png', '.PNG']}
+            maxFileSize={52428800}
+            withPreview={files ? true : false}
+          />
           {/* para el editado mostrar las imagenes con un preview (Claudio) */}
           {/* {inputs.image &&
             inputs.image.map((img, i) => <div className={classes.imageName}>
@@ -418,14 +418,14 @@ export default function SignUp(props) {
             </div>)
           } */}
           <Button onClick={handleSubmit}
-            disabled={!inputs.name || !inputs.description || !inputs.price || !inputs.stock || !check || (!files && inputs.image===false)}
+            disabled={!inputs.name || !inputs.description || !inputs.price || !inputs.stock || !check || (!files && inputs.image === false)}
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
           >
-            Crear
+            {url.pathname.includes('/admin/editproduct') ? 'Editar producto' : 'Crear'}
           </Button>
         </form>
       </div>

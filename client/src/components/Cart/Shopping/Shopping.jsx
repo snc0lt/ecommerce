@@ -11,14 +11,14 @@ export const Shopping = ({ guestCart }) => {
 	const userId = useSelector(state => state.userDetails)
 	const cart = useSelector(state => state.cart)
 
-
+	
 	useEffect(() => {
 		if (userId) {
 			dispatch(getUserProductsCart(userId.id))
 		} else if (guestCart) {
 			console.log(guestCart)
 		}
-	}, [])
+	}, [cart])
 
 	return (
 		<div>
@@ -66,7 +66,7 @@ export const Shopping = ({ guestCart }) => {
 					</div>
 				))
 				: guestCart && guestCart.length > 0
-					? guestCart.map((g) => (
+					? guestCart.map((g, index) => (
 						<div className='card mb-3 p-3' key={g.id}>
 							<div className='row'>
 								<div className='col-md-4'>
@@ -87,14 +87,12 @@ export const Shopping = ({ guestCart }) => {
 									</div>
 								</div>
 								<div className='col-md-3 d-flex align-items-center justify-content-center'>
-									{/* <Counter
-										idProduct={g.id}
-										quantity={
-											g.order_product.quantity
-										}
-										userId={userId.id}
-										stock={g.stock}
-									/> */}
+									<Counter
+										gIdProduct={g.id}
+										gStock={g.stock}
+										precio={g.price}
+										index = {index}
+									/>
 									<button
 										className='btn btn-danger align-self-start'
 										onClick={() => dispatch(removeGuestItem(g.id))}

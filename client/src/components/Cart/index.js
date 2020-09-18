@@ -8,10 +8,11 @@ import EmptyCart from './EmptyCart';
 export const Cart = () => {
 
 	const [total, setTotal] = useState()
+	const [gtotal, setGTotal] = useState()
 	const cart = useSelector(state => state.cart)
-
+	const gCount = useSelector(state => state.guestCount)
 	const guestCart = useSelector(state => state.guestCart)
-
+	
 	useEffect(() => {
 		let sum = 0
 		for (let i of cart) {
@@ -19,6 +20,19 @@ export const Cart = () => {
 		}
 		setTotal(sum)
 	}, [cart])
+
+	useEffect(() => {
+		let sum = 0
+		if (gCount && guestCart) {
+			guestCart.map((g, i) => {
+				sum = sum + (gCount[i] * g.price)
+				console.log(gCount[i])
+				console.log(g.price)
+			})
+			setGTotal(sum)
+		}
+	}, [gCount])
+
 
 	return (
 		<> {cart && cart.length > 0
@@ -30,7 +44,7 @@ export const Cart = () => {
 						className='col-lg-8'
 						style={{ maxHeight: '500px', overflow: 'scroll' }}
 					>
-						<Shopping/>
+						<Shopping />
 					</div>
 					<div className='col-lg-4'>
 						<Summary total={total} orderId={cart[0].order_product.orderId} />
@@ -49,7 +63,7 @@ export const Cart = () => {
 							<Shopping guestCart={guestCart} />
 						</div>
 						<div className='col-lg-4'>
-							<Summary />
+							<Summary suma={gtotal} />
 						</div>
 					</div>
 					<hr />
