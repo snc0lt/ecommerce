@@ -490,7 +490,6 @@ export const addUser = (user) => dispatch => {
 		console.log(err)
 	}
 }
-	
 
 export function resetPassword(userId) {
 	return function (dispatch) {
@@ -511,7 +510,6 @@ export function resetPassword(userId) {
 			)
 	}
 }
-
 
 export function userLogout() {
 	return function (dispatch) {
@@ -548,6 +546,26 @@ export function userChangePassword(input) {
 			})
 			.catch(err => swal("Ups","Ocurrió un error al cambiar la contraseña","error"))
 		
+	}
+}
+
+export const disableOrEnableUser = (userId, status) => dispatch => {
+	try {
+		fetch(`http://localhost:3001/user/${userId}/active/${status}`, {
+			method: 'PUT',
+			credentials: 'include',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ active: status })
+		})
+		.then(status
+			? swal('Usuario habilitado', '', 'success')
+			: swal('Usuario deshabilitado', '', 'success'))
+		.catch((err) => console.log(err));
+	} catch (err) {
+		console.log(err)
 	}
 }
 

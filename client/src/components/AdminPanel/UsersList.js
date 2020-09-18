@@ -11,7 +11,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import VpnKeySharpIcon from '@material-ui/icons/VpnKeySharp';
-import { promoteToAdmin, removeUser, resetPassword, getUsers } from '../../actions/index'
+import { promoteToAdmin, disableOrEnableUser, removeUser, resetPassword, getUsers } from '../../actions/index'
 import {useDispatch, useSelector} from 'react-redux'
 import PersonIcon from '@material-ui/icons/Person';
 
@@ -45,8 +45,11 @@ export default function Users() {
         .then(data => {
           setUsers(data)
         })
+    // }, [users])
     }, [users])
 
+    console.log(users)
+  
 //   useEffect(() => {
 //     let arr = []
 //     if (orders) {
@@ -136,22 +139,46 @@ export default function Users() {
                    User
                   </Button>
                       }
+                  {row.id && row.active ?
+                   <Button
+                   variant="contained"
+                   color="primary"
+                   className={classes.button}
+                   startIcon={<PersonIcon />}
+                   size='small'
+                   onClick={disableOrEnableUser(row.id, "DISABLE")}
+                   >
+                   Deshabilitar
+                  </Button>
+                  :
                   <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    startIcon={<VerifiedUserIcon />}
+                    size='small'
+                    onClick={disableOrEnableUser(row.id, "ENABLE")}
+                    >
+                    Habilitar
+                   </Button>
+                  //  console.log(row.active)
+                      }
+                  {/* <Button
                     variant="contained"
                     color="secondary"
                     className={classes.button}
                     startIcon={<DeleteIcon />}
                     size='small'
-                    onClick={removeUser(row.id)}
+                    onClick={disableOrEnableUser(row.id, )}
                     >
                     Eliminar
-                  </Button>
+                  </Button> */}
                   <Button
                   variant="contained"
                   size='small'
                   className={classes.button}
                   color="primary"
-                //   onClick={resetPassword(row.id)}
+                  // onClick={disableOrEnableUser(row.id, 'enable')}
                   >
                   <VpnKeySharpIcon />
                   </Button>
