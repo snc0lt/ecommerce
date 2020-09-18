@@ -44,9 +44,9 @@ server.post('/email', async (req, res) => {
 			}
 		})
 		if (usuario) {
-			res.status(200).send({ msg: 'este es tu usuario', status: 200, usuario})
+			res.status(200).send({ msg: 'este es tu usuario', status: 200, usuario })
 		} else {
-			res.status(400).send({ msg: 'usuario no existe', status: 400})
+			res.status(400).send({ msg: 'usuario no existe', status: 400 })
 		}
 	} catch (err) {
 		res.status(500).send(err)
@@ -56,19 +56,19 @@ server.post('/email', async (req, res) => {
 // Encuentra el Administrador
 server.get('/admin/email', async (req, res) => {
 	try {
-	  const usuario = await User.findOne({
-		where: {
-		  email: 'admin@admin.com'
+		const usuario = await User.findOne({
+			where: {
+				email: 'admin@admin.com'
+			}
+		})
+		if (usuario) {
+			res.status(200).send({ msg: 'este es tu usuario', status: 200, usuario })
+		} else {
+			res.status(400).send({ msg: 'usuario no existe', status: 400 })
 		}
-	  })
-	  if (usuario) {
-		res.status(200).send({ msg: 'este es tu usuario', status: 200, usuario})
-	  } else {
-		res.status(400).send({ msg: 'usuario no existe', status: 400})
-	  }
 	} catch (err) {
-	  res.status(500).send(err)
-	  console.log(err)
+		res.status(500).send(err)
+		console.log(err)
 	}
 })
 
@@ -89,13 +89,13 @@ server.post('/', async (req, res) => {
 			}
 		})
 		if (usuario) {
-			res.status(400).send({ msg: 'El email ya existe', status: 400})
+			res.status(400).send({ msg: 'El email ya existe', status: 400 })
 		} else {
 			try {
-				const user = await User.create({firstName, lastName, email, password, isAdmin, active : true})
-				res.status(201).send({msg: 'Usuario creado con exito', user, status: 201})
+				const user = await User.create({ firstName, lastName, email, password, isAdmin, active: true })
+				res.status(201).send({ msg: 'Usuario creado con exito', user, status: 201 })
 			}
-			catch (err) { res.status(400).send(err)}
+			catch (err) { res.status(400).send(err) }
 		}
 	} catch (err) {
 		res.status(500).send(err)
@@ -133,8 +133,8 @@ server.put('/password', isAuthenticated, async (req, res) => {
 })
 
 //modificar usuario
-server.put('/:id', (req, res) => {
-	const { firstName, lastName, email, password } = req.body
+server.patch('/:id', (req, res) => {
+	const { firstName, lastName, email, password, address, phone } = req.body
 
 	User.findByPk(req.params.id)
 		.then((user) => {
@@ -142,6 +142,8 @@ server.put('/:id', (req, res) => {
 			user.lastName = lastName || user.lastName
 			user.email = email || user.email
 			user.password = password || user.password
+			user.address = address || user.address
+			user.phone = phone || user.phone
 			user.resetPassword = false
 			user.save().then((user) => {
 				res.status(201).send(user)
@@ -221,7 +223,7 @@ server.delete('/:userId/cart', async (req, res) => {
 			},
 		})
 		await item.destroy()
-		res.send({msg: 'item deleted', item})
+		res.send({ msg: 'item deleted', item })
 	} else {
 		await Order_product.destroy({
 			where: { orderId: order.id },
@@ -266,7 +268,7 @@ server.put('/:userId/cart', async (req, res) => {
 	res.send(product)
 })
 
-server.post('/:id/passwordReset', /*isAuthenticated, isAdmin,*/ (req, res) => {
+server.post('/:id/passwordReset', /*isAuthenticated, isAdmin,*/(req, res) => {
 	User.findByPk(req.params.id)
 		.then((user) => {
 			if (!user) return res.status(404).send('Id no valido')
@@ -292,46 +294,43 @@ User.addHook('beforeCreate', (user) => {
 server.put('/:id/active/:status', (req, res) => {
 
 	User.findByPk(req.params.id)
-	 .then((user) => {
+		.then((user) => {
 			if (!user) {
-									return res.status(404).send('Id de usuario no valido');
-								}
+				return res.status(404).send('Id de usuario no valido');
+			}
 
-		  if (req.params.status === 'ENABLE')
-								{
-									user.update({ active: true });
-									return res.status(201).send(user);
+			if (req.params.status === 'ENABLE') {
+				user.update({ active: true });
+				return res.status(201).send(user);
 
-								}
-			if (req.params.status === 'DISABLE')
-								{
-								user.update({ active: false });
-								return res.status(201).send(user);
-								}
+			}
+			if (req.params.status === 'DISABLE') {
+				user.update({ active: false });
+				return res.status(201).send(user);
+			}
 
-		  return res.status(400).send('PARAMETRO NO VALIDO');
+			return res.status(400).send('PARAMETRO NO VALIDO');
 		});
 });
 
 // BUSCA SI EL STATUS DE UN USUARIO
 server.get('/:id/active/', (req, res) => {
-		User.findByPk(req.params.id)
+	User.findByPk(req.params.id)
 		.then((user) => {
-											if (!user) {
-																	return res.status(404).send('Id de usuario no valido');
-																};
+			if (!user) {
+				return res.status(404).send('Id de usuario no valido');
+			};
 
-								      if (user) {
-															return res.status(200).send(user.active)
-																}
+			if (user) {
+				return res.status(200).send(user.active)
+			}
 
-											else
-															{
-																return res.status(404).send('ERROR');
-															}
+			else {
+				return res.status(404).send('ERROR');
+			}
 
-										});
-									});
+		});
+});
 
 
 

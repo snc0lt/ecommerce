@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useParams, useHistory} from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
@@ -53,10 +53,10 @@ export default function ProductDetails() {
   const { id } = useParams()
   // const [ producto, setProducto ] = useState()
   const dispatch = useDispatch()
-  const product = useSelector( state => state.productDetail)
+  const product = useSelector(state => state.productDetail)
   const userId = useSelector(state => state.userDetails)
   const logged = useSelector(state => state.logged)
-  const history=useHistory();
+  const history = useHistory();
 
 
   useEffect(() => {
@@ -70,7 +70,7 @@ export default function ProductDetails() {
 
   const comprar = (e) => {
     e.preventDefault()
-    if(product && logged){
+    if (product && logged) {
       dispatch(addProductCart(userId.id, id, product.price))
       history.push("/user/checkout")
     } else {
@@ -80,9 +80,9 @@ export default function ProductDetails() {
 
   const addtoCart = (e) => {
     e.preventDefault()
-    if(product && logged){
+    if (product && logged) {
       dispatch(addProductCart(userId.id, id, product.price))
-    } else if(!logged && product){
+    } else if (!logged && product) {
       dispatch(addProductToGuestCart(product))
     }
     // else {
@@ -91,19 +91,20 @@ export default function ProductDetails() {
   }
 
   return (
+    <>{product && <>
     <Container maxWidth="md">
       <Grid container component="main" className={classes.root}>
         <CssBaseline />
         <Grid item xs={false} sm={6} md={7}>
           <div className={classes.paper}>
-            <CarouselCard  image={ product && product.image}/>
+            <CarouselCard image={product && product.image} />
           </div>
         </Grid>
         <Grid item xs={12} sm={6} md={5} component={Paper} elevation={6} square>
           <div className={classes.paper}>
             <Typography component="div">
               <Box fontWeight="fontWeightBold" fontSize={26} m={1}>
-              { product && product.name}
+                {product && product.name}
               </Box>
             </Typography>
             <div>
@@ -112,34 +113,35 @@ export default function ProductDetails() {
           </div>
           <div className={classes.paper}>
             <Typography component="h4" variant="h4" color='primary'>
-            { product && product.price}
+              {product && product.price}
             </Typography>
             <Typography variant='subtitle2' color='textSecondary'>
-            { product && product.stock !== 0 ? `${product.stock} - Disponible` : 'No Disponible - Sin Stock'}
+              {product && product.stock !== 0 ? `${product.stock} - Disponible` : 'No Disponible - Sin Stock'}
             </Typography>
           </div>
-          {/* <div className={classes.paper}>
+          <div className={classes.paper}>
             <Typography variant='body1' color='textPrimary'>
-              Color:  Negro
-          </Typography>
+              Descripción del producto
+      </Typography>
             <Typography variant='subtitle2' color='textSecondary'>
-              <span>Cantidad</span>: (select) (...disponibles)
-          </Typography>
-          </div> */}
+              <span>{product && product.description}</span>
+            </Typography>
+          </div>
           <div className={classes.buttons}>
-              <Button onClick={comprar} disabled = {!product || product.stock === 0} variant="contained" color="primary" size="medium" style={{ padding: '5px 25px' }}>
+            <Button onClick={comprar} disabled={!product || product.stock === 0} variant="contained" color="primary" size="medium" style={{ padding: '5px 25px' }}>
               Comprar
-              </Button>
-            <Button 
-            onClick={addtoCart}
-            disabled = {!product || product.stock === 0} variant="outlined" 
-            color="primary" size='medium' style={{ marginLeft: 'auto', padding: '5px 25px' }}>
+          </Button>
+            <Button
+              onClick={addtoCart}
+              disabled={!product || product.stock === 0} variant="outlined"
+              color="primary" size='medium' style={{ marginLeft: 'auto', padding: '5px 25px' }}>
               Carrito
-            </Button>
+        </Button>
           </div>
         </Grid>
       </Grid>
-      <ProductDetailsDescription classes={classes} description={ product && product.description}/>
-    </Container>
+      {/* <ProductDetailsDescription classes={classes} description={product && product.description} /> */}
+    </Container></>}</>
+
   );
 }

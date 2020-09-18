@@ -7,7 +7,8 @@ export default function ProductDetailsDescription({ classes, description }) {
       <CssBaseline />
       <Grid item xs={12} sm={12} md={12} component={Paper} elevation={6} square>
         <div className={classes.paper}>
-          <Typography component="h6" variant="h6">
+          {console.log("description: ",description)}
+          <Typography component="pre" variant="pre">
             {/* ...Aqui esta mi description */}
             {description}
             </Typography>

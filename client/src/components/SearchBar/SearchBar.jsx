@@ -298,10 +298,9 @@ export default function SearchBar() {
                   </IconButton>
                 </Link>
               </div>
-
               {logged &&
                 <Tooltip title='dashboard'>
-                  <Link to={userId.isAdmin ? `/admin/panel` : '/user/panel'}>
+                  <Link to={userId.isAdmin ? `/admin/panel` : `/user/panel/${userId.id}`}>
                     <IconButton color="inherit">
                       <DashboardIcon />
                     </IconButton>

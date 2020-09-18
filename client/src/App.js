@@ -18,6 +18,8 @@ import Orders from './components/AdminPanel/Orders'
 import { useDispatch, useSelector } from "react-redux";
 import { setUser, setGuestCart, setUserSign, getUsers } from "./actions";
 import UsersList from './components/AdminPanel/UsersList'
+import Profile from './components/Userpanel/Profile'
+import ResetPass from './components/Userpanel/ResetPass'
 
 
 function App() {
@@ -113,6 +115,10 @@ function App() {
           <Route exact path='/user/cart' component={Cart} />
           <Route exact path='/user/checkout' component={Checkout} />
           <Route exact path='/cart' component={Cart} />
+          <Route exact path='/user/panel/:id' component={Dashboard} />
+          <Route exact path='/user/perfil/:id' component={Profile} />
+          <Route exact path='/user/miscompras/:id' component={Orders} />
+          <Route exact path='/user/resetpassword/:id' component={ResetPass} />
         </Container>
       </Switch>
 
