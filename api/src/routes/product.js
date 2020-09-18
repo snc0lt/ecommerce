@@ -152,21 +152,34 @@ server.put('/:id', (req, res) => {
 		.catch((err) => res.status(404).send('Id no valido'))
 })
 //crear reviews
-server.post("/postreview", isAuthenticated,  (req, res) => {
+server.post("/postreview", isAuthenticated, async (req, res) => {
 	const {comments, score, userId, productId} = req.body
+
+	if(!score || !comments ){
+		res.status(400).send('Debe enviar los campos requeridos')
+	}
+	try {
+		const userReview = await Review.findOne({
+			where: {
+				userId: userId,
+				productId: productId
+			}
+		})
+		if(userReview){
+			res.status(400).send({msg: 'ya hiciste un review a este producto..!'})
+		}
+		const newReview = await Review.create({
+			comments,
+			score,
+			productId,
+			userId
+			})
+			res.status(201).send({msg: 'review creada con exito', newReview})
+	} catch (err) {
+		res.status(500)
+	}
+
 	
-if(!score || !comments ){
-	res.status(400).send('Debe enviar los campos requeridos')
-	return
-}
-	Review.create({
-	comments,
-	score,
-	productId,
-	userId
-	})
-	.then(review => res.status(201).send(review))
-	.catch(err=> res.status(400).send("ERROR EN REVIEW " + err))
 })
 
 // Trae reviews de un usuario en particular, panel usuario
@@ -188,7 +201,7 @@ server.get('/:userId/review', isAuthenticated, async (req, res) => {
 })
 
 // Trae reviews de un producto en particular, detalle producto
-server.get('/:productId/productreview', isAuthenticated, async (req, res) => {
+server.get('/:productId/productreview', /*isAuthenticated*/ async (req, res) => {
 	try {
 		const data = await Review.findAll({
 			where: {

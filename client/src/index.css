@@ -42,3 +42,15 @@ code {
 .botones {
   display: flex;
 }
+
+.comment{
+  background-color: #e6eced;
+  border-radius: 20px;
+  margin: 1%;
+}
+
+.avatar_comment{
+  display: flex;
+  padding: 10px 0px;
+  margin: 5px;
+}
