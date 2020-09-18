@@ -216,7 +216,7 @@ export const setUserSign = (user) => dispatch => {
 	})
 }
 
-export function userLogin(input) {
+export function userLogin(input, history) {
 	return function (dispatch) {
 		return fetch(`http://localhost:3001/login`, {
 			method: 'POST',
@@ -228,7 +228,7 @@ export function userLogin(input) {
 		})
 			.then((res) => res.json())
 			.then((response) => {
-				if (response.status === 401) {
+				if (response.error && response.message === 'usuario o password no valido') {
 					swal("Ups!", "Error en el inicio de sesion", "error")
 				}
 				else if (response.status === 200) {
@@ -238,6 +238,7 @@ export function userLogin(input) {
 						payload: response.user,
 					})
 					swal("Success", "Usuario logueado con exito", "success")
+					history.push('/')
 				}
 			})
 			.catch((error) => {

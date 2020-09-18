@@ -9,16 +9,15 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { Link, useHistory } from 'react-router-dom';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import { Tooltip, Container } from '@material-ui/core';
+import { Tooltip, Container, Button } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { useSelector, useDispatch } from "react-redux";
 import { getUserProductsCart, userLogout } from "../../actions";
-
+import CallMadeIcon from '@material-ui/icons/CallMade';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -126,6 +125,10 @@ export default function SearchBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const logOut = () => {
+    dispatch(userLogout())
+    history.push('/')
+  }
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -139,7 +142,20 @@ export default function SearchBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}><Link to='/user/login'>Ingresar</Link></MenuItem>
-      {/* <MenuItem onClick={handleMenuClose}></MenuItem> */}
+      {logged &&
+        <MenuItem onClick={handleProfileMenuOpen}>
+          <Tooltip title='Profile'>
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="primary-search-account-menu"
+              aria-haspopup="true"
+              color='primary'
+            >
+              <AccountCircle />
+            </IconButton>
+          </Tooltip>
+        </MenuItem>
+      }
     </Menu>
   );
 
@@ -155,31 +171,70 @@ export default function SearchBar() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
+        {cart && cart.length > 0
+          ?
+          <Badge badgeContent={cart.length} color="secondary">
+            <Tooltip title='cart'>
+              <IconButton>
+                <ShoppingCartIcon color='primary' />
+              </IconButton>
+            </Tooltip>
           </Badge>
-        </IconButton>
-        <p>Messages</p>
+          : guestCart && guestCart.length > 0
+            ? <Badge badgeContent={guestCart.length} color="secondary">
+              <Tooltip title='cart'>
+                <IconButton>
+                  <ShoppingCartIcon color='primary' />
+                </IconButton>
+              </Tooltip>
+            </Badge>
+            : <Badge badgeContent={0} color="secondary">
+              <Tooltip title='cart'>
+                <IconButton>
+                  <ShoppingCartIcon color='primary' />
+                </IconButton>
+              </Tooltip>
+            </Badge>
+        }
       </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
+      {logged ?
+        <MenuItem onClick={handleMenuClose}>
+          <Tooltip title='log out'>
+            <IconButton onClick={logOut}>
+              <ExitToAppIcon color='primary' />
+            </IconButton>
+          </Tooltip>
+        </MenuItem>
+        : <MenuItem onClick={handleMenuClose}>
+          <Link to='/user/login'>
+            <Tooltip title='login'>
+              <IconButton>
+                <ExitToAppIcon color='primary' />
+              </IconButton>
+            </Tooltip>
+          </Link>
+        </MenuItem>
+      }
+      {logged &&
+        <Tooltip title='dashboard'>
+          <Link to={userId.isAdmin ? `/admin/panel` : '/user/panel'}>
+            <IconButton color="inherit">
+              <DashboardIcon />
+            </IconButton>
+          </Link>
+        </Tooltip>
+      }
       <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
+        <Tooltip title='Profile'>
+          <IconButton
+            aria-label="account of current user"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color='primary'
+          >
+            <AccountCircle />
+          </IconButton>
+        </Tooltip>
       </MenuItem>
     </Menu>
   );
@@ -191,18 +246,16 @@ export default function SearchBar() {
 
     history.push(`/products/?search=${searchInput}`)
   }
-  const logOut = () => {
-    dispatch(userLogout())
-    history.push('/')
-  }
+
+
   return (
     <div className={classes.grow}>
       <AppBar position="static">
         <Container maxWidth='lg'>
           <Toolbar>
             <Link to='/'>
-                <h3 className='text-white logo'>ivAe</h3>
-                <small className='small_logo'>store</small>
+              <h3 className='text-white logo'>ivAe</h3>
+              <small className='small_logo'>store</small>
             </Link>
             <div className={classes.search}>
               <form onSubmit={handleSubmit}>
@@ -228,31 +281,32 @@ export default function SearchBar() {
                 <Link to='/user/cart'>
                   <IconButton
                     aria-label="cart"
-                    >
+                  >
                     {cart && cart.length > 0
                       ?
                       <Badge badgeContent={cart.length} color="secondary">
-                        <ShoppingCartIcon style={{color: 'white'}} />
+                        <ShoppingCartIcon style={{ color: 'white' }} />
                       </Badge>
                       : guestCart && guestCart.length > 0
                         ? <Badge badgeContent={guestCart.length} color="secondary">
-                          <ShoppingCartIcon style={{color: 'white'}} />
+                          <ShoppingCartIcon style={{ color: 'white' }} />
                         </Badge>
                         : <Badge badgeContent={0} color="secondary">
-                          <ShoppingCartIcon style={{color: 'white'}} />
+                          <ShoppingCartIcon style={{ color: 'white' }} />
                         </Badge>
                     }
                   </IconButton>
                 </Link>
               </div>
-
-              <Tooltip title='dashboard'>
-                <Link to= {userId.isAdmin?'/admin/panel':`/user/panel/${userId.id}`}>
-                  <IconButton color="inherit">
-                    <DashboardIcon />
-                  </IconButton>
-                </Link>
-              </Tooltip>
+              {logged &&
+                <Tooltip title='dashboard'>
+                  <Link to={userId.isAdmin ? `/admin/panel` : `/user/panel/${userId.id}`}>
+                    <IconButton color="inherit">
+                      <DashboardIcon />
+                    </IconButton>
+                  </Link>
+                </Tooltip>
+              }
               {logged && <button onClick={logOut}>Cerrar sesion</button>}
               <IconButton
                 edge="end"

@@ -55,28 +55,32 @@ export default function SignIn() {
           method: 'POST',
           body: JSON.stringify(values.username)
         })
-        const userId = user.usuario.id
+        const { usuario }  = await user.json()
+        console.log(usuario)
         const storage = JSON.parse(localStorage.getItem('guest_cart'))
-        storage.map( s => dispatch(addProductCart(userId, s.id, s.price)))
-        // guestCart.map(g => dispatch(addProductCart(userId, g.id, g.price)))
+      //   storage.map( s => dispatch(addProductCart(userId, s.id, s.price)))
+        storage.map( s => dispatch(addProductCart(usuario.id, s.id, s.price)))
+      //   // guestCart.map(g => dispatch(addProductCart(userId, g.id, g.price)))
         localStorage.removeItem('guest_cart')
         dispatch(cleanGuestOrder())
-        dispatch(userLogin(values))
+        dispatch(userLogin(values, history))
+        console.log('loggeado exitosamente 1')
 			} catch (err) {console.log(err)}
     }
-    if(guestCart && guestCart){
+    if(guestCart && guestUser){
       try {
         guestCart.map(g => dispatch(addProductCart(guestUser.id, g.id, g.price)))
         localStorage.removeItem('guest_cart')
         dispatch(cleanGuestOrder())
-        dispatch(userLogin(values))
+        dispatch(userLogin(values, history))
+        console.log('loggeado exitosamente 2')
 			} catch (err) {console.log(err)}
     } 
     dispatch(cleanGuestOrder())
-    dispatch(userLogin(values))
-    history.push('/')
+    dispatch(userLogin(values, history))
+    // history.push('/')
     localStorage.removeItem('guest_cart')
-    console.log('loggeado exitosamente')
+    console.log('loggeado exitosamente 3')
   } 
 
   const handleChange = (e) => {
