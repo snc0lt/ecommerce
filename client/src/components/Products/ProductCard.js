@@ -17,8 +17,8 @@ import CategoryIcon from '@material-ui/icons/Category';
 import DeleteDialog from '../ConfirmationDialog/DeleteDialog'
 import { useDispatch, useSelector } from "react-redux";
 import { addProductCart, addProductToGuestCart } from "../../actions";
-// import iphoneImage from '../../testImages/iphone.jpeg'
-// import Button from '@material-ui/core/Button';
+import '../../Cart_boton.css';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     backgroundColor: red[500],
-  },
+  }
 }));
 
 export default function ProductCard(props) {
@@ -45,16 +45,16 @@ export default function ProductCard(props) {
   const history = useHistory()
 
   const addtoCart = (e) => {
-    
+
     e.preventDefault()
     if (logged && props.productos) {
       dispatch(addProductCart(userId.id, props.productos.id, props.productos.price))
-    } else if(!logged && props.productos){
+    } else if (!logged && props.productos) {
       dispatch(addProductToGuestCart(props.productos))
     }
-  //   else {
-  //     history.push('/user/login')
-  //   }
+    //   else {
+    //     history.push('/user/login')
+    //   }
   }
 
   const boton = url.pathname === '/admin/products/edit'
@@ -70,62 +70,64 @@ export default function ProductCard(props) {
       <DeleteDialog props={props} />
 
     </>)
-    : props.productos.stock===0?
+    : props.productos.stock === 0 ?
 
-    <span>No disponible</span>
-    
-    : <Tooltip title='Añadir al carrito'>
-           <IconButton aria-label="addToCart" onClick={addtoCart}>
+      <span>No disponible</span>
+
+      : <div className='cart_boton'>
+        <Tooltip title='Añadir al carrito'>
+          <IconButton aria-label="addToCart" onClick={addtoCart}>
             <ShoppingCartIcon color='primary' />
           </IconButton>
-      </Tooltip>
-    // : url.pathname === '/admin/roducts/edit_category'
-    //   ? (<IconButton>
-    //     <Tooltip title='Editar categoria'>
-    //       <CategoryIcon color='primary' />
-    //     </Tooltip>
-    //   </IconButton>)
-    //   : (<>
-    //     {/* <Button variant="contained" color="primary" size="small">
-    //       Comprar
-    //     </Button> */}
-    //     <Tooltip title='Añadir al carrito'>
-    //       <IconButton aria-label="addToCart" onClick={addtoCart}>
-    //         <ShoppingCartIcon color='primary' />
-    //       </IconButton>
-    //     </Tooltip>
-    //   </>)
+        </Tooltip>
+      </div>
+  // : url.pathname === '/admin/roducts/edit_category'
+  //   ? (<IconButton>
+  //     <Tooltip title='Editar categoria'>
+  //       <CategoryIcon color='primary' />
+  //     </Tooltip>
+  //   </IconButton>)
+  //   : (<>
+  //     {/* <Button variant="contained" color="primary" size="small">
+  //       Comprar
+  //     </Button> */}
+  //     <Tooltip title='Añadir al carrito'>
+  //       <IconButton aria-label="addToCart" onClick={addtoCart}>
+  //         <ShoppingCartIcon color='primary' />
+  //       </IconButton>
+  //     </Tooltip>
+  //   </>)
 
   return (
     <>
       {
         props.productos &&
-          <Card className={classes.root}>
-            <Link to={`/products/${props.productos.id}`}>
+        <Card className={classes.root}>
+          <Link to={`/products/${props.productos.id}`}>
             <CardHeader
             // action={
-              //   <Rating />
+            //   <Rating />
             // }
             />
             <CardMedia
               className={classes.media}
               image={`http://localhost:3001/images/${props.productos.image[0]}`}
             />
+            <hr />
+              {boton}
             <CardContent>
-              <Rating />
               <Typography variant='body2' color="textSecondary" component="p">
                 {props.productos.name}
               </Typography>
-              <Typography gutterBottom variant='body1' color='primary' component='p'>
-                {props.productos.price}
+              <Typography gutterBottom variant='h6' color='primary' component='p'>
+                $ {props.productos.price.toFixed(2)}
               </Typography>
-
             </CardContent>
-            </Link>
-            <CardActions disableSpacing>
-              {boton}
-            </CardActions>
-          </Card>
+          </Link>
+          {/* <CardActions>
+            {boton}
+          </CardActions> */}
+        </Card>
       }
     </>
   );
