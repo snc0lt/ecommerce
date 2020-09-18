@@ -4,12 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom'
 import { Button } from '@material-ui/core';
 
-export const Summary = ({ total, orderId }) => {
+export const Summary = ({ total, orderId, suma }) => {
 	const dispatch = useDispatch()
 	const userId = useSelector(state => state.userDetails)
 	const logged = useSelector(state => state.userLogged)
+	const asd4 = useSelector(state => state.guestTotal)
 	const history = useHistory();
-
+	
 	const updateOrder = async (orderId, state) => {
 		if (logged) {
 			try {
@@ -31,6 +32,14 @@ export const Summary = ({ total, orderId }) => {
 		dispatch(cleanGuestOrder())
 		history.push('/user/login')
 	}
+	
+	let sum = 0
+	asd4 && asd4.map( t => {
+		sum = sum + t
+		return sum
+	})
+	
+	
 	return (
 		<>{
 			logged
@@ -53,9 +62,25 @@ export const Summary = ({ total, orderId }) => {
 					</div>
 				</>
 				: <>
+					<div>
+						<h3>Resumen</h3>
+						<hr />
+						<p>Subtotal : $ {sum}</p>
+						<p>Impuestos : 12%</p>
+						<hr />
+						<h3>Total $ {(sum * 1.12).toFixed(2)}</h3>
+						<hr />
+						<button className='btn btn-primary' onClick={() => updateOrder(orderId, { state: 'procesando' })}>Comprar</button>
+						<button
+							onClick={() => dispatch(cleanOrder(userId.id))}
+							className='btn btn-danger ml-3'
+						>
+							Cancelar
+					</button>
+					</div>
 					<h4>Logueate para seguir avanzado con tu compra..!</h4>
 					{/* <Link to='/user/login'> */}
-						<Button onClick={handleGuestLogin} color='primary' variant="outlined" >login</Button >
+					<Button onClick={handleGuestLogin} color='primary' variant="outlined" >login</Button >
 					{/* </Link> */}
 				</>
 		}

@@ -380,6 +380,22 @@ export const addProductToGuestCart = (guestCart) => dispatch => {
 	})
 }
 
+export const handleGuestCount = (value, index, state) => dispatch => {
+	
+	state[index] = value
+	dispatch({
+		type: 'ADD_GUEST_COUNT',
+		payload: state
+	})
+}
+export const handleGuestTotal = (value) => dispatch => {
+	
+	dispatch({
+		type: 'ADD_GUEST_TOTAL',
+		payload: value
+	})
+}
+
 export const removeGuestItem = (index) => dispatch =>  {
 	let gCart = []
 	gCart = JSON.parse(localStorage.getItem('guest_cart')) || []
@@ -397,6 +413,7 @@ export const cleanGuestOrder = () => dispatch => {
 	dispatch({
 		type: 'CLEAN_GUEST_CART'
 	})
+	localStorage.removeItem('total_guest-cart')
 }
 
 export const cleanOrder = () => dispatch => {
