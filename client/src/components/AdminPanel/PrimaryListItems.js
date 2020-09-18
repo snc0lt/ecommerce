@@ -17,7 +17,7 @@ import { useSelector } from 'react-redux'
 
 export default function PrimaryListItems(){
   const url = useLocation();
-  const user = useSelector(state => state.user)
+  const user = useSelector(state => state.userDetails)
   //const { id } = useParams();
 const primaryList = url.pathname.includes('/admin') ? (<div>
 <ListItem button component="a" href="http://localhost:3000/admin/panel">
