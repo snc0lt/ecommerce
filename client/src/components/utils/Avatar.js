@@ -21,8 +21,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LetterAvatars({ alguien }) {
   const classes = useStyles();
-  const user = useSelector(state => state.user)
-
+  const user = useSelector(state => state.userDetails)
+  
   return (
     <>
       {user ?

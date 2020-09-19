@@ -12,7 +12,8 @@ const initialstate = {
 	userLogged: false,
 	reviews: [],
 	guestCount: [],
-	guestTotal: []
+	guestTotal: [],
+	reset: {}
 }
 
 export default function rootReducer(state = initialstate, action) {
@@ -178,6 +179,11 @@ export default function rootReducer(state = initialstate, action) {
 				...state,
 				users: action.payload,
 			}
+		case 'RESET':
+			return {
+				...state,
+				reset: action.payload,
+			}
 		case 'USER_LOGGED': // lo mismo que LOGIN_USER!!!
 			return {
 				...state,
@@ -189,6 +195,7 @@ export default function rootReducer(state = initialstate, action) {
 			return {
 				...state,
 				user: null,
+				users: [],
 				guestCart: [],
 				userDetails: {},
 				userLogged: false,
