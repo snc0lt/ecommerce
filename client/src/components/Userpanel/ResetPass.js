@@ -14,8 +14,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Copyright from '../utils/Copyright'
-import { useDispatch } from "react-redux";
-import { userChangePassword} from "../../actions";
+import { useDispatch, useSelector} from "react-redux";
+import { userChangePassword, userForgotPassword} from "../../actions";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -43,46 +43,28 @@ const useStyles = makeStyles((theme) => ({
 export default function ResetPass() {
   const history = useHistory()
   const classes = useStyles();
-  const [errors, setErrors] = useState({})
 
   const [password,setPassword] = useState('')
   const [confirmPassword, setconfirmPassword] = useState('')
+  const logged = useSelector(state=>state.userLogged)
   
   const dispatch = useDispatch()
 
   const {id} = useParams()
 
-//   const handleChange = (event) => {
-//     setPassword(event.target.value);
-//     setconfirmPassword(event.target.)
-//     setErrors(validate(event.target.name))
-//   };
-
-  const resetForm = () => {
-    setPassword('')
-    setconfirmPassword('')
-  }
-
+  const newId = id / 12345678
+  
   const handleSubmit = function (e) {
     e.preventDefault()
-    dispatch(userChangePassword(password))
-    resetForm()
-    history.push(`/user/panel/${id}`)  
+    if (logged) {
+      dispatch(userChangePassword(password));
+      history.push(`/user/panel/${id}`)
+    }else if (logged === false){      
+      userForgotPassword(password,newId);
+      history.push(`/user/login`)
+    }          
   }
 
-  function validate(password) {
-    if (!password  || password.length === 0) {
-      errors.password = 'Contraseña requerida';
-    } else if (!/(?=.*[0-9])/.test(password)) {
-      errors.password = 'Contraseña invalida';
-    } else if(password.length < 8){
-      errors.password = 'La contraseña debe tener 8 o más caracteres'
-    }
-    // if (confirmPassword !== values.password) {
-    //   errors.confirmPassword = 'No coinciden las contraseñas'
-    // }
-    return errors
-  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -122,8 +104,9 @@ export default function ResetPass() {
                 autoComplete="current-password"
               />
             </Grid>
-            {confirmPassword !== password ? (<p className={classes.danger}>No coinciden las contraseñas</p>) : null}
-            {!confirmPassword && (<p className={classes.danger}>Este campo es requerido</p>)}
+            {confirmPassword !== password ? (<p className={classes.danger}> No coinciden las contraseñas </p>) : null}
+            <hr/>
+            {!confirmPassword && (<p className={classes.danger}> Este campo es requerido </p>)}
     
           </Grid>
           <Button

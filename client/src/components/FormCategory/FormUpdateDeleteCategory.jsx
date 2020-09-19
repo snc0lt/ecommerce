@@ -113,6 +113,7 @@ return(
         <Button onClick={updateCategory}
         variant='contained'
         color = 'primary'
+        disabled = {!input.name || !input.description}
         >Modificar categoria</Button>              
     </div>
 )

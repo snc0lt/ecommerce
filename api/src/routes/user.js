@@ -2,6 +2,23 @@ const server = require('express').Router()
 const { Product, User, Order, Order_product } = require('../db.js')
 const { Op } = require('sequelize')
 const bcrypt = require('bcrypt')
+const nodemailer = require('nodemailer');
+
+
+const transporter = nodemailer.createTransport({
+	service: 'gmail',
+	host: 'smtp.gmail.com',
+	port: 465,
+	secure: true,
+	auth: {
+	  type: 'OAuth2',
+	  user: process.env.USER,
+	  clientId: process.env.CLIENT_ID,
+	  clientSecret: process.env.CLIENT_SECRET,
+	  refreshToken: process.env.REFRESH_TOKEN,
+	  accessToken: process.env.ACCESS_TOKEN
+	}
+  })
 
 //
 
@@ -20,6 +37,36 @@ function isAdmin(req, res, next) {
 		res.status(403).send('No es un administrador')
 	}
 }
+
+//nodemailer
+
+server.post('/reset_password/', async (req, res) => {
+	const { email } = req.body	
+	const usuario = await User.findOne({
+		where: {
+			email: email
+		}
+	})
+	if (usuario) {
+		const randomId = usuario.id * 12345678
+		const mailOptions = {
+			from: process.env.USER,
+			to: email,
+			subject: 'Restablece tu contraseña!',
+			text: `http://localhost:3000/user/resetpassword/recordar/${randomId}`
+		  }
+		  transporter.sendMail(mailOptions, (err, res) => {
+			if (err) {
+			  console.log(err)
+			} else {
+			  console.log('email sent')
+			  res.send('email sent successfully..!')
+			}
+		  })
+	} else {
+		res.status(400).send({ msg: 'usuario no existe', status: 400 })
+	}	
+  })
 
 //trae todos los usuarios
 server.get('/', (req, res) => {
@@ -118,7 +165,7 @@ server.post('/', async (req, res) => {
 })
 
 
-// usuario cambia su contraseña
+// usuario logueado cambia su contraseña
 server.put('/password', isAuthenticated, async (req, res) => {
 	try {
 		let user = await User.findByPk(req.user.id)
@@ -132,8 +179,22 @@ server.put('/password', isAuthenticated, async (req, res) => {
 	}
 })
 
+// usuario olvida su contraseña
+server.put('/password/:id', async (req, res) => {
+	try {
+		let user = await User.findByPk(req.params.id)
+		let newPassword = await hashPassword(req.body.password)
+
+		await user.update({ password: newPassword, resetPassword: false })
+
+		res.send(user)
+	} catch (error) {
+		res.status(500).send(error)
+	}
+})
+
 //modificar usuario
-server.patch('/:id', (req, res) => {
+server.patch('/:id', isAuthenticated, (req, res) => {
 	const { firstName, lastName, email, password, address, phone } = req.body
 
 	User.findByPk(req.params.id)

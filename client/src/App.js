@@ -20,6 +20,7 @@ import { setUser, setGuestCart, setUserSign, getUsers } from "./actions";
 import UsersList from './components/AdminPanel/UsersList'
 import Profile from './components/Userpanel/Profile'
 import ResetPass from './components/Userpanel/ResetPass'
+import FormResetPass from './components/FormResetPass/FormResetPass'
 
 
 function App() {
@@ -119,6 +120,8 @@ function App() {
           <Route exact path='/user/perfil/:id' component={Profile} />
           <Route exact path='/user/miscompras/:id' component={Orders} />
           <Route exact path='/user/resetpassword/:id' component={ResetPass} />
+          <Route exact path='/user/resetpassword/' component={FormResetPass} />
+          <Route exact path='/user/resetpassword/recordar/:id' component={ResetPass} />
         </Container>
       </Switch>
 

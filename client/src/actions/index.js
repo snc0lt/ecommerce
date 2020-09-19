@@ -61,6 +61,8 @@ export const getProductDetail = (id) => dispatch => {
 	}
 }
 
+
+
 export const createProduct = (producto, msg) => async dispatch => {
 	try {
 		const data = await fetch('http://localhost:3001/products', {
@@ -566,6 +568,26 @@ export function userChangePassword(input) {
 	}
 }
 
+export function userForgotPassword(input,id) {
+	
+		return fetch(`http://localhost:3001/user/password/${id}`, {
+			method: 'PUT',
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ password: input }),
+		})
+			.then((res) => res.json())
+			.then((data) =>{
+				swal("Success","Password cambiado satisfactoriamente","success")
+
+			})
+			.catch(err => swal("Ups","Ocurrió un error al cambiar la contraseña","error"))
+		
+}
+
+
 export const disableOrEnableUser = (userId, status) => dispatch => {
 	try {
 		fetch(`http://localhost:3001/user/${userId}/active/${status}`, {
@@ -610,3 +632,22 @@ export function addReviews(id, comments, userId, score) {
 			})
 	}
 }
+
+
+export const sendMail = (mail) => {
+	try {
+		fetch('http://localhost:3001/user/reset_password', {
+		method: 'POST',
+		body: JSON.stringify({email: mail}),
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	})
+	.then(res=>res.json())
+	.then(data=>swal("Success",`${data}`,"success"))	
+	} catch (err) {
+		console.log(err)
+	}
+}
+
+
