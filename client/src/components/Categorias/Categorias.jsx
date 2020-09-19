@@ -15,18 +15,8 @@ export default function () {
 	console.log(categories)
 
 	useEffect(() => {
-		dispatch(getCategories())
-		// fetch(`http://localhost:3001/category`)
-		// 	.then(function (response) {
-		// 		return response.json()
-		// 	})
-		// 	.then(function (category) {
-		// 		setCategorias(category)
-		// 	})
-		// 	.catch(function (err) {
-		// 		console.log(err)
-		// 	})
-	}, [])
+		dispatch(getCategories())	
+	}, [categories])
 
 	return (
 		<div >

@@ -78,10 +78,10 @@ export default function AlertDialogSlide({props, categoria}) {
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle id="alert-dialog-slide-title">{"¿Desea eliminar el producto?"}</DialogTitle>
+        <DialogTitle id="alert-dialog-slide-title">{"¿Desea eliminar?"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            Esta accion borra tu producto para siempre
+            Esta accion borra para siempre
           </DialogContentText>
         </DialogContent>
         <DialogActions>
