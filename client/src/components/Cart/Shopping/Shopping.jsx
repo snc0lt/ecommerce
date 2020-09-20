@@ -11,15 +11,6 @@ export const Shopping = ({ guestCart }) => {
 	const userId = useSelector(state => state.userDetails)
 	const cart = useSelector(state => state.cart)
 
-	
-	useEffect(() => {
-		if (userId) {
-			dispatch(getUserProductsCart(userId.id))
-		} else if (guestCart) {
-			console.log(guestCart)
-		}
-	}, [cart])
-
 	return (
 		<div>
 			{userId && cart && cart.length > 0

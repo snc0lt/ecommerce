@@ -3,6 +3,7 @@ import Shopping from './Shopping/Shopping'
 import Summary from './Summary/Summary'
 import { useDispatch, useSelector } from "react-redux";
 import EmptyCart from './EmptyCart';
+import { getUserProductsCart } from '../../actions'
 
 
 export const Cart = () => {
@@ -12,6 +13,9 @@ export const Cart = () => {
 	const cart = useSelector(state => state.cart)
 	const gCount = useSelector(state => state.guestCount)
 	const guestCart = useSelector(state => state.guestCart)
+	const dispatch = useDispatch()
+	const userId = useSelector(state => state.userDetails)
+	const logged = useSelector(state => state.userLogged)
 	
 	useEffect(() => {
 		let sum = 0
@@ -20,6 +24,13 @@ export const Cart = () => {
 		}
 		setTotal(sum)
 	}, [cart])
+
+	useEffect(() => {
+		if (userId && logged) {
+			dispatch(getUserProductsCart(userId.id))
+		}
+	// }, [cart])
+	}, [cart, userId])
 
 	useEffect(() => {
 		let sum = 0
@@ -35,7 +46,7 @@ export const Cart = () => {
 
 
 	return (
-		<> {cart && cart.length > 0
+		<> {cart && cart.length > 0 && userId
 			?
 			<div className='container p-5'>
 				<hr />

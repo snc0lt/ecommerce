@@ -166,7 +166,8 @@ server.post("/postreview", isAuthenticated, async (req, res) => {
 			}
 		})
 		if(userReview){
-			res.status(400).send({msg: 'ya hiciste un review a este producto..!'})
+			res.status(400).send({msg: 'ya hiciste un review a este producto..!', status: 400})
+			return
 		}
 		const newReview = await Review.create({
 			comments,
@@ -174,7 +175,7 @@ server.post("/postreview", isAuthenticated, async (req, res) => {
 			productId,
 			userId
 			})
-			res.status(201).send({msg: 'review creada con exito', newReview})
+			res.status(201).send({msg: 'review creada con exito', newReview, status: 201})
 	} catch (err) {
 		res.status(500)
 	}
@@ -183,18 +184,18 @@ server.post("/postreview", isAuthenticated, async (req, res) => {
 })
 
 // Trae reviews de un usuario en particular, panel usuario
-server.get('/:userId/review', isAuthenticated, async (req, res) => {
+server.get('/:userId/:productId/review', isAuthenticated, async (req, res) => {
 	try {
-		const data = await Review.findAll({
-			where: {
-				userId: req.params.userId
+			const data = await Review.findAll({
+				where: {
+					userId: req.params.userId
+				}
+			})
+			if (data) {
+				res.status(200).send(data)
 			}
-		})
-		if (data) {
-			res.status(200).send(data)
-		}
-		else {
-			res.status(404).send('Reviews no encontradas')
+			else {
+				res.status(404).send('Reviews no encontradas')
 		}
 	}
 	catch (err) {console.log(err)}

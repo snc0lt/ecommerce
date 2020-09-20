@@ -88,7 +88,7 @@ export default function ProductDetails() {
 
   const comprar = (e) => {
     e.preventDefault()
-    if (product && logged) {
+    if (product && userId) {
       dispatch(addProductCart(userId.id, id, product.price))
       history.push("/user/checkout")
     } else {
@@ -98,9 +98,9 @@ export default function ProductDetails() {
 
   const addtoCart = (e) => {
     e.preventDefault()
-    if (product && logged) {
+    if (product && userId) {
       dispatch(addProductCart(userId.id, id, product.price))
-    } else if (!logged && product) {
+    } else if (!userId && product) {
       dispatch(addProductToGuestCart(product))
     }
     // else {

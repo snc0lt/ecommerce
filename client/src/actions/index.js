@@ -278,17 +278,17 @@ export const getUserProductsCart = (userId) => dispatch => {
 			credentials: 'include',
 		})
 			.then((res) => res.json())
-			.then((order) =>
-				order.length === 0 || !order
-					? dispatch({
-						type: 'GET_PRODUCTS_IN_CART',
-						payload: [],
-					})
-					: dispatch({
-						type: 'GET_PRODUCTS_IN_CART',
-						payload: order[0].products,
-					})
-			)
+			.then((order) => {
+			if (order.length === 0) {
+				console.log('No hay orden')
+			}
+			else {
+				dispatch({
+					type: 'GET_PRODUCTS_IN_CART',
+					payload: order[0].products,
+				})
+			}
+		})
 	} catch (err) {
 		console.log(err)
 	}
@@ -599,7 +599,8 @@ export const disableOrEnableUser = (userId, status) => dispatch => {
 			},
 			body: JSON.stringify({ active: status })
 		})
-		.then(status
+		.then(res => res.json())
+		.then(user => user.active
 			? swal('Usuario habilitado', '', 'success')
 			: swal('Usuario deshabilitado', '', 'success'))
 		.catch((err) => console.log(err));
@@ -608,12 +609,12 @@ export const disableOrEnableUser = (userId, status) => dispatch => {
 	}
 }
 
-export function addReviews(id, comments, userId, score) {
+export function addReviews(productId, review, userId, star) {
 	return function (dispatch) {
-		return fetch(`http://localhost:3001/products/${id}/review`, {
+		return fetch(`http://localhost:3001/products/postreview`, {
 			method: 'POST',
 			credentials: 'include',
-			body: JSON.stringify({ comments, userId, score }),
+			body: JSON.stringify({ comments:review, userId: userId, score:star, productId: productId }),
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
@@ -621,11 +622,16 @@ export function addReviews(id, comments, userId, score) {
 		})
 			.then((res) => res.json())
 			.then((review) => {
-				dispatch({
-					type: 'ADD_REVIEWS',
-					payload: review,
-				})
-				alert('Reseña agregada con exito', '', 'success')
+				if (review.status === 400) {
+					swal('Error', 'Ya has realizado un review a este producto', 'error')
+				}
+				else if (review.status === 201) {
+					dispatch({
+						type: 'ADD_REVIEWS',
+						payload: review,
+					})
+					swal('Reseña agregada con exito', '', 'success')
+				}
 			})
 			.catch(() => {
 				alert('Error!', 'Ingresar los datos ', 'error')

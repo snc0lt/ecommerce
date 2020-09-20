@@ -14,8 +14,9 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import swal from 'sweetalert';
+import {addReviews} from '../../actions'
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -29,9 +30,9 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function CreateReview({productId}) {
-  const user = useSelector(state => state.user)
+  const user = useSelector(state => state.userDetails)
   const userId=user.id
-
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [review,setReview] =useState('');
   const [star, setStar] = useState('');
@@ -52,23 +53,23 @@ export default function CreateReview({productId}) {
 
   const handleSubmit = async(e) =>{
     e.preventDefault()
-    try{
-        await fetch(`http://localhost:3001/products/postreview`,{
-            method: 'POST',
-			credentials: 'include',
-			body: JSON.stringify({ comments:review, userId: userId, score:star, productId: productId }),
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-        })
-        handleClose()
-        swal("Success","Review existosa","success")
-    }
-    catch(error){
-        swal("Error","No se ha podido crear la review","error")
-    }
-
+    // try{
+    //     await fetch(`http://localhost:3001/products/postreview`,{
+    //         method: 'POST',
+		// 	credentials: 'include',
+		// 	body: JSON.stringify({ comments:review, userId: userId, score:star, productId: productId }),
+		// 	headers: {
+		// 		Accept: 'application/json',
+		// 		'Content-Type': 'application/json',
+		// 	},
+    //     })
+    //     handleClose()
+    //     swal("Success","Review existosa","success")
+    // }
+    // catch(error){
+    //     swal("Error","No se ha podido crear la review","error")
+    // }
+    dispatch(addReviews(productId, review, userId, star))
   }
 
   return (

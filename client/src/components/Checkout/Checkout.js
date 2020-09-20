@@ -92,9 +92,10 @@ export default function Checkout() {
   const logged = useSelector( state => state.userLogged)
   const user = useSelector( state => state.user)
   const cart = useSelector(state => state.cart)
+  const userDet = useSelector(state => state.userDetails)
 
   const updateOrder = (orderId, state) => {
-		if (logged) {
+		if (userDet) {
 			try {
 				const data = fetch(`http://localhost:3001/orders/detail/${orderId}`, {
 					method: 'PUT',
@@ -105,13 +106,13 @@ export default function Checkout() {
 				})
 			} catch (err) { console.log(err) }
 			history.push('/')
-		} else if (!logged) {
+		} else if (!userDet) {
 			history.push('/user/login')
 		}
 	}
 
   const handleNext = () => {
-    if(activeStep === steps.length - 1 && cart && cart.length > 0 && user){
+    if(activeStep === steps.length - 1 && cart && cart.length > 0 && userDet){
       const orderId = cart[0].order_product.orderId
       updateOrder(orderId, { state: 'completa'})
       dispatch(cleanOrder())
@@ -124,7 +125,7 @@ export default function Checkout() {
   };
 
   return (
-    <>{ cart && cart.length > 0 && logged
+    <>{ cart && cart.length > 0 && userDet
       ? <>
       <CssBaseline />
       <main className={classes.layout}>
