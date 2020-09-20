@@ -128,12 +128,14 @@ export default function ProductDetails() {
                 </Box>
               </Typography>
               <div>
-                <Rating review={score && score} total={review && review}/>
+                {score && typeof(score)==='number'?
+                <Rating review={score} total={review && review}/>
+                :null}
               </div>
             </div>
             <div className={classes.paper}>
               <Typography component="h4" variant="h4" color='primary'>
-                {product && product.price}
+                ${product && product.price}
               </Typography>
               <Typography variant='subtitle2' color='textSecondary'>
                 {product && product.stock !== 0 ? `${product.stock} - Disponible` : 'No Disponible - Sin Stock'}
