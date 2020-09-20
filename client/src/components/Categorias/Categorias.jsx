@@ -16,6 +16,13 @@ export default function () {
 
 	useEffect(() => {
 		dispatch(getCategories())	
+	// }, [categories])
+	}, [])
+
+	useEffect(() => {
+		if(url.pathname === '/admin/editcategoy') {
+			dispatch(getCategories())
+		}
 	}, [categories])
 
 	return (

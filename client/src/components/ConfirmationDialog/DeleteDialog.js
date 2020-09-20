@@ -46,7 +46,7 @@ export default function AlertDialogSlide({props, categoria}) {
     // })
       setOpen(false);
     }
-    else {
+    else if (url.pathname === '/admin/products/edit') {
       dispatch(removeProduct(props.productos.id))
       // fetch(`http://localhost:3001/products/${props.productos.id}`, {
       //     method: 'DELETE',

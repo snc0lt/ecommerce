@@ -12,11 +12,11 @@ const transporter = nodemailer.createTransport({
 	secure: true,
 	auth: {
 	  type: 'OAuth2',
-	  user: process.env.USER,
-	  clientId: process.env.CLIENT_ID,
-	  clientSecret: process.env.CLIENT_SECRET,
-	  refreshToken: process.env.REFRESH_TOKEN,
-	  accessToken: process.env.ACCESS_TOKEN
+	  user: process.env.user,
+	  clientId: process.env.clientId,
+	  clientSecret: process.env.clientSecret,
+	  refreshToken: process.env.refreshToken,
+	  accessToken: process.env.accessToken
 	}
   })
 
@@ -50,7 +50,7 @@ server.post('/reset_password/', async (req, res) => {
 	if (usuario) {
 		const randomId = usuario.id * 12345678
 		const mailOptions = {
-			from: process.env.USER,
+			from: process.env.user,
 			to: email,
 			subject: 'Restablece tu contraseña!',
 			text: `http://localhost:3000/user/resetpassword/recordar/${randomId}`

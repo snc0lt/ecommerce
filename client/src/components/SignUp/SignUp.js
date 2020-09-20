@@ -13,6 +13,7 @@ import Container from '@material-ui/core/Container';
 import Copyright from '../utils/Copyright'
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin, addProductCart, cleanGuestOrder } from "../../actions";
+import swal from 'sweetalert';
 // import FormControlLabel from '@material-ui/core/FormControlLabel';
 // import Checkbox from '@material-ui/core/Checkbox';
 
@@ -54,13 +55,17 @@ export default function SignIn() {
       try {
         const user = await fetch(`http://localhost:3001/user/email`, {
           method: 'POST',
-          body: JSON.stringify({ email: 'asd@asd.com' }),
+          body: JSON.stringify({ email: values.username }),
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
           },
         })
         const { usuario } = await user.json()
+        if (!usuario.active) {
+          swal('Error', 'Cuenta bloqueada, contactese con el administrador', 'error')
+          return
+        }
         let pId;
         const storage = JSON.parse(localStorage.getItem('guest_cart'))
         //   storage.map( s => dispatch(addProductCart(userId, s.id, s.price)))
