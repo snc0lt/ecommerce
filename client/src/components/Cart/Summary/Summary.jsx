@@ -21,8 +21,8 @@ export const Summary = ({ total, orderId, suma }) => {
 						'Content-Type': 'application/json'
 					}
 				})
-				console.log(data)
-			} catch (err) { console.log(err) }
+				console.log("respuesta al colocar la orden en el back", data)
+			} catch (err) {console.log(err) }
 			history.push('/user/checkout')
 		} else if (!logged) {
 			history.push('/user/login')
@@ -65,7 +65,7 @@ export const Summary = ({ total, orderId, suma }) => {
 					<div>
 						<h3>Resumen</h3>
 						<hr />
-						<p>Subtotal : $ {sum}</p>
+						<p>Subtotal : $ {sum && sum}</p>
 						<p>Impuestos : 12%</p>
 						<hr />
 						<h3>Total $ {(sum * 1.12).toFixed(2)}</h3>
