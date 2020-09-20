@@ -18,12 +18,12 @@ import '../UploadImageButton/styleButtonUpload.css'
 import UploadImgButton from '../UploadImageButton/UploadImageButton'
 import IconButton from '@material-ui/core/IconButton'
 import Copyright from '../utils/Copyright.js'
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useHistory } from 'react-router-dom';
 import FormGroup from '@material-ui/core/FormGroup';
 import Checkbox from '@material-ui/core/Checkbox';
 // import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import swal from 'sweetalert';
-import { createProduct } from "../../actions";
+import { createProduct, cleanGuestOrder } from "../../actions";
 
 // import ImagesPreview from '../utils/ImagesPreview'
 
@@ -85,9 +85,9 @@ export default function SignUp(props) {
   const url = useLocation();
   const [categories, setCategories] = useState([]);
   const [files, setFiles] = useState(null);
-  const [pictures, setPictures] = useState([]);
   const [check, setCheck] = useState(null);
   const [msg, setMsg] = useState(null)
+  const history = useHistory()
   const [errors, setErrors] = useState({
     errName: '',
     errDesc: '',
@@ -99,7 +99,7 @@ export default function SignUp(props) {
     description: '',
     stock: '',
     price: '',
-    image: null,
+    image: [],
     category: null
   })
 
@@ -114,8 +114,8 @@ export default function SignUp(props) {
   }
 
   const resetForm = (e) => {
-    setInputs({ ...inputs, name: '', description: '', stock: 0, price: 0, image: null, category: null })
-    setFiles(null)
+    setInputs({ ...inputs, name: '', description: '', stock: 0, price: 0, image: [], category: null });
+    setFiles(null);
   }
 
   const dispatch = useDispatch()
@@ -130,7 +130,7 @@ export default function SignUp(props) {
       .then(function (arr) {
         setCategories(arr);
       })
-  }, [check]);
+  }, [check, files]);
 
   useEffect(() => {
     if (url.pathname.includes('/admin/editproduct')) {
@@ -165,8 +165,10 @@ export default function SignUp(props) {
 
   const uploadImage = async () => {
     let formData = new FormData();
-    for (var i = 0; i < files.length; i++) {
-      formData.append('images', files[i]);
+    if (files && files.length > 0) {
+      for (var i = 0; i < files.length; i++) {
+        formData.append('images', files[i]);
+      }
     }
 
     let cat = []
@@ -183,8 +185,7 @@ export default function SignUp(props) {
       })
 
       const img = await uploadImg.json()
-      console.log("multer: ", img);
-      console.log("imagen previa: ", inputs.image);
+      setFiles(null)
       let prevImg = []
       if (inputs.image) {
         for (let j of inputs.image) {
@@ -211,6 +212,7 @@ export default function SignUp(props) {
     } catch (err) {
       console.log(err)
     }
+    resetForm()
   }
 
   const editProduct = (product) => {
@@ -232,9 +234,15 @@ export default function SignUp(props) {
 
   const handleSubmit = function (e) {
     e.preventDefault()
+    console.log('files antes:', files)
     uploadImage()
+    setFiles(null)
     swal("Genial!", "Se ha creado el producto exitosamente!", "success");
-    resetForm()
+    console.log('files dsps', files)
+    return url.pathname.includes('/admin/createproduct') ?
+    history.push('/admin/panel')
+    :
+    history.push('/admin/panel')
   }
 
   const filesHandler = function (files) {
@@ -417,8 +425,10 @@ export default function SignUp(props) {
               </div>
             </div>)
           } */}
-          <Button onClick={handleSubmit}
-            disabled={!inputs.name || !inputs.description || !inputs.price || !inputs.stock || !check || (!files && inputs.image === false)}
+          {
+            url.pathname.includes('/admin/editproduct') ?
+            <Button onClick={handleSubmit}
+            disabled={!inputs.name || !inputs.description || !inputs.price || !inputs.stock || !check}
             type="submit"
             fullWidth
             variant="contained"
@@ -427,6 +437,18 @@ export default function SignUp(props) {
           >
             {url.pathname.includes('/admin/editproduct') ? 'Editar producto' : 'Crear'}
           </Button>
+          :
+          <Button onClick={handleSubmit}
+            disabled={!inputs.name || !inputs.description || !inputs.price || !inputs.stock || !check || !files}
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            {url.pathname.includes('/admin/editproduct') ? 'Editar producto' : 'Crear'}
+          </Button>
+          }
         </form>
       </div>
       <Box mt={5}>

@@ -12,11 +12,11 @@ const transporter = nodemailer.createTransport({
 	secure: true,
 	auth: {
 	  type: 'OAuth2',
-	  user: process.env.USER,
-	  clientId: process.env.CLIENT_ID,
-	  clientSecret: process.env.CLIENT_SECRET,
-	  refreshToken: process.env.REFRESH_TOKEN,
-	  accessToken: process.env.ACCESS_TOKEN
+	  user: 'ivae.store@gmail.com',
+	  clientId: '290048590933-08oj5or91lu4hpkbnbjs1d0gl6tcied5.apps.googleusercontent.com',
+	  clientSecret: 'L7LymkIW7MkeT821LZcwTZcs',
+	  refreshToken: '1//04qggu9z7BfDZCgYIARAAGAQSNwF-L9IrK03e5MDDcRl35vV6w2rwWQDe1Too2SFvP9T1WpIeH9u3ce7qKVOfU1mfxAMnvv2FtGA',
+	  accessToken: 'ya29.a0AfH6SMDUv7teUjyw6ewwR7Tm_zhEaPVEuHAF0UMPoJymULv8FP5lQ7S5hkbmVMSCFi9eBwoystgf9StjBDuEqbbn9BxmIwc4sITLz-lBsFb4VRLIdYmGIuTYHDnmkdhPHD7maWsBLWw5Cl6w3K5lysGdaN2ORHJqBvA'
 	}
   })
 

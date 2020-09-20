@@ -30,14 +30,8 @@ function useQuery() {
 
 export default function Users() {
   const classes = useStyles();
-//   const users = useSelector(state => state.users)
   const dispatch = useDispatch()
   const [users, setUsers] = useState(null)
-
-    // LLAMAR USUARIOS Y GUARDARLOS EN UN ESTADO LOCAL
-    // useEffect(() => {
-    //     dispatch(getUsers())
-    // }, [users])
     
     useEffect(() => {
         fetch(`http://localhost:3001/user`)
@@ -47,40 +41,6 @@ export default function Users() {
         })
     // }, [users])
     }, [users])
-
-    console.log(users)
-  
-//   useEffect(() => {
-//     let arr = []
-//     if (orders) {
-//       for (let i of orders) {
-//         var sum = 0
-//         for (let j of i.products) {
-//           sum = sum + (j.order_product.price * j.order_product.quantity)
-//           // sum = sum + (i.products.order_product.price * i.products.order_product.quantity)
-//         }
-//         arr.push(sum)
-//       }
-//       setPrice(arr)
-//     }
-//   }, [orders])
-
-//   useEffect(() => {
-//     // if (query) {
-//     //   fetch(`http://localhost:3001/orders/admin?search=${query}`)
-//     //     .then(res => res.json())
-//     //     .then(data => {
-//     //       setOrders(data)
-//     //     })
-//     // }
-//     // else {
-//       fetch(`http://localhost:3001/user`)
-//         .then(res => res.json())
-//         .then(data => {
-//           setUsers(data)
-//         })
-//     // }
-//   }, [])
 
   return (
     <>
@@ -110,10 +70,8 @@ export default function Users() {
                   <TableCell>{row.firstName}</TableCell>
                   <TableCell>{row.lastName}</TableCell>
                   <TableCell>{row.email}</TableCell>
-                  {/* <TableCell>{row.ACAVAELESTADO(ACTIVE,DISABLE)}</TableCell> */}
                   <TableCell>Activo (hardcodeado)</TableCell>
                   <TableCell>{row.createdAt.slice('T', 10)} / {row.createdAt.split('T')[1].slice(0, 5)}</TableCell>
-                  {/* <TableCell>{row.createdAt.split('T')[1].slice(0, 5)}</TableCell> */}
                   <TableCell>{row.updatedAt.slice('T', 10)} / {row.updatedAt.split('T')[1].slice(0, 5)}</TableCell>
                   <div>
                       {row.id && row.isAdmin ?
@@ -161,41 +119,12 @@ export default function Users() {
                     >
                     Habilitar
                    </Button>
-                  //  console.log(row.active)
-                      }
-                  {/* <Button
-                    variant="contained"
-                    color="secondary"
-                    className={classes.button}
-                    startIcon={<DeleteIcon />}
-                    size='small'
-                    onClick={disableOrEnableUser(row.id, )}
-                    >
-                    Eliminar
-                  </Button> */}
-                  <Button
-                  variant="contained"
-                  size='small'
-                  className={classes.button}
-                  color="primary"
-                  // onClick={disableOrEnableUser(row.id, 'enable')}
-                  >
-                  <VpnKeySharpIcon />
-                  </Button>
+                  }
                   </div>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
-          {/* <div className={classes.seeMore}>
-            {url.pathname === '/admin/panel' ?
-              <Link color="primary" to='/admin/orders'>
-                Ver mas ordenes
-              </Link>
-              :
-              null
-            }
-          </div> */}
         </>
       }
     </>

@@ -33,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     backgroundColor: red[500],
+  },
+  buttons: {
+    display: 'flex',
   }
 }));
 
@@ -58,7 +61,7 @@ export default function ProductCard(props) {
   }
 
   const boton = url.pathname === '/admin/products/edit'
-    ? (<>
+    ? (<div className={classes.buttons}>
       <Link to={`/admin/editproduct/${props.productos.id}`}>
         <IconButton>
           <Tooltip title='Editar producto'>
@@ -69,7 +72,7 @@ export default function ProductCard(props) {
 
       <DeleteDialog props={props} />
 
-    </>)
+    </div>)
     : props.productos.stock === 0 ?
 
       <span>No disponible</span>
@@ -114,6 +117,7 @@ export default function ProductCard(props) {
               image={`http://localhost:3001/images/${props.productos.image[0]}`}
             />
             <hr />
+          </Link>
               {boton}
             <CardContent>
               <Typography variant='body2' color="textSecondary" component="p">
@@ -123,7 +127,6 @@ export default function ProductCard(props) {
                 $ {props.productos.price.toFixed(2)}
               </Typography>
             </CardContent>
-          </Link>
           {/* <CardActions>
             {boton}
           </CardActions> */}

@@ -26,7 +26,7 @@ export const Counter = ({ idProduct, quantity, userId, stock, gStock, precio, in
 		if (value < 1) {
 			setCount(1)
 			dispatch(updateCountProductInCart(userId, idProduct, count))
-		} else if (value > mixStock || value > mixStock) {
+		} else if (value > mixStock) {
 			setCount(mixStock)
 			dispatch(updateCountProductInCart(userId, idProduct, value))
 		} else {
@@ -37,13 +37,15 @@ export const Counter = ({ idProduct, quantity, userId, stock, gStock, precio, in
 		dispatch(handleGuestCount(value, index, gCount))
 	}
 
-	let asd = []
-	asd = JSON.parse(localStorage.getItem('total_guest-cart')) || []
-
-	const asd2 = count * precio
-	asd[index] = asd2
-	localStorage.setItem('total_guest-cart', JSON.stringify(asd))
-	dispatch(handleGuestTotal(asd))
+	if (gStock) {
+		let asd = []
+		asd = JSON.parse(localStorage.getItem('total_guest-cart')) || []
+	
+		const asd2 = count * precio
+		asd[index] = asd2
+		localStorage.setItem('total_guest-cart', JSON.stringify(asd))
+		dispatch(handleGuestTotal(asd))
+	}
 
 	return (
 		<div className='d-flex flex-column justify-content-center align-items-center'>

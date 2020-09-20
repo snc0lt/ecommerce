@@ -154,8 +154,8 @@ export default function Orders() {
                        <TableCell>{row.createdAt.slice('T', 10)}</TableCell>
                        <TableCell>{row.createdAt.split('T')[1].slice(0, 5)}</TableCell>
                        <TableCell>{product.name}</TableCell>
-                       <TableCell>{product.price}</TableCell>
                        <TableCell>{product.order_product.quantity}</TableCell>
+                       <TableCell>{product.price}</TableCell>
                        <TableCell>{product.price * product.order_product.quantity}</TableCell>
                        <TableCell><CreateReview productId={product.id}/></TableCell>
                      </TableRow>
