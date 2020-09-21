@@ -131,12 +131,13 @@ const Profile = () => {
             body: JSON.stringify(envio),
             headers:{
                 'Content-Type': 'application/json'
-            }
-            })  
+            },
+            credentials: 'include'
+            })
             swal("Success","Datos actualizados","success");
-            history.push(`/user/panel/${id}`)                   
+            history.push(`/user/panel/${id}`)
         } catch (error) {swal("error", "error al actualizar los datos, intente de nuevo", "error")            
-        }               
+        }
       }
 
       console.log(user)

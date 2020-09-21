@@ -194,23 +194,22 @@ server.put('/password/:id', async (req, res) => {
 })
 
 //modificar usuario
-server.patch('/:id', isAuthenticated, (req, res) => {
+server.patch('/:id', isAuthenticated, async (req, res) => {
+	try {
 	const { firstName, lastName, email, password, address, phone } = req.body
 
-	User.findByPk(req.params.id)
-		.then((user) => {
-			user.firstName = firstName || user.firstName
-			user.lastName = lastName || user.lastName
-			user.email = email || user.email
-			user.password = password || user.password
-			user.address = address || user.address
-			user.phone = phone || user.phone
-			user.resetPassword = false
-			user.save().then((user) => {
-				res.status(201).send(user)
-			})
+	const user = await User.findByPk(req.user.id)
+		await user.update({
+			firstName: firstName || user.firstName,
+			lastName : lastName || user.lastName,
+			email : email || user.email,
+			password : password || user.password,
+			address : address || user.address,
+			phone : phone || user.phone,
+			resetPassword : false,
 		})
-		.catch((err) => res.status(400).send('Id no valido'))
+		res.send(user)
+	} catch (error) {console.log(err)}
 })
 
 
