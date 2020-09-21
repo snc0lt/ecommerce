@@ -26,11 +26,11 @@ export const Cart = () => {
 	}, [cart])
 
 	useEffect(() => {
-		if (userId && logged) {
+		if (userId) {
 			dispatch(getUserProductsCart(userId.id))
 		}
 	// }, [cart])
-	}, [cart, userId])
+	}, [ cart])
 
 	useEffect(() => {
 		let sum = 0

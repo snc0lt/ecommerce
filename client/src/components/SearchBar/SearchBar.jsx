@@ -115,7 +115,7 @@ export default function SearchBar() {
       dispatch(getUserProductsCart(userId.id))
     }
     // console.log(cart)
-  }, [logged])
+  }, [userId])
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);

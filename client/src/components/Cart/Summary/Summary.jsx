@@ -53,12 +53,12 @@ export const Summary = ({ total, orderId, suma }) => {
 						<h3>Total $ {(total * 1.12).toFixed(2)}</h3>
 						<hr />
 						<button className='btn btn-primary' onClick={() => updateOrder(orderId, { state: 'procesando' })}>Comprar</button>
-						<button
+						{/* <button
 							onClick={() => dispatch(cleanOrder(userId.id))}
 							className='btn btn-danger ml-3'
 						>
 							Cancelar
-					</button>
+					</button> */}
 					</div>
 				</>
 				: <>
@@ -70,13 +70,13 @@ export const Summary = ({ total, orderId, suma }) => {
 						<hr />
 						<h3>Total $ {(sum * 1.12).toFixed(2)}</h3>
 						<hr />
-						<button className='btn btn-primary' onClick={() => updateOrder(orderId, { state: 'procesando' })}>Comprar</button>
+						{/* <button className='btn btn-primary' onClick={() => updateOrder(orderId, { state: 'procesando' })}>Comprar</button>
 						<button
 							onClick={() => dispatch(cleanOrder(userId.id))}
 							className='btn btn-danger ml-3'
 						>
 							Cancelar
-					</button>
+					</button> */}
 					</div>
 					<h4>Logueate para seguir avanzado con tu compra..!</h4>
 					{/* <Link to='/user/login'> */}
