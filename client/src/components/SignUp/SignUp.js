@@ -12,8 +12,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Copyright from '../utils/Copyright'
 import { useDispatch, useSelector } from "react-redux";
-import { userLogin, addProductCart, cleanGuestOrder } from "../../actions";
+import { userLogin, addProductCart, cleanGuestOrder, addUser } from "../../actions";
 import swal from 'sweetalert';
+import GoogleLogin from 'react-google-login'
 // import FormControlLabel from '@material-ui/core/FormControlLabel';
 // import Checkbox from '@material-ui/core/Checkbox';
 
@@ -39,9 +40,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const guestCart = useSelector(state => state.guestCart)
-  const guestUser = useSelector(state => state.user)
+  const guestUser = useSelector(state => state.userDetails)
   const gCount = useSelector(state => state.guestCount)
   const classes = useStyles();
+  
   const [values, setValues] = useState({
     username: '',
     password: '',
@@ -49,6 +51,73 @@ export default function SignIn() {
 
   const history = useHistory()
   const dispatch = useDispatch()
+
+
+
+  const responseGoogle = async (response) => { 
+  
+    const { email, familyName, givenName, googleId } = response.profileObj
+    const gmail = {
+      firstName: givenName, //obtenemos el nombre de las respuesta
+      lastName: familyName, //obtenemos el apellido de las respuesta
+      email: email, //obtenemos el email de las respuesta
+      password: googleId, //seteamos una password
+    }
+    const logueo = {
+      username: email,
+      password: googleId,
+    }
+    const user = await fetch(`http://localhost:3001/user/email`, {
+          method: 'POST',
+          body: JSON.stringify({ email: email }),
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        })
+        const { usuario } = await user.json()
+        
+        if (!usuario) {await dispatch(addUser(gmail))}
+        if (!usuario.active) {
+          swal('Error', 'Cuenta bloqueada, contactese con el administrador', 'error')
+          return
+        }
+
+    if (!guestUser && guestCart) {
+      try {
+        
+        let pId;
+        const storage = JSON.parse(localStorage.getItem('guest_cart'))
+        //   storage.map( s => dispatch(addProductCart(userId, s.id, s.price)))
+        storage.map(s => {
+          pId = s.id
+          dispatch(addProductCart(usuario.id, s.id, s.price))
+        })
+
+        //   // guestCart.map(g => dispatch(addProductCart(userId, g.id, g.price)))
+        localStorage.removeItem('guest_cart')
+        await dispatch(cleanGuestOrder())
+        await dispatch(userLogin(logueo, history))
+        console.log('loggeado exitosamente 1')
+      } catch (err) { console.log(err) }
+    }
+    if (guestCart && guestUser) {
+      try {
+        guestCart.map(g => dispatch(addProductCart(guestUser.id, g.id, g.price)))
+        localStorage.removeItem('guest_cart')
+        await dispatch(cleanGuestOrder())
+        await dispatch(userLogin(logueo, history))
+        console.log('loggeado exitosamente 2')
+      } catch (err) { console.log(err) }
+    }
+    await dispatch(cleanGuestOrder())
+    await dispatch(userLogin(logueo, history))
+    // history.push('/')
+    localStorage.removeItem('guest_cart')
+    console.log('loggeado exitosamente 3')  
+    ;
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!guestUser && guestCart) {
@@ -141,10 +210,7 @@ export default function SignIn() {
             id="password"
             autoComplete="current-password"
           />
-          {/* <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Recuerdame"
-          /> */}
+       
           <Button
             type="submit"
             fullWidth
@@ -154,7 +220,7 @@ export default function SignIn() {
           >
             Ingresar
           </Button>
-          <Grid container>
+                   <Grid container>
             <Grid item xs>
               <Link to='/user/resetpassword/' variant="body2">
                 ¿Has olvidado la contraseña?
@@ -167,6 +233,17 @@ export default function SignIn() {
             </Grid>
           </Grid>
         </form>
+        <br/>
+        <div className='contenedor-google'>
+                <GoogleLogin
+                className='boton-google'
+                clientId= {"870686065038-pbngahqtonie7p6oefqt2vulmtnh4hfn.apps.googleusercontent.com"}//"290048590933-08oj5or91lu4hpkbnbjs1d0gl6tcied5.apps.googleusercontent.com"}
+                buttonText='Ingresar con Google'
+                onSuccess={responseGoogle}
+                //onFailure={responseGoogle}
+                isSignedIn={true}                            
+                cookiePolicy={'single_host_origin'}/>
+            </div>
       </div>
       <Box mt={8}>
         <Copyright />
