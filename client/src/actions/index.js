@@ -568,9 +568,9 @@ export function userChangePassword(input) {
 	}
 }
 
-export function userForgotPassword(input,id) {
+export function userForgotPassword(input,token) {
 	
-		return fetch(`http://localhost:3001/user/password/${id}`, {
+		return fetch(`http://localhost:3001/user/password/${token}`, {
 			method: 'PUT',
 			credentials: 'include',
 			headers: {
@@ -580,8 +580,11 @@ export function userForgotPassword(input,id) {
 		})
 			.then((res) => res.json())
 			.then((data) =>{
-				swal("Success","Password cambiado satisfactoriamente","success")
-
+				if(data.status === 401){
+					swal("Error",`${data.msg}`,"error")	
+				} else if(data.status === 200){
+					swal("Success","Password cambiado satisfactoriamente","success")
+				}
 			})
 			.catch(err => swal("Ups","Ocurrió un error al cambiar la contraseña","error"))
 		

@@ -52,7 +52,7 @@ export default function ResetPass() {
 
   const {id} = useParams()
 
-  const newId = id / 12345678
+  // const newId = id / 12345678
   
   const handleSubmit = function (e) {
     e.preventDefault()
@@ -60,7 +60,7 @@ export default function ResetPass() {
       dispatch(userChangePassword(password));
       history.push(`/user/panel/${id}`)
     }else if (logged === false){      
-      userForgotPassword(password,newId);
+      userForgotPassword(password,id);
       history.push(`/user/login`)
     }          
   }
