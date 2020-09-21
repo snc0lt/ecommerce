@@ -130,7 +130,8 @@ export default function rootReducer(state = initialstate, action) {
 		case 'ADD_PRODUCT_IN_CART':
 			return {
 				...state,
-				cart: [...state.cart, action.payload]
+				cart: action.payload
+				// cart: [...state.cart, action.payload]
 			}
 		case 'SET_GUEST_CART':
 			return{

@@ -49,7 +49,7 @@ server.post('/reset_password', async (req, res) => {
 	})
 	if (usuario) {
 		// const randomId = usuario.id * 12345678
-		const emailToken = jwt.sign({ id: usuario.id }, process.env.JWT_SECRET, { expiresIn: '10s' })
+		const emailToken = jwt.sign({ id: usuario.id }, process.env.JWT_SECRET, { expiresIn: '1d' })
 		const url = `http://localhost:3000/user/resetpassword/recordar/${emailToken}`
 		const mailOptions = {
 			from: process.env.user,
