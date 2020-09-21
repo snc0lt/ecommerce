@@ -20,6 +20,8 @@ import { getUserProductsCart, userLogout } from "../../actions";
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import Typography from '@material-ui/core/Typography';
 import LetterAvatars from '../utils/Avatar';
+import { GoogleLogout } from 'react-google-login';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -103,6 +105,10 @@ export default function SearchBar() {
   const userId = useSelector(state => state.userDetails)
   const logged = useSelector(state => state.userLogged)
   const guestCart = useSelector(state => state.guestCart)
+
+ 
+
+
 
   useEffect(() => {
     if (logged && userId) {
@@ -197,6 +203,7 @@ export default function SearchBar() {
         }
       </MenuItem>
       {logged ?
+      
         <MenuItem onClick={handleMenuClose}>
           <Tooltip title='log out'>
             <IconButton onClick={logOut}>
@@ -204,6 +211,7 @@ export default function SearchBar() {
             </IconButton>
           </Tooltip>
         </MenuItem>
+      
         : <MenuItem onClick={handleMenuClose}>
           <Link to='/user/login'>
             <Tooltip title='login'>
@@ -324,6 +332,12 @@ export default function SearchBar() {
                       <CallMadeIcon style={{ color: 'white' }} />
                     </IconButton>
                   </Tooltip>
+                  <GoogleLogout
+         clientId={"870686065038-pbngahqtonie7p6oefqt2vulmtnh4hfn.apps.googleusercontent.com"}
+         buttonText="Logout"
+         onLogoutSuccess={logOut}
+       >
+       </GoogleLogout>
                   {/* <Button color='inherit' >Cerrar sesion</Button> */}
                   <IconButton
                     edge="end"
