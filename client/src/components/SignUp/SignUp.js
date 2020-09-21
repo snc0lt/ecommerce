@@ -40,8 +40,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const guestCart = useSelector(state => state.guestCart)
-  const guestUser = useSelector(state => state.userDetails)
+  const guestUser = useSelector(state => state.user)
   const gCount = useSelector(state => state.guestCount)
+  // const userDet = useSelector(state => state.userDetails)
   const classes = useStyles();
   
   const [values, setValues] = useState({
@@ -56,73 +57,108 @@ export default function SignIn() {
 
   const responseGoogle = async (response) => { 
   
-    const { email, familyName, givenName, googleId } = response.profileObj
-    const gmail = {
-      firstName: givenName, //obtenemos el nombre de las respuesta
-      lastName: familyName, //obtenemos el apellido de las respuesta
-      email: email, //obtenemos el email de las respuesta
-      password: googleId, //seteamos una password
-    }
-    const logueo = {
-      username: email,
-      password: googleId,
-    }
-    const user = await fetch(`http://localhost:3001/user/email`, {
-          method: 'POST',
-          body: JSON.stringify({ email: email }),
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-        })
-        const { usuario } = await user.json()
-        
-        if (!usuario) {await dispatch(addUser(gmail))}
-        if (!usuario.active) {
-          swal('Error', 'Cuenta bloqueada, contactese con el administrador', 'error')
-          return
-        }
+    // const { email, familyName, givenName, googleId } = response.profileObj
+    // const gmail = {
+    //   firstName: givenName, //obtenemos el nombre de las respuesta
+    //   lastName: familyName, //obtenemos el apellido de las respuesta
+    //   email: email, //obtenemos el email de las respuesta
+    //   password: googleId, //seteamos una password
+    // }
+    // const logueo = {
+    //   username: email,
+    //   password: googleId,
+    // }
+    // try {
+    // const user = await fetch(`http://localhost:3001/user/email`, {
+    //       method: 'POST',
+    //       body: JSON.stringify({ email: email }),
+    //       headers: {
+    //         Accept: 'application/json',
+    //         'Content-Type': 'application/json',
+    //       },
+    //     })
 
-    if (!guestUser && guestCart) {
-      try {
-        
-        let pId;
-        const storage = JSON.parse(localStorage.getItem('guest_cart'))
-        //   storage.map( s => dispatch(addProductCart(userId, s.id, s.price)))
-        storage.map(s => {
-          pId = s.id
-          dispatch(addProductCart(usuario.id, s.id, s.price))
-        })
+    // const { usuario } = await user.json()
 
-        //   // guestCart.map(g => dispatch(addProductCart(userId, g.id, g.price)))
-        localStorage.removeItem('guest_cart')
-        await dispatch(cleanGuestOrder())
-        await dispatch(userLogin(logueo, history))
-        console.log('loggeado exitosamente 1')
-      } catch (err) { console.log(err) }
-    }
-    if (guestCart && guestUser) {
-      try {
-        guestCart.map(g => dispatch(addProductCart(guestUser.id, g.id, g.price)))
-        localStorage.removeItem('guest_cart')
-        await dispatch(cleanGuestOrder())
-        await dispatch(userLogin(logueo, history))
-        console.log('loggeado exitosamente 2')
-      } catch (err) { console.log(err) }
-    }
-    await dispatch(cleanGuestOrder())
-    await dispatch(userLogin(logueo, history))
-    // history.push('/')
-    localStorage.removeItem('guest_cart')
-    console.log('loggeado exitosamente 3')  
-    ;
+    // if (usuario && !usuario.active) {
+    // swal('Error', 'Cuenta bloqueada, contactese con el administrador', 'error')
+    //   return
+    // }
+
+    // let pId;
+    //     const storage = JSON.parse(localStorage.getItem('guest_cart'))
+    //       storage.map( s => dispatch(addProductCart(userId, s.id, s.price)))
+    //     guestCart.map(s => {
+    //       pId = s.id
+    //       dispatch(addProductCart(usuario.id, s.id, s.price))
+    //     })
+
+    //       // guestCart.map(g => dispatch(addProductCart(userId, g.id, g.price)))
+    //     localStorage.removeItem('guest_cart')
+    //     dispatch(cleanGuestOrder())
+    //     dispatch(userLogin(logueo, history))
+    //     console.log('loggeado exitosamente 1')
+    //   } catch (err) { console.log(err) }
+    
+    // if (guestCart && guestUser) {
+    //   console.log('entre al segundo if')
+    //   try {
+    //     guestCart.map(g => dispatch(addProductCart(guestUser.id, g.id, g.price)))
+    //     localStorage.removeItem('guest_cart')
+    //     dispatch(cleanGuestOrder())
+    //     dispatch(userLogin(logueo, history))
+    //     console.log('loggeado exitosamente 2')
+    //   } catch (err) { console.log(err) }
+    // }
+    // console.log('no entre a ninguno')
+    // dispatch(cleanGuestOrder())
+    // dispatch(userLogin(values, history))
+    // // history.push('/')
+    // localStorage.removeItem('guest_cart')
+    // console.log('loggeado exitosamente 3')
+    // if (!guestUser && guestCart) {
+    //   try {
+        
+    //     let pId;
+    //     const storage = JSON.parse(localStorage.getItem('guest_cart'))
+    //     //   storage.map( s => dispatch(addProductCart(userId, s.id, s.price)))
+    //     storage.map(s => dispatch(addProductCart(usuario.id, s.id, s.price)))
+        
+    //     //   // guestCart.map(g => dispatch(addProductCart(userId, g.id, g.price)))
+    //     localStorage.removeItem('guest_cart')
+    
+      // dispatch(userLogin(logueo, history))
+    
+    //     dispatch(cleanGuestOrder())
+    //     console.log('loggeado exitosamente 1')
+    //   } catch (err) { console.log(err) }
+    // }
+        
+    // if (!usuario) {dispatch(addUser(gmail))}
+
+    // if (guestCart && guestUser) {
+    //   try {
+    //     guestCart.map(g => dispatch(addProductCart(guestUser.id, g.id, g.price)))
+    //     localStorage.removeItem('guest_cart')
+    //     dispatch(cleanGuestOrder())
+    //     dispatch(userLogin(logueo, history))
+    //     console.log('loggeado exitosamente 2')
+    //   } catch (err) { console.log(err) }
+    // }
+    // dispatch(cleanGuestOrder())
+    // dispatch(userLogin(logueo, history))
+    // // history.push('/')
+    // localStorage.removeItem('guest_cart')
+    // console.log('loggeado exitosamente 3')  
+    // ;
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!guestUser && guestCart) {
+      console.log('entre al primer if')
       try {
-        const user = await fetch(`http://localhost:3001/user/email`, {
+        const user = await fetch('http://localhost:3001/user/email', {
           method: 'POST',
           body: JSON.stringify({ email: values.username }),
           headers: {
@@ -136,9 +172,9 @@ export default function SignIn() {
           return
         }
         let pId;
-        const storage = JSON.parse(localStorage.getItem('guest_cart'))
+        // const storage = JSON.parse(localStorage.getItem('guest_cart'))
         //   storage.map( s => dispatch(addProductCart(userId, s.id, s.price)))
-        storage.map(s => {
+        guestCart.map(s => {
           pId = s.id
           dispatch(addProductCart(usuario.id, s.id, s.price))
         })
@@ -151,6 +187,7 @@ export default function SignIn() {
       } catch (err) { console.log(err) }
     }
     if (guestCart && guestUser) {
+      console.log('entre al segundo if')
       try {
         guestCart.map(g => dispatch(addProductCart(guestUser.id, g.id, g.price)))
         localStorage.removeItem('guest_cart')
@@ -159,11 +196,12 @@ export default function SignIn() {
         console.log('loggeado exitosamente 2')
       } catch (err) { console.log(err) }
     }
-    dispatch(cleanGuestOrder())
-    dispatch(userLogin(values, history))
-    // history.push('/')
-    localStorage.removeItem('guest_cart')
-    console.log('loggeado exitosamente 3')
+    // console.log('no entre a ninguno')
+    // dispatch(cleanGuestOrder())
+    // dispatch(userLogin(values, history))
+    // // history.push('/')
+    // localStorage.removeItem('guest_cart')
+    // console.log('loggeado exitosamente 3')
   }
 
   const handleChange = (e) => {
@@ -237,11 +275,11 @@ export default function SignIn() {
         <div className='contenedor-google'>
                 <GoogleLogin
                 className='boton-google'
-                clientId= {"870686065038-pbngahqtonie7p6oefqt2vulmtnh4hfn.apps.googleusercontent.com"}//"290048590933-08oj5or91lu4hpkbnbjs1d0gl6tcied5.apps.googleusercontent.com"}
+                // clientId= {"870686065038-pbngahqtonie7p6oefqt2vulmtnh4hfn.apps.googleusercontent.com"}//"290048590933-08oj5or91lu4hpkbnbjs1d0gl6tcied5.apps.googleusercontent.com"}
                 buttonText='Ingresar con Google'
                 onSuccess={responseGoogle}
-                //onFailure={responseGoogle}
-                isSignedIn={true}                            
+                // onFailure={responseGoogle}
+                isSignedIn={false}                            
                 cookiePolicy={'single_host_origin'}/>
             </div>
       </div>

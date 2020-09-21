@@ -332,12 +332,12 @@ export default function SearchBar() {
                       <CallMadeIcon style={{ color: 'white' }} />
                     </IconButton>
                   </Tooltip>
-                  <GoogleLogout
+                  {/* <GoogleLogout
          clientId={"870686065038-pbngahqtonie7p6oefqt2vulmtnh4hfn.apps.googleusercontent.com"}
          buttonText="Logout"
          onLogoutSuccess={logOut}
        >
-       </GoogleLogout>
+       </GoogleLogout> */}
                   {/* <Button color='inherit' >Cerrar sesion</Button> */}
                   <IconButton
                     edge="end"

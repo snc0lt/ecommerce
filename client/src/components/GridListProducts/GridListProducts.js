@@ -24,11 +24,13 @@ export default function ImageGridList(props) {
   return (
     <div className={classes.root}>
       <GridList cellHeight={450} className={classes.gridList} cols={4} spacing={4}>
-        {props.productos.map((prod) => (
+      {props.productos.msg? <><h3>No se encontraron productos para tu búsqueda</h3></>
+         :props.productos.map((prod) => (
           <GridListTile key={prod.id} cols={1}>
                 <ProductCard productos={prod}/>
           </GridListTile>
-        ))}
+        ))
+      }
       </GridList>
     </div>
   );
