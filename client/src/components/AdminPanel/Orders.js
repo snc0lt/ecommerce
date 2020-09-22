@@ -9,6 +9,8 @@ import Title from './Title';
 import { useLocation, Link, useParams } from "react-router-dom";
 import AdminOrder from './AdminOrder';
 import CreateReview from '../Userpanel/CreateReview'
+import StateDialog from './StateDialog';
+
 
 // Generate Order Data
 function createData(id, date, name, shipTo, paymentMethod, amount) {
@@ -23,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
   seeMore: {
     marginTop: theme.spacing(3),
   },
+
 }));
 
 function useQuery() {
@@ -35,6 +38,7 @@ export default function Orders() {
   const [orders, setOrders] = useState(null)
   let query = useQuery().get('search');
   const [price, setPrice] = useState([])
+  const [orderStates, setOrderStates] =useState([])
   const url = useLocation()
 
   const {id} = useParams();
@@ -82,10 +86,16 @@ export default function Orders() {
     }
   }, [query])
 
-  
- 
- 
+  if(orders){
+    console.log("estados")
+    let arr=[]
+    orders.map(order=>arr.push(order.id))
+    console.log(arr)
 
+  }
+ 
+  
+  
 
   return (
     <>
@@ -113,7 +123,9 @@ export default function Orders() {
                     <TableCell>{row.createdAt.slice('T', 10)}</TableCell>
                     <TableCell>{row.createdAt.split('T')[1].slice(0, 5)}</TableCell>
                     <TableCell>{row.user.firstName + ' ' + row.user.lastName}</TableCell>
-                    <TableCell>{row.state}</TableCell>
+                    <TableCell>
+                    <StateDialog state={row.state} orderId={row.id}/>
+                    </TableCell>
                     <TableCell><AdminOrder orderId={row.id} /></TableCell>
                     <TableCell align="right">$ {price[i]}</TableCell>
                   </TableRow>

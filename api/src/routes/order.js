@@ -106,7 +106,7 @@ server.put('/detail/:orderId', async (req, res) => {
     const updatedOrder = await order.update({
       state: req.body.state
     })
-    res.send(order)
+    res.send(updatedOrder)
   } catch (err) {res.send(err)}
 })
 
