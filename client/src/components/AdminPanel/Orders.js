@@ -11,6 +11,14 @@ import AdminOrder from './AdminOrder';
 import CreateReview from '../Userpanel/CreateReview'
 import StateDialog from './StateDialog';
 
+import FilterListIcon from '@material-ui/icons/FilterList';
+import Toolbar from '@material-ui/core/Toolbar';
+import Tooltip from '@material-ui/core/Tooltip';
+import IconButton from '@material-ui/core/IconButton';
+import { MenuItem } from '@material-ui/core';
+import {Select} from '@material-ui/core';
+import InputLabel from '@material-ui/core/InputLabel';
+
 
 // Generate Order Data
 function createData(id, date, name, shipTo, paymentMethod, amount) {
@@ -36,9 +44,10 @@ export default function Orders() {
   const [userOrder,setUserOrder] = useState(null)
   const classes = useStyles();
   const [orders, setOrders] = useState(null)
+  const [filter,setFilter]=useState('')
+  const[open,setOpen]=useState(false)
   let query = useQuery().get('search');
   const [price, setPrice] = useState([])
-  const [orderStates, setOrderStates] =useState([])
   const url = useLocation()
 
   const {id} = useParams();
@@ -50,7 +59,6 @@ export default function Orders() {
         var sum = 0
         for (let j of i.products) {
           sum = sum + (j.order_product.price * j.order_product.quantity)
-          // sum = sum + (i.products.order_product.price * i.products.order_product.quantity)
         }
         arr.push(sum)
       }
@@ -59,15 +67,15 @@ export default function Orders() {
   }, [orders])
 
   useEffect(()=>{
-    const fetchData = async()=>{
-      const data = await fetch(`http://localhost:3001/orders/${id}/completa`)
-      const res = await data.json()
-      setUserOrder(res)
+    if(id){
+      const fetchData = async()=>{
+        const data = await fetch(`http://localhost:3001/orders/${id}/completa`)
+        const res = await data.json()
+        setUserOrder(res)
+      }
+      fetchData()
     }
-    fetchData()
   },[])
-
-  // console.log(price)
 
   useEffect(() => {
     if (query) {
@@ -84,7 +92,7 @@ export default function Orders() {
           setOrders(data)
         })
     }
-  }, [query])
+  }, [query,filter])
 
   if(orders){
     console.log("estados")
@@ -92,6 +100,22 @@ export default function Orders() {
     orders.map(order=>arr.push(order.id))
     console.log(arr)
 
+  }
+  if(open){
+    console.log(open)
+  }
+
+  const openFilter =() =>{
+    setOpen(true)
+  }
+
+  const handleFilter=(event)=>{
+    event.preventDefault()
+    setFilter(event.target.value)
+  }
+
+  if(filter){
+    console.log("filter: ",filter)
   }
  
   
@@ -101,6 +125,29 @@ export default function Orders() {
     <>
       {orders && url.pathname.includes("/admin")?
         <>
+          <Toolbar>
+            
+                {open? 
+                <>
+                <InputLabel htmlFor="filtrar">Filtrar</InputLabel>
+                <Select
+                  id="filtrar"
+                  onChange={handleFilter}
+                  value={filter}
+                >
+                <MenuItem value="completa">Completa</MenuItem>  
+                <MenuItem value="procesando">Procesando</MenuItem>
+                <MenuItem value="cancelada">Cancelada</MenuItem>
+                <MenuItem value="despacho">En despacho</MenuItem>
+                <MenuItem value=''>Ver todo</MenuItem>
+                </Select>
+                </>
+                :<Tooltip title="Filter list">
+                  <IconButton aria-label="filter list">
+                  <FilterListIcon onClick={openFilter}/>
+                  </IconButton>
+                  </Tooltip>}
+          </Toolbar>
           <Title>Ordenes recientes</Title>
           <Table size="medium">
             <TableHead>
@@ -116,9 +163,8 @@ export default function Orders() {
             </TableHead>
             <TableBody>
               {orders.map((row, i) => (
-                row.state === 'creada'
-                  ? null
-                  : <TableRow key={row.id} hover={true}>
+                filter && filter === row.state || filter==='' 
+                  ? <TableRow key={row.id} hover={true}>
                     <TableCell>{row.id}</TableCell>
                     <TableCell>{row.createdAt.slice('T', 10)}</TableCell>
                     <TableCell>{row.createdAt.split('T')[1].slice(0, 5)}</TableCell>
@@ -129,6 +175,7 @@ export default function Orders() {
                     <TableCell><AdminOrder orderId={row.id} /></TableCell>
                     <TableCell align="right">$ {price[i]}</TableCell>
                   </TableRow>
+                  : null
               ))}
             </TableBody>
           </Table>
