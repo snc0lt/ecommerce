@@ -12,7 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Copyright from '../utils/Copyright'
 import { useDispatch, useSelector } from "react-redux";
-import { userLogin, addProductCart, cleanGuestOrder, addUser } from "../../actions";
+import { userLogin, addProductCart, cleanGuestOrder, addUser, userGoogle } from "../../actions";
 import swal from 'sweetalert';
 import GoogleLogin from 'react-google-login'
 // import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -42,6 +42,7 @@ export default function SignIn() {
   const guestCart = useSelector(state => state.guestCart)
   const guestUser = useSelector(state => state.user)
   const gCount = useSelector(state => state.guestCount)
+  // const userDet = useSelector(state => state.userDetails)
   const classes = useStyles();
   
   const [values, setValues] = useState({
@@ -56,71 +57,63 @@ export default function SignIn() {
 
   const responseGoogle = async (response) => { 
   
-  const { email, familyName, givenName, googleId } = response.profileObj
-  const gmail = {
-    firstName: givenName, //obtenemos el nombre de las respuesta
-    lastName: familyName, //obtenemos el apellido de las respuesta
-    email: email, //obtenemos el email de las respuesta
-    password: googleId, //seteamos una password
-  }
-  const logueo = {
-    username: email,
-    password: googleId,
-  }
-
-
-  const user = await fetch(`http://localhost:3001/user/email`, {
-    method: 'POST',
-    body: JSON.stringify({ email: email }),
-    headers: {
+    const { email, familyName, givenName, googleId } = response.profileObj
+    const gmail = {
+      firstName: givenName, //obtenemos el nombre de las respuesta
+      lastName: familyName, //obtenemos el apellido de las respuesta
+      email: email, //obtenemos el email de las respuesta
+      password: googleId,
+      isGoogle: true //seteamos una password
+    }
+    const logueo = {
+      username: email,
+      password: googleId,
+    }
+    const user = await fetch(`http://localhost:3001/user/email`, {
+      method: 'POST',
+      body: JSON.stringify({ email: email }),
+      headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-    },
+      },
     })
-   const { usuario } = await user.json()
-   if(!usuario){await dispatch(addUser(gmail))}
-   if (usuario && !usuario.active) {
-    swal('Error', 'Cuenta bloqueada, contactese con el administrador', 'error')
-    return
-   }
+    const { usuario } = await user.json()
 
-   if (!guestUser && guestCart) {
-    let pId;
-    const storage = JSON.parse(localStorage.getItem('guest_cart'))
-    //   storage.map( s => dispatch(addProductCart(userId, s.id, s.price)))
-    storage && storage.map(s => {
-    pId = s.id
-    dispatch(addProductCart(usuario.id, s.id, s.price))
+    if(!usuario){ 
+      dispatch(addUser(gmail));
+      }
+    if (usuario && !usuario.active) {
+        swal('Error', 'Cuenta bloqueada, contactese con el administrador', 'error')
+        return
+    }   
+
+    if (usuario && guestCart) {    
+      guestCart.map(s => {
+      dispatch(addProductCart(usuario.id, s.id, s.price))
     })
-
     //   // guestCart.map(g => dispatch(addProductCart(userId, g.id, g.price)))
-    localStorage.removeItem('guest_cart')
-    dispatch(cleanGuestOrder())
-    dispatch(userLogin(logueo, history))
-    console.log('loggeado exitosamente 1')
-      
+      localStorage.removeItem('guest_cart')
+      dispatch(cleanGuestOrder())
+         
     }
-   if (guestUser && guestCart) {
+    if (guestCart && guestUser) {
+      console.log('entre al segundo if')
       try {
         guestCart.map(g => dispatch(addProductCart(guestUser.id, g.id, g.price)))
         localStorage.removeItem('guest_cart')
-        dispatch(cleanGuestOrder())
-        dispatch(userLogin(logueo, history))
-        console.log('loggeado exitosamente 2')
-      } catch (err) { console.log(err) }
-    }
-    dispatch(cleanGuestOrder())
-    dispatch(userLogin(logueo, history))
-    // history.push('/')
-    localStorage.removeItem('guest_cart')
-    console.log('loggeado exitosamente 3')
+        dispatch(cleanGuestOrder())   
+      } catch (err) { console.log(err) }      
+    }   
+    dispatch(userGoogle())    
+    dispatch(userLogin(logueo, history)) 
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!guestUser && guestCart) {
+      console.log('entre al primer if')
       try {
-        const user = await fetch(`http://localhost:3001/user/email`, {
+        const user = await fetch('http://localhost:3001/user/email', {
           method: 'POST',
           body: JSON.stringify({ email: values.username }),
           headers: {
@@ -134,9 +127,9 @@ export default function SignIn() {
           return
         }
         let pId;
-        const storage = JSON.parse(localStorage.getItem('guest_cart'))
+        // const storage = JSON.parse(localStorage.getItem('guest_cart'))
         //   storage.map( s => dispatch(addProductCart(userId, s.id, s.price)))
-        storage.map(s => {
+        guestCart.map(s => {
           pId = s.id
           dispatch(addProductCart(usuario.id, s.id, s.price))
         })
@@ -149,6 +142,7 @@ export default function SignIn() {
       } catch (err) { console.log(err) }
     }
     if (guestCart && guestUser) {
+      console.log('entre al segundo if')
       try {
         guestCart.map(g => dispatch(addProductCart(guestUser.id, g.id, g.price)))
         localStorage.removeItem('guest_cart')
@@ -157,11 +151,16 @@ export default function SignIn() {
         console.log('loggeado exitosamente 2')
       } catch (err) { console.log(err) }
     }
-    dispatch(cleanGuestOrder())
+    // console.log('no entre a ninguno')
+    // dispatch(cleanGuestOrder())
     dispatch(userLogin(values, history))
-    // history.push('/')
-    localStorage.removeItem('guest_cart')
-    console.log('loggeado exitosamente 3')
+    // // history.push('/')
+    // localStorage.removeItem('guest_cart')
+    // console.log('loggeado exitosamente 3')
+  }
+
+  const responseFailGoogle = (response) => {
+    swal("Error", "Error al loguear con cuenta google", "error")
   }
 
   const handleChange = (e) => {
@@ -238,8 +237,8 @@ export default function SignIn() {
                 clientId= {"870686065038-pbngahqtonie7p6oefqt2vulmtnh4hfn.apps.googleusercontent.com"}//"290048590933-08oj5or91lu4hpkbnbjs1d0gl6tcied5.apps.googleusercontent.com"}
                 buttonText='Ingresar con Google'
                 onSuccess={responseGoogle}
-                //onFailure={responseGoogle}
-                isSignedIn={true}                            
+                onFailure={responseFailGoogle}
+                isSignedIn={false}                            
                 cookiePolicy={'single_host_origin'}/>
             </div>
       </div>

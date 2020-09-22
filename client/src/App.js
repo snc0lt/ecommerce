@@ -9,7 +9,7 @@ import SearchBar from './components/SearchBar/SearchBar';
 import { Carrousel } from './components/Carrousel/Carrousel';
 import EditCategory from './components/FormCategory/FormUpdateDeleteCategory';
 import Categorias from './components/Categorias/Categorias';
-import SignUp from './components/SignUp/SignUp'
+import SignUp from './components/SignUp/SignUp2'
 import Register from './components/SignUp/Register'
 import Container from '@material-ui/core/Container'
 import { Cart } from './components/Cart'
