@@ -17,20 +17,7 @@ import { cleanOrder } from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import EmptyCart from '../../components/Cart/EmptyCart'
-
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import Copyright from '../utils/Copyright'
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -69,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const steps = ['Shipping address', 'Payment details', 'Review your order'];
+const steps = ['Direccion de envío', 'Detalles de pago', 'Resumen de compra'];
 
 function getStepContent(step) {
   switch (step) {
@@ -105,7 +92,7 @@ export default function Checkout() {
 					}
 				})
 			} catch (err) { console.log(err) }
-			history.push('/')
+			// history.push('/')
 		} else if (!userDet) {
 			history.push('/user/login')
 		}
@@ -144,11 +131,11 @@ export default function Checkout() {
             {activeStep === steps.length ? (
               <React.Fragment>
                 <Typography variant="h5" gutterBottom>
-                  Thank you for your order.
+                  Gracias por su compra.
                 </Typography>
                 <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order confirmation, and will
-                  send you an update when your order has shipped.
+                  Tu numero de orden es: #{cart[0].order_product.orderId}. Te hemos enviado un mail con el detalle del pedido, 
+                  le notificaremos cuando enviemos su compra.
                 </Typography>
               </React.Fragment>
             ) : (
@@ -157,7 +144,7 @@ export default function Checkout() {
                 <div className={classes.buttons}>
                   {activeStep !== 0 && (
                     <Button onClick={handleBack} className={classes.button}>
-                      Back
+                      Atras
                     </Button>
                   )}
                   <Button
@@ -166,7 +153,7 @@ export default function Checkout() {
                     onClick={() => handleNext()}
                     className={classes.button}
                   >
-                    {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
+                    {activeStep === steps.length - 1 ? 'Realizar pedido' : 'Siguiente'}
                   </Button>
                 </div>
               </React.Fragment>

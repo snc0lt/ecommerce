@@ -229,7 +229,17 @@ server.put('/password/:token', async (req, res) => {
 //modificar usuario
 server.patch('/:id', isAuthenticated, async (req, res) => {
 	try {
-	const { firstName, lastName, email, password, address, phone } = req.body
+	const { 
+		firstName, 
+		lastName, 
+		email, 
+		password, 
+		address, 
+		phone, 
+		city, 
+		province, 
+		postalcode, 
+		country } = req.body
 
 	const user = await User.findByPk(req.user.id)
 		await user.update({
@@ -240,6 +250,10 @@ server.patch('/:id', isAuthenticated, async (req, res) => {
 			address : address || user.address,
 			phone : phone || user.phone,
 			resetPassword : false,
+			city: city || user.city,
+			province: province || user.province,
+			postalcode: postalcode || user.postalcode,
+			country: country || user.country
 		})
 		res.send(user)
 	} catch (error) {console.log(err)}
