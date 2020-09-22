@@ -87,22 +87,18 @@ export default function SignIn() {
         return
     }   
 
-    if (usuario && guestCart) {    
+    if (guestCart && usuario) {    
       guestCart.map(s => {
       dispatch(addProductCart(usuario.id, s.id, s.price))
     })
-    //   // guestCart.map(g => dispatch(addProductCart(userId, g.id, g.price)))
       localStorage.removeItem('guest_cart')
       dispatch(cleanGuestOrder())
          
     }
     if (guestCart && guestUser) {
-      console.log('entre al segundo if')
-      try {
         guestCart.map(g => dispatch(addProductCart(guestUser.id, g.id, g.price)))
         localStorage.removeItem('guest_cart')
-        dispatch(cleanGuestOrder())   
-      } catch (err) { console.log(err) }      
+        dispatch(cleanGuestOrder())              
     }   
     dispatch(userGoogle())    
     dispatch(userLogin(logueo, history)) 
