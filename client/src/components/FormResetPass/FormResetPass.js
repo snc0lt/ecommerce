@@ -73,6 +73,17 @@ useEffect(() => {
 
   const handleSubmit = async function (e) {
     e.preventDefault()
+    const user = await fetch(`http://localhost:3001/user/email`, {
+      method: 'POST',
+      body: JSON.stringify({ email: values.email }),
+      headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      },
+    })
+    const { usuario } = await user.json() 
+    if (!usuario){swal('Error','Cuenta inexistente','error'); return}  
+    if (usuario.isGoogle){swal('Error','mail asociado a Cuenta Google','error'); return}
     sendMail(values.email) 
     swal("Success","Mail enviado","success");   
     resetForm()
