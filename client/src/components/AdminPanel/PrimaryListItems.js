@@ -96,7 +96,7 @@ const primaryList = url.pathname.includes('/admin') ? (<div>
 </ListItem>
 </Link>
 
-{!google ? <Link to={`/user/resetpassword/${user.id}`}>
+{!user.isGoogle ? <Link to={`/user/resetpassword/${user.id}`}>
 <ListItem button>
   <ListItemIcon>
     <PeopleIcon />
