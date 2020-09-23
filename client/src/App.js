@@ -21,6 +21,8 @@ import UsersList from './components/AdminPanel/UsersList'
 import Profile from './components/Userpanel/Profile'
 import ResetPass from './components/Userpanel/ResetPass'
 import FormResetPass from './components/FormResetPass/FormResetPass'
+import ProtectedAdminRoute from './auth/ProtectedAminRoute'
+import ProtectedUserRoute from './auth/ProtectedUserRoutes'
 
 
 function App() {
@@ -37,11 +39,11 @@ function App() {
       dispatch(setUser(user))
       // dispatch(getUsers())
     }
-    if(!user && user_sign){
+    if (!user && user_sign) {
       dispatch(setUserSign(user_sign))
       // dispatch(getUsers())
     }
-    if(guestCart) {
+    if (guestCart) {
       dispatch(setGuestCart(guestCart))
       // dispatch(getUsers())
     }
@@ -81,48 +83,50 @@ function App() {
       {displayNoneCarrousel}
       <Switch>
         <Container maxWidth='lg' className='App_container'>
-        
+          
           <Route exact path='/' component={Catalogo} />
 
           <Route exact path='/:name' component={Catalogo} />
 
-          <Route path='/category/:idCategory'
+          <Route exact path='/category/:idCategory'
             render={({ match }) => (
               <FormCategory match={match} />
-              )} />
+            )} />
 
           <Route exact path='/products/:id' component={ProductDetails} />
-          <Route path='/products/category/:id' component={Catalogo} />
+          <Route exact path='/products/category/:id' component={Catalogo} />
 
 
-          <Route exact path='/admin/panel' component={Dashboard} />
-          <Route exact path='/admin/createProduct' component={CreateProduct} />
-          <Route exact path='/admin/createCategory'
+          <ProtectedAdminRoute exact path='/admin/panel' component={Dashboard} />
+          <ProtectedAdminRoute exact path='/admin/createProduct' component={CreateProduct} />
+          <ProtectedAdminRoute exact path='/admin/createCategory'
             render={({ match }) => <FormCategory match={match} />}
           />
-          <Route exact path='/admin/editCategory' component={Categorias} />
-          <Route exact path='/admin/products/edit' component={Catalogo} />
-          <Route exact path="/admin/editproduct/:id" component={CreateProduct} />
-          <Route exact path='/admin/editCategory/:name'
+          <ProtectedAdminRoute exact path='/admin/editCategory' component={Categorias} />
+          <ProtectedAdminRoute exact path='/admin/products/edit' component={Catalogo} />
+          <ProtectedAdminRoute exact path="/admin/editproduct/:id" component={CreateProduct} />
+          <ProtectedAdminRoute exact path='/admin/editCategory/:name'
             render={({ match }) => (
               <EditCategory match={match} />
-              )}
+            )}
           />
-          <Route exact path='/admin/orders' component={Orders} />
-          <Route exact path='/admin/users' component={UsersList} />
+          <ProtectedAdminRoute exact path='/admin/orders' component={Orders} />
+          <ProtectedAdminRoute exact path='/admin/users' component={UsersList} />
 
           <Route exact path='/user/login' component={SignUp} />
           <Route exact path='/user/register' component={Register} />
           <Route exact path='/user/cart' component={Cart} />
-          <Route exact path='/user/checkout' component={Checkout} />
-          <Route exact path='/cart' component={Cart} />
-          <Route exact path='/user/panel/:id' component={Dashboard} />
-          <Route exact path='/user/perfil/:id' component={Profile} />
-          <Route exact path='/user/miscompras/:id' component={Orders} />
-          <Route exact path='/user/resetpassword/:id' component={ResetPass} />
-          <Route exact path='/user/resetpassword/' component={FormResetPass} />
-          <Route exact path='/user/resetpassword/recordar/:id' component={ResetPass} />
+          <ProtectedUserRoute exact path='/user/checkout' component={Checkout} />
+          <ProtectedUserRoute exact path='/cart' component={Cart} />
+          <ProtectedUserRoute exact path='/user/panel/:id' component={Dashboard} />
+          <ProtectedUserRoute exact path='/user/perfil/:id' component={Profile} />
+          <ProtectedUserRoute exact path='/user/miscompras/:id' component={Orders} />
+          <ProtectedUserRoute exact path='/user/resetpassword/:id' component={ResetPass} />
+          <ProtectedUserRoute exact path='/user/resetpassword/' component={FormResetPass} />
+          <ProtectedUserRoute exact path='/user/resetpassword/recordar/:id' component={ResetPass} />
+
         </Container>
+        
       </Switch>
 
     </div>
