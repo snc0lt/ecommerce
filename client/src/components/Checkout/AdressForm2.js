@@ -16,6 +16,7 @@ import Copyright from '../utils/Copyright'
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { useRadioGroup } from '@material-ui/core';
+import { cleanOrder } from '../../actions';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -81,15 +82,16 @@ export default function AddressForm() {
         setUser(data);
         // dispatch(setUser(data))
       })
-  }, [userId])
-
-  console.log(userId.id)
+  }, [])
 
   const handleChange = (event) => {
     // setErrors(validate({ ...user, [event.target.name]: event.target.value }))
     setUser({ ...user, [event.target.name]: event.target.value });
   };
 
+  const prueba = () => {
+    dispatch(cleanOrder())
+  }
   const handleSubmit = async function (e) {
     e.preventDefault()
     const envio = {
@@ -240,6 +242,10 @@ export default function AddressForm() {
                   className={classes.button}
                 >
                   Siguiente
+                </Button>
+                <Button
+                onClick={prueba}>
+                  Hola
                 </Button>
               </div>
             </form>

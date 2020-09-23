@@ -51,7 +51,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 export default function PaymentForm() {
   const classes = useStyles();
   const history = useHistory()

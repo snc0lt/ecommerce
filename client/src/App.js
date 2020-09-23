@@ -120,7 +120,7 @@ function App() {
           <Route exact path='/user/addressform' component={AddressForm} />
           <Route exact path='/user/paymentdetails' component={PaymentForm} />
           <Route exact path='/user/revieworder' component={ReviewOrder} />
-          <Route exact path='/user/orderid' component={Checkout} />
+          <Route exact path='/user/orderid/:id' component={Checkout} />
           <Route exact path='/cart' component={Cart} />
           <Route exact path='/user/panel/:id' component={Dashboard} />
           <Route exact path='/user/perfil/:id' component={Profile} />

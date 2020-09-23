@@ -13,6 +13,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom';
+import { updateOrder, cleanOrder } from '../../actions'
+import { useDispatch, useSelector } from 'react-redux'
 
 const products = [
   { name: 'Product 1', desc: 'A nice thing', price: '$9.99' },
@@ -23,10 +25,10 @@ const products = [
 ];
 const addresses = ['1 Material-UI Drive', 'Reactville', 'Anytown', '99999', 'USA'];
 const payments = [
-  { name: 'Card type', detail: 'Visa' },
-  { name: 'Card holder', detail: 'Mr John Smith' },
-  { name: 'Card number', detail: 'xxxx-xxxx-xxxx-1234' },
-  { name: 'Expiry date', detail: '04/2024' },
+  { name: 'Tipo', detail: 'Visa' },
+  { name: 'Titular', detail: 'Mr John Smith' },
+  { name: 'Numero', detail: 'xxxx-xxxx-xxxx-1234' },
+  { name: 'Fecha de expiracion', detail: '04/2024' },
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -78,6 +80,31 @@ const useStyles = makeStyles((theme) => ({
 export default function Review() {
   const classes = useStyles();
   const history = useHistory()
+  const dispatch = useDispatch()
+  const cart = useSelector(state => state.cart)
+  const userDet = useSelector(state => state.userDetails)
+  var cartTotal = 0;
+
+  cart.map((prodtotal) => (
+    cartTotal = cartTotal + prodtotal.price
+  ))
+
+  const updateOrder = (orderId, state) => {
+    if (userDet) {
+      try {
+        const data = fetch(`http://localhost:3001/orders/detail/${orderId}`, {
+          method: 'PUT',
+          body: JSON.stringify(state),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+      } catch (err) { console.log(err) }
+      // history.push('/')
+    } else if (!userDet) {
+      history.push('/user/login')
+    }
+  }
 
   const handleBack = () => {
     history.push('/user/paymentdetails')
@@ -88,7 +115,10 @@ export default function Review() {
   }
 
   const handleNext = () => {
-      history.push('/user/orderid')
+    const orderId = cart[0].order_product.orderId
+    updateOrder(orderId, { state: 'completa'})
+    dispatch(cleanOrder())
+    history.push(`/user/orderid/${orderId}`)
   }
 
   return (
@@ -115,16 +145,17 @@ export default function Review() {
         Resumen de compra
       </Typography>
       <List disablePadding>
-        {products.map((product) => (
+        {cart.map((product) => (
           <ListItem className={classes.listItem} key={product.name}>
-            <ListItemText primary={product.name} secondary={product.desc} />
+            <ListItemText primary={product.name} /*secondary={product.description}*/ />
             <Typography variant="body2">{product.price}</Typography>
           </ListItem>
         ))}
         <ListItem className={classes.listItem}>
           <ListItemText primary="Total" />
           <Typography variant="subtitle1" className={classes.total}>
-            $34.06
+            $ {cartTotal}
+            {/* $ {cartTotal} */}
           </Typography>
         </ListItem>
       </List>
@@ -133,8 +164,10 @@ export default function Review() {
           <Typography variant="h6" gutterBottom className={classes.title}>
             Envio
           </Typography>
-          <Typography gutterBottom>John Smith</Typography>
-          <Typography gutterBottom>{addresses.join(', ')}</Typography>
+          <Typography gutterBottom>{userDet.firstName}</Typography>
+          <Typography gutterBottom>
+            {userDet.address}, {userDet.province} - {userDet.city} / {userDet.postalcode}, {userDet.country} 
+            </Typography>
         </Grid>
         <Grid item container direction="column" xs={12} sm={6}>
           <Typography variant="h6" gutterBottom className={classes.title}>   

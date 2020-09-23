@@ -15,7 +15,7 @@ import PaymentForm from './PaymentForm';
 import Review from './Review';
 import { cleanOrder } from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import EmptyCart from '../../components/Cart/EmptyCart'
 import Copyright from '../utils/Copyright'
 
@@ -71,7 +71,7 @@ function getStepContent(step) {
   }
 }
 
-export default function Checkout() {
+export default function Checkout( ) {
   const history = useHistory()
   const dispatch = useDispatch()
   const classes = useStyles();
@@ -80,6 +80,7 @@ export default function Checkout() {
   const user = useSelector( state => state.user)
   const cart = useSelector(state => state.cart)
   const userDet = useSelector(state => state.userDetails)
+  const { id } = useParams();
 
   console.log(user)
 
@@ -111,7 +112,7 @@ export default function Checkout() {
                   Gracias por su compra.
                 </Typography>
                 <Typography variant="subtitle1">
-                  Tu numero de orden es: #{cart[0].order_product.orderId}. Te hemos enviado un mail con el detalle del pedido, 
+                  Tu numero de orden es: #{id}. Te hemos enviado un mail con el detalle del pedido, 
                   le notificaremos cuando enviemos su compra.
                 </Typography>
                 <div>
