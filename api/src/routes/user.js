@@ -124,7 +124,7 @@ server.get('/admin/email', async (req, res) => {
 
 //crear usuariopassword
 server.post('/', async (req, res) => {
-	const { firstName, lastName, email, password, isAdmin, } = req.body
+	const { firstName, lastName, email, password, isAdmin, isGoogle} = req.body
 
 	if (!firstName || !lastName || !email || !password) {
 		res.status(400).json({
@@ -142,7 +142,7 @@ server.post('/', async (req, res) => {
 			res.status(400).send({ msg: 'El email ya existe', status: 400 })
 		} else {
 			try {
-				const user = await User.create({ firstName, lastName, email, password, isAdmin, active: true })
+				const user = await User.create({ firstName, lastName, email, password, isAdmin, isGoogle,active: true })
 				res.status(201).send({ msg: 'Usuario creado con exito', user, status: 201 })
 			}
 			catch (err) { res.status(400).send(err) }

@@ -29,8 +29,7 @@ export const Cart = () => {
 		if (userId) {
 			dispatch(getUserProductsCart(userId.id))
 		}
-	// }, [cart])
-	}, [ cart])
+	}, [total])
 
 	useEffect(() => {
 		let sum = 0
