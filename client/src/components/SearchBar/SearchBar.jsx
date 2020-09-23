@@ -326,7 +326,7 @@ export default function SearchBar() {
                       </IconButton>
                     </Link>
                   </Tooltip>
-                  {!google
+                  {!userId.isGoogle
                   ?
                   <Tooltip title='log out'>
                     <IconButton onClick={logOut}>
