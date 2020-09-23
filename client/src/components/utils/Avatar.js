@@ -28,7 +28,11 @@ export default function LetterAvatars({ alguien }) {
     <>
       {logged ?
         <div className={classes.root}>
-          <Avatar className={classes.orange}>{user.firstName.substring(0, 1)}{user.lastName.substring(0, 1)}</Avatar>
+          {user.isGoogle
+          ?
+          <Avatar src= {user.imageGoogle} className={classes.orange}>{user.firstName.substring(0, 1)}{user.lastName.substring(0, 1)}</Avatar>
+          :
+          <Avatar className={classes.orange}>{user.firstName.substring(0, 1)}{user.lastName.substring(0, 1)}</Avatar>}
         </div>
         : null
         // : alguien !== null &&
