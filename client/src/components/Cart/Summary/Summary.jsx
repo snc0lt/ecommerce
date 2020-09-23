@@ -23,7 +23,7 @@ export const Summary = ({ total, orderId, suma }) => {
 				})
 				console.log("respuesta al colocar la orden en el back", data)
 			} catch (err) {console.log(err) }
-			history.push('/user/checkout')
+			history.push('/user/addressform')
 		} else if (!logged) {
 			history.push('/user/login')
 		}
