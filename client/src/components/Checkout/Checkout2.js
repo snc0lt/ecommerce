@@ -15,7 +15,7 @@ import PaymentForm from './PaymentForm';
 import Review from './Review';
 import { cleanOrder } from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import EmptyCart from '../../components/Cart/EmptyCart'
 import Copyright from '../utils/Copyright'
 
@@ -71,7 +71,7 @@ function getStepContent(step) {
   }
 }
 
-export default function Checkout() {
+export default function Checkout( ) {
   const history = useHistory()
   const dispatch = useDispatch()
   const classes = useStyles();
@@ -80,92 +80,55 @@ export default function Checkout() {
   const user = useSelector( state => state.user)
   const cart = useSelector(state => state.cart)
   const userDet = useSelector(state => state.userDetails)
+  const { id } = useParams();
 
-  const updateOrder = (orderId, state) => {
-		if (userDet) {
-			try {
-				const data = fetch(`http://localhost:3001/orders/detail/${orderId}`, {
-					method: 'PUT',
-					body: JSON.stringify(state),
-					headers: {
-						'Content-Type': 'application/json'
-					}
-				})
-			} catch (err) { console.log(err) }
-			// history.push('/')
-		} else if (!userDet) {
-			history.push('/user/login')
-		}
-	}
+  console.log(user)
 
-  const handleNext = () => {
-    if(activeStep === steps.length - 1 && cart && cart.length > 0 && userDet){
-      const orderId = cart[0].order_product.orderId
-      // updateOrder(orderId, { state: 'completa'})
-      // dispatch(cleanOrder())
-    }
-    setActiveStep(activeStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep(activeStep - 1);
+  const handleSubmit = () => {
+    history.push(`/user/panel/${user.id}`)
   };
 
   return (
-    <>{ cart && cart.length > 0 && userDet
-      ? <>
+  <>
       <CssBaseline />
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h4" align="center">
             Checkout
-          </Typography>
-          <Stepper activeStep={activeStep} className={classes.stepper}>
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
+      </Typography>
+          <Stepper activeStep={3} className={classes.stepper}>
+            <Step key={1}>
+              <StepLabel>{'Direccion de envío'}</StepLabel>
+            </Step>
+            <Step key={2}>
+              <StepLabel>{'Detalles de pago'}</StepLabel>
+            </Step>
+            <Step key={3}>
+              <StepLabel>{'Resumen de compra'}</StepLabel>
+            </Step>
           </Stepper>
           <React.Fragment>
-            {activeStep === steps.length ? (
-              <React.Fragment>
                 <Typography variant="h5" gutterBottom>
                   Gracias por su compra.
                 </Typography>
                 <Typography variant="subtitle1">
-                  Tu numero de orden es: #{cart[0].order_product.orderId}. Te hemos enviado un mail con el detalle del pedido, 
+                  Tu numero de orden es: #{id}. Te hemos enviado un mail con el detalle del pedido, 
                   le notificaremos cuando enviemos su compra.
                 </Typography>
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                {getStepContent(activeStep)}
-                <div className={classes.buttons}>
-                  {activeStep !== 0 && (
-                    <Button onClick={handleBack} className={classes.button}>
-                      Atras
-                    </Button>
-                  )}
-                  <Button
-                    type='submit'
-                    variant="contained"
-                    color="primary"
-                    onClick={() => handleNext()}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 1 ? 'Realizar pedido' : 'Siguiente'}
-                  </Button>
+                <div>
+                <Button
+                type='submit'
+                variant="contained"
+                color="primary"
+                onClick={handleSubmit}
+                className={classes.button}
+              >
+                Finalizar
+                </Button>
                 </div>
-              </React.Fragment>
-            )}
           </React.Fragment>
         </Paper>
         <Copyright />
       </main>
     </>
-    : <EmptyCart />
-    }
-    </>
-  );
-}
+  )}

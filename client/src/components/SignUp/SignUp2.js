@@ -56,13 +56,13 @@ export default function SignIn() {
 
 
   const responseGoogle = async (response) => { 
-  
-    const { email, familyName, givenName, googleId } = response.profileObj
+    const { email, familyName, givenName, googleId, imageUrl } = response.profileObj
     const gmail = {
       firstName: givenName, //obtenemos el nombre de las respuesta
       lastName: familyName, //obtenemos el apellido de las respuesta
       email: email, //obtenemos el email de las respuesta
       password: googleId,
+      imageGoogle: imageUrl,
       isGoogle: true //seteamos una password
     }
     const logueo = {

@@ -151,6 +151,19 @@ server.put('/:id', (req, res) => {
 		})
 		.catch((err) => res.status(404).send('Id no valido'))
 })
+
+// modifica stock del producto 
+server.put('/stock/:id', (req, res) => {
+	Product.findByPk(req.params.id)
+		.then((product) => {
+			product.stock = req.body.stock
+			product.save().then((prod) => {
+				res.status(204).send({msg: 'producto actualizado exitosamente', prod})
+			})
+		})
+		.catch((err) => res.status(404).send('Id no valido'))
+})
+
 //crear reviews
 server.post("/postreview", isAuthenticated, async (req, res) => {
 	const {comments, score, userId, productId} = req.body

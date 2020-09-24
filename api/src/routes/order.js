@@ -1,7 +1,7 @@
 const server = require('express').Router()
 const { Op } = require('sequelize')
 const { Order, Product, User, Order_product} = require('../db.js')
-
+const mail = require('../controler/mailer')
 // Si el req tiene un query Search filtra las ordenes que coincidan con el estado
 // Valores validos para el state: 'carrito', 'creada', 'cancelada', 'procesando', 'completa'
 
@@ -109,5 +109,14 @@ server.put('/detail/:orderId', async (req, res) => {
     res.send(updatedOrder)
   } catch (err) {res.send(err)}
 })
+
+// send mail when buy is completed
+server.post('/complete_buy', mail.sendBuy)
+
+// send mail when an order is dispatched
+server.post('/dispatch_buy', mail.sendDespacho)
+
+// send mail whe an order is canceled
+server.post('/cancel_buy', mail.sendCancel)
 
 module.exports = server
