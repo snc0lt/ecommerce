@@ -10,6 +10,7 @@ const initialstate = {
 	guestCart: [],
 	closedOrders: [],
 	userLogged: false,
+	userGoogle: false,
 	reviews: [],
 	guestCount: [],
 	guestTotal: [],
@@ -192,6 +193,11 @@ export default function rootReducer(state = initialstate, action) {
 				userLogged: true,
 				guestTotal: [],		
 			}
+	    case 'USER_GOOGLE':
+			return {
+				...state,
+				userGoogle: true,
+			}
 		case 'USER_LOGOUT': /*listo*/
 			return {
 				...state,
@@ -200,6 +206,7 @@ export default function rootReducer(state = initialstate, action) {
 				guestCart: [],
 				userDetails: {},
 				userLogged: false,
+				userGoogle: false,
 				cart: []
 			}
 		// case 'USER_CHANGE_PASSWORD':

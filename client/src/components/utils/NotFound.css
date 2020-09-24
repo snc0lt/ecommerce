@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@1,800&display=swap');
+
+.not_found{
+  width: 800px;
+  height: 600px;
+  margin: auto;
+  font-family: 'Epilogue', sans-serif;
+  color: teal;
+}
+
+.not_found_img{
+  width: 600px;
+  height: 600px;
+  object-fit: contain;
+}

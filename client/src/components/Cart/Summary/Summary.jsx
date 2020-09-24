@@ -9,6 +9,7 @@ export const Summary = ({ total, orderId, suma }) => {
 	const userId = useSelector(state => state.userDetails)
 	const logged = useSelector(state => state.userLogged)
 	const asd4 = useSelector(state => state.guestTotal)
+	const [sum,setSum] = useState()
 	const history = useHistory();
 	
 	const updateOrder = async (orderId, state) => {
@@ -32,12 +33,15 @@ export const Summary = ({ total, orderId, suma }) => {
 		dispatch(cleanGuestOrder())
 		history.push('/user/login')
 	}
+
+	useEffect(()=>{
+		let suma = 0
+		asd4 && asd4.map( t => {suma = suma + t})
+		setSum(suma)
+	}
+	,[asd4])
 	
-	let sum = 0
-	asd4 && asd4.map( t => {
-		sum = sum + t
-		return sum
-	})
+	
 	
 	
 	return (

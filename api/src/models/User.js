@@ -28,6 +28,14 @@ module.exports = (sequelize) => {
 			type: DataTypes.BOOLEAN,
 			defaultValue: false,
 		},
+		isGoogle: {
+			type: DataTypes.BOOLEAN,
+			defaultValue: false,
+		},
+		imageGoogle:{
+			type: DataTypes.STRING,
+			defaultValue: ''
+		},
 		resetPassword: {
 			type: DataTypes.BOOLEAN,
 			defaultValue: false,

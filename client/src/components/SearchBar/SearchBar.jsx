@@ -105,8 +105,7 @@ export default function SearchBar() {
   const userId = useSelector(state => state.userDetails)
   const logged = useSelector(state => state.userLogged)
   const guestCart = useSelector(state => state.guestCart)
-
- 
+  const google = useSelector(state => state.userGoogle)
 
 
 
@@ -327,17 +326,20 @@ export default function SearchBar() {
                       </IconButton>
                     </Link>
                   </Tooltip>
+                  {!userId.isGoogle
+                  ?
                   <Tooltip title='log out'>
                     <IconButton onClick={logOut}>
                       <CallMadeIcon style={{ color: 'white' }} />
                     </IconButton>
                   </Tooltip>
-                  {/* <GoogleLogout
-         clientId={"870686065038-pbngahqtonie7p6oefqt2vulmtnh4hfn.apps.googleusercontent.com"}
-         buttonText="Logout"
-         onLogoutSuccess={logOut}
-       >
-       </GoogleLogout> */}
+                  :
+                  <GoogleLogout
+                    clientId={"870686065038-pbngahqtonie7p6oefqt2vulmtnh4hfn.apps.googleusercontent.com"}
+                    buttonText="Logout"
+                    onLogoutSuccess={logOut}
+                   >
+                   </GoogleLogout>}
                   {/* <Button color='inherit' >Cerrar sesion</Button> */}
                   <IconButton
                     edge="end"

@@ -18,6 +18,7 @@ import { useSelector } from 'react-redux'
 export default function PrimaryListItems(){
   const url = useLocation();
   const user = useSelector(state => state.userDetails)
+  const google = useSelector(state => state.userGoogle)
   //const { id } = useParams();
 const primaryList = url.pathname.includes('/admin') ? (<div>
 <ListItem button component="a" href="http://localhost:3000/admin/panel">
@@ -95,14 +96,14 @@ const primaryList = url.pathname.includes('/admin') ? (<div>
 </ListItem>
 </Link>
 
-<Link to={`/user/resetpassword/${user.id}`}>
+{!user.isGoogle ? <Link to={`/user/resetpassword/${user.id}`}>
 <ListItem button>
   <ListItemIcon>
     <PeopleIcon />
   </ListItemIcon>
   <ListItemText primary="Cambiar Contraseña" />
 </ListItem>
-</Link>
+</Link> : null}
 </div>)
     return (<>{primaryList}</> 
 )

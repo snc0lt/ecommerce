@@ -14,9 +14,9 @@ export const getProducts = () => async dispatch => {
 
 }
 
-export const getProductsByCategory = (id) => dispatch => {
+export const getProductsByCategory = (id) => async dispatch => {
 	try {
-		fetch(`http://localhost:3001/category/${id}`)
+		await fetch(`http://localhost:3001/category/${id}`)
 			.then((data) => data.json())
 			.then((res) => {
 				dispatch({
@@ -30,9 +30,9 @@ export const getProductsByCategory = (id) => dispatch => {
 
 }
 
-export const getProductsBySearch = (query) => dispatch => {
+export const getProductsBySearch = (query) => async dispatch => {
 	try {
-		fetch(`http://localhost:3001/products/?search=${query}`)
+		await fetch(`http://localhost:3001/products/?search=${query}`)
 			.then(data => data.json())
 			.then(res => {
 				dispatch({
@@ -46,9 +46,9 @@ export const getProductsBySearch = (query) => dispatch => {
 
 }
 
-export const getProductDetail = (id) => dispatch => {
+export const getProductDetail = (id) => async dispatch => {
 	try {
-		fetch(`http://localhost:3001/products/${id}`)
+		await fetch(`http://localhost:3001/products/${id}`)
 			.then(data => data.json())
 			.then(res => {
 				dispatch({
@@ -86,9 +86,9 @@ export const createProduct = (producto, msg) => async dispatch => {
 }
 
 
-export const removeProduct = (id) => dispatch => {
+export const removeProduct = (id) => async dispatch => {
 	try {
-		fetch(`http://localhost:3001/products/${id}`, {
+		await fetch(`http://localhost:3001/products/${id}`, {
 			method: 'DELETE',
 			headers: {
 				'Accept': 'application/json',
@@ -106,11 +106,11 @@ export const removeProduct = (id) => dispatch => {
 }
 
 
-export const getCategories = () => dispatch => {
+export const getCategories = () => async dispatch => {
 
 	try {
 
-		fetch(`http://localhost:3001/category`)
+		await fetch(`http://localhost:3001/category`)
 			.then(data => data.json())
 			.then(res => {
 				dispatch({
@@ -154,9 +154,9 @@ export const addCategory = (category) => async dispatch => {
 	}	
 }
 
-export const removeCategory = (id) => dispatch => {
+export const removeCategory = (id) => async dispatch => {
 	try {
-		fetch(`http://localhost:3001/category/${id}`, {
+		await fetch(`http://localhost:3001/category/${id}`, {
 			method: 'DELETE',
 			headers: {
 				'Accept': 'application/json',
@@ -173,9 +173,9 @@ export const removeCategory = (id) => dispatch => {
 	
 }
 
-export const getUsers = () => dispatch =>{
+export const getUsers = () => async dispatch =>{
 	try {
-		fetch('http://localhost:3001/user', { credentials: 'include' })
+		await fetch('http://localhost:3001/user', { credentials: 'include' })
 		.then((res) => res.json())
 		.then((users) =>
 			dispatch({
@@ -188,9 +188,8 @@ export const getUsers = () => dispatch =>{
 		console.log(err)
 }}
 
-export function getUserDetail(id) {
-	return function (dispatch) {
-		return fetch(`http://localhost:3001/user/${id}`, {
+export const getUserDetail = (id) => async dispatch => {
+		await fetch(`http://localhost:3001/user/${id}`, {
 			credentials: 'include',
 		})
 			.then((res) => res.json())
@@ -200,9 +199,13 @@ export function getUserDetail(id) {
 					payload: user,
 				})
 			)
-	}
 }
 
+export const userGoogle = () => dispatch => {
+	dispatch({
+		type: 'USER_GOOGLE'
+	})
+}
 
 
 export const setUser = (user) => dispatch => {
@@ -218,9 +221,8 @@ export const setUserSign = (user) => dispatch => {
 	})
 }
 
-export function userLogin(input, history) {
-	return function (dispatch) {
-		return fetch(`http://localhost:3001/login`, {
+export const userLogin = (input, history) => async dispatch => {
+		await fetch(`http://localhost:3001/login`, {
 			method: 'POST',
 			credentials: 'include',
 			headers: {
@@ -247,11 +249,10 @@ export function userLogin(input, history) {
 				return { error: true, message: 'Error en login, intente otra vez' }
 			})
 	}
-}
 
-export function removeUser(id) {
-	return function (dispatch) {
-		return fetch(`http://localhost:3001/user/${id}`, {
+
+export const removeUser = (id) => async dispatch => {
+		await fetch(`http://localhost:3001/user/${id}`, {
 			method: 'DELETE',
 			credentials: 'include',
 			headers: {
@@ -268,13 +269,13 @@ export function removeUser(id) {
 				alert('Cuenta de usuario eliminada', '', 'success')
 			})
 			.catch((err) => console.log(err))
-	}
 }
 
-export const getUserProductsCart = (userId) => dispatch => {
+
+export const getUserProductsCart = (userId) => async dispatch => {
 
 	try {
-		fetch(`http://localhost:3001/user/${userId}/cart`, {
+		await fetch(`http://localhost:3001/user/${userId}/cart`, {
 			credentials: 'include',
 		})
 			.then((res) => res.json())
@@ -295,9 +296,8 @@ export const getUserProductsCart = (userId) => dispatch => {
 	
 }
 
-export function deleteProductInCart(userId, idProduct) {
-	return function (dispatch) {
-		return fetch(`http://localhost:3001/user/${userId}/cart`, {
+export const deleteProductInCart = (userId, idProduct) => async dispatch => {
+		await fetch(`http://localhost:3001/user/${userId}/cart`, {
 			method: 'DELETE',
 			credentials: 'include',
 			headers: {
@@ -314,12 +314,12 @@ export function deleteProductInCart(userId, idProduct) {
 					payload: product.productId,
 				})
 			})
-	}
 }
 
-export const updateCountProductInCart = (userId, idProduct, count) => dispatch => {
+
+export const updateCountProductInCart = (userId, idProduct, count) => async dispatch => {
 	try {
-		fetch(`http://localhost:3001/user/${userId}/cart`, {
+		await fetch(`http://localhost:3001/user/${userId}/cart`, {
 			method: 'PUT',
 			credentials: 'include',
 			headers: {
@@ -342,9 +342,8 @@ export const updateCountProductInCart = (userId, idProduct, count) => dispatch =
 	
 }
 
-export function addProductCart(idUser, idProduct, priceProduct) {
-	return function (dispatch) {
-		return fetch(`http://localhost:3001/user/${idUser}/cart`, {
+export const addProductCart = (idUser, idProduct, priceProduct) => async dispatch => {
+		await fetch(`http://localhost:3001/user/${idUser}/cart`, {
 			method: 'POST',
 			credentials: 'include',
 			headers: {
@@ -361,7 +360,7 @@ export function addProductCart(idUser, idProduct, priceProduct) {
 				})
 			})
 	}
-}
+
 
 export const setGuestCart = (guest) => dispatch => {
 	dispatch({
@@ -444,9 +443,8 @@ export const cleanOrder = () => dispatch => {
 	
 }
 
-export function getClosedOrders() {
-	return function (dispatch) {
-		return fetch('http://localhost:3001/orders/admin?search=completa', {
+export const getClosedOrders = () => async dispatch => {
+		await fetch('http://localhost:3001/orders/admin?search=completa', {
 			credentials: 'include',
 		})
 			.then((res) => res.json())
@@ -456,12 +454,12 @@ export function getClosedOrders() {
 					payload: closedOrders,
 				})
 			)
-	}
 }
 
-export const promoteToAdmin = (id,estado) => {
+
+export const promoteToAdmin = async (id,estado) => {
 	try {
-		fetch(`http://localhost:3001/admin/promote/${id}`, {
+		await fetch(`http://localhost:3001/admin/promote/${id}`, {
 			method: 'PUT',
 			credentials: 'include',
 			headers: {
@@ -480,9 +478,9 @@ export const promoteToAdmin = (id,estado) => {
 }
 
 
-export const addUser = (user) => dispatch => {
+export const addUser = (user) => async dispatch => {
 	try {
-		fetch('http://localhost:3001/user', {
+		await fetch('http://localhost:3001/user', {
 			method: 'POST',
 			credentials: 'include',
 			body: JSON.stringify(user),
@@ -510,9 +508,8 @@ export const addUser = (user) => dispatch => {
 	}
 }
 
-export function resetPassword(userId) {
-	return function (dispatch) {
-		return fetch(`http://localhost:3001/user/${userId}/passwordReset`, {
+export const resetPassword = (userId) => async dispatch => {
+		await fetch(`http://localhost:3001/user/${userId}/passwordReset`, {
 			method: 'POST',
 			credentials: 'include',
 			headers: {
@@ -527,12 +524,11 @@ export function resetPassword(userId) {
 					payload: data,
 				})
 			)
-	}
 }
 
-export function userLogout() {
-	return function (dispatch) {
-		return fetch('http://localhost:3001/logout', {
+
+export const userLogout = () => async dispatch => {
+		await fetch('http://localhost:3001/logout', {
 			credentials: 'include',
 		}).then(() =>{
 			localStorage.clear()
@@ -541,12 +537,11 @@ export function userLogout() {
 			})
 		}	
 		)
-	}
 }
 
-export function userChangePassword(input) {
-	return function (dispatch) {
-		return fetch(`http://localhost:3001/user/password`, {
+
+export const userChangePassword = (input) => async dispatch => {
+		await fetch(`http://localhost:3001/user/password`, {
 			method: 'PUT',
 			credentials: 'include',
 			headers: {
@@ -565,8 +560,8 @@ export function userChangePassword(input) {
 			})
 			.catch(err => swal("Ups","Ocurrió un error al cambiar la contraseña","error"))
 		
-	}
 }
+
 
 export function userForgotPassword(input,token) {
 	
@@ -591,9 +586,9 @@ export function userForgotPassword(input,token) {
 }
 
 
-export const disableOrEnableUser = (userId, status) => dispatch => {
+export const disableOrEnableUser = (userId, status) => async dispatch => {
 	try {
-		fetch(`http://localhost:3001/user/${userId}/active/${status}`, {
+		await fetch(`http://localhost:3001/user/${userId}/active/${status}`, {
 			method: 'PUT',
 			credentials: 'include',
 			headers: {
@@ -612,9 +607,8 @@ export const disableOrEnableUser = (userId, status) => dispatch => {
 	}
 }
 
-export function addReviews(productId, review, userId, star) {
-	return function (dispatch) {
-		return fetch(`http://localhost:3001/products/postreview`, {
+export const addReviews = (productId, review, userId, star) => async dispatch => {
+		await fetch(`http://localhost:3001/products/postreview`, {
 			method: 'POST',
 			credentials: 'include',
 			body: JSON.stringify({ comments:review, userId: userId, score:star, productId: productId }),
@@ -639,13 +633,13 @@ export function addReviews(productId, review, userId, star) {
 			.catch(() => {
 				alert('Error!', 'Ingresar los datos ', 'error')
 			})
-	}
 }
 
 
-export const sendMail = (mail) => {
+// reset password mail
+export const sendMail = async (mail) => {
 	try {
-		fetch('http://localhost:3001/user/reset_password', {
+		await fetch('http://localhost:3001/user/reset_password', {
 		method: 'POST',
 		body: JSON.stringify({email: mail}),
 		headers: {
@@ -660,3 +654,52 @@ export const sendMail = (mail) => {
 }
 
 
+// mail cuando haces la compra
+export const buyMail = async (to, subject, products, user) => {
+	try {
+		await fetch('http://localhost:3001/orders/complete_buy', {
+			method: 'POST',
+			body: JSON.stringify({to, subject, products, user}),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+		console.log('te enviamos un mail con tu compra..!')
+	} catch (err) {
+		console.log(err)
+	}
+} 
+
+
+// mail cuando se despacha la compra
+export const dispatchMail = async (to, subject, order) => {
+	try {
+		await fetch('http://localhost:3001/orders/dispatch_buy', {
+			method: 'POST',
+			body: JSON.stringify({to, subject, order}),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+		console.log('tu compra ha sido despachada..!')
+	} catch (err) {
+		console.log(err)
+	}
+} 
+
+
+// mail cuando se cancela la compra
+export const canelMail = async (to, subject, order) => {
+	try {
+		await fetch('http://localhost:3001/orders/cancel_buy', {
+			method: 'POST',
+			body: JSON.stringify({to, subject, order}),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+		console.log('tu compra ha sido cancelada..!')
+	} catch (err) {
+		console.log(err)
+	}
+} 
