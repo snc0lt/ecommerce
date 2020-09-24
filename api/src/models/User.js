@@ -51,6 +51,22 @@ module.exports = (sequelize) => {
 		phone: {
 			type: DataTypes.STRING,
 			defaultValue: '',
+		},
+		city: {
+			type: DataTypes.STRING,
+			defaultValue: ''
+		},
+		province: {
+			type: DataTypes.STRING,
+			defaultValue: ''
+		},
+		postalcode: {
+			type: DataTypes.STRING,
+			defaultValue: ''
+		},	
+		country: {
+			type: DataTypes.STRING,
+			defaultValue: ''
 		}
 	})
 }

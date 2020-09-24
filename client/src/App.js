@@ -13,7 +13,7 @@ import SignUp from './components/SignUp/SignUp2'
 import Register from './components/SignUp/Register'
 import Container from '@material-ui/core/Container'
 import { Cart } from './components/Cart'
-import Checkout from './components/Checkout/Checkout'
+import Checkout from './components/Checkout/Checkout2'
 import Orders from './components/AdminPanel/Orders'
 import { useDispatch, useSelector } from "react-redux";
 import { setUser, setGuestCart, setUserSign, getUsers } from "./actions";
@@ -21,9 +21,11 @@ import UsersList from './components/AdminPanel/UsersList'
 import Profile from './components/Userpanel/Profile'
 import ResetPass from './components/Userpanel/ResetPass'
 import FormResetPass from './components/FormResetPass/FormResetPass'
+import AddressForm from './components/Checkout/AdressForm2';
+import PaymentForm from './components/Checkout/PaymentForm2'
+import ReviewOrder from './components/Checkout/ReviewOrder'
 import ProtectedAdminRoute from './auth/ProtectedAminRoute'
 import ProtectedUserRoute from './auth/ProtectedUserRoutes'
-
 
 function App() {
   const url = useLocation();
@@ -117,6 +119,10 @@ function App() {
           <Route exact path='/user/register' component={Register} />
           <Route exact path='/user/cart' component={Cart} />
           <ProtectedUserRoute exact path='/user/checkout' component={Checkout} />
+          <ProtectedUserRoute exact path='/user/addressform' component={AddressForm} />
+          <ProtectedUserRoute exact path='/user/paymentdetails' component={PaymentForm} />
+          <ProtectedUserRoute exact path='/user/revieworder' component={ReviewOrder} />
+          <ProtectedUserRoute exact path='/user/orderid/:id' component={Checkout} />
           <ProtectedUserRoute exact path='/cart' component={Cart} />
           <ProtectedUserRoute exact path='/user/panel/:id' component={Dashboard} />
           <ProtectedUserRoute exact path='/user/perfil/:id' component={Profile} />

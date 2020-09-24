@@ -39,7 +39,7 @@ export default function Review() {
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
-        Order summary
+        Resumen de compra
       </Typography>
       <List disablePadding>
         {products.map((product) => (
@@ -58,14 +58,14 @@ export default function Review() {
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <Typography variant="h6" gutterBottom className={classes.title}>
-            Shipping
+            Envio
           </Typography>
           <Typography gutterBottom>John Smith</Typography>
           <Typography gutterBottom>{addresses.join(', ')}</Typography>
         </Grid>
         <Grid item container direction="column" xs={12} sm={6}>
-          <Typography variant="h6" gutterBottom className={classes.title}>
-            Payment details
+          <Typography variant="h6" gutterBottom className={classes.title}>   
+            Detalles del pago
           </Typography>
           <Grid container>
             {payments.map((payment) => (

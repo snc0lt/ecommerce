@@ -46,13 +46,8 @@ const useStyles = makeStyles((theme) => ({
 const Profile = () => {
     const dispatch = useDispatch()
     const history = useHistory()
-    // const [user,Setuser] = useState('')
-    // const [dir,Setdir] = useState(user.address)
-    // const [phone,SetPhone] = useState(user.phone)
     const { id } = useParams()
-    //////////////////////////////////
     const classes = useStyles();
-    // const [errors, setErrors] = useState({})
     const [confirmPassword, setconfirmPassword] = useState('')
     const [user, Setuser] = useState({
       firstName: '',
@@ -69,36 +64,31 @@ const Profile = () => {
       Setuser({ ...user, [event.target.name]: event.target.value });
     };
 
-    function validate(values) {
-      let errors = {};
-      if (!values.firstName  || values.firstName.length === 0) {
-        errors.firstName = 'El nombre es requerido';
-      }
+    // function validate(values) {
+    //   let errors = {};
+    //   if (!values.firstName  || values.firstName.length === 0) {
+    //     errors.firstName = 'El nombre es requerido';
+    //   }
   
-      if (!values.lastName || values.lastName.length === 0) {
-        errors.lastName = 'El apellido es requerido';
-      }
+    //   if (!values.lastName || values.lastName.length === 0) {
+    //     errors.lastName = 'El apellido es requerido';
+    //   }
   
-      if (!values.email  || values.email.length === 0) {
-        errors.email = 'Email requerido';
-      } else if (!/\S+@\S+\.\S+/.test(values.email)) {
-        errors.email = 'Email invalido';
-      }
+    //   if (!values.email  || values.email.length === 0) {
+    //     errors.email = 'Email requerido';
+    //   } else if (!/\S+@\S+\.\S+/.test(values.email)) {
+    //     errors.email = 'Email invalido';
+    //   }
       
-      if (!values.password  || values.password.length === 0) {
-        errors.password = 'Contraseña requerida';
-      } else if (!/(?=.*[0-9])/.test(values.password)) {
-        errors.password = 'Contraseña invalida';
-      } else if(values.password.length < 8){
-        errors.password = 'La contraseña debe tener 8 o más caracteres'
-      }
-      // if (confirmPassword !== values.password) {
-      //   errors.confirmPassword = 'No coinciden las contraseñas'
-      // }
-      return errors
-    }
-
-    ////////////////////////////
+    //   if (!values.password  || values.password.length === 0) {
+    //     errors.password = 'Contraseña requerida';
+    //   } else if (!/(?=.*[0-9])/.test(values.password)) {
+    //     errors.password = 'Contraseña invalida';
+    //   } else if(values.password.length < 8){
+    //     errors.password = 'La contraseña debe tener 8 o más caracteres'
+    //   }
+    //   return errors
+    // }
 
     useEffect(() => {
         fetch(`http://localhost:3001/user/${id}`)
@@ -139,57 +129,6 @@ const Profile = () => {
         } catch (error) {swal("error", "error al actualizar los datos, intente de nuevo", "error")            
         }
       }
-
-      console.log(user)
-    
-    // return (user && <div>
-    //     <h1>Mi perfil</h1>
-    // <h3>Tu nombre: {user.firstName} {user.lastName}</h3>
-    // <h3>Tu mail: {user.email}</h3>
-    // {user.address && user.address.length > 0 ? <h3> Tu dirección : {user.address}</h3> : null}
-    // {user.phone && user.phone.length > 0 ? <h3> Tu teléfono : {user.phone}</h3> : null}
-    // <h3>Edita dirección y teléfono</h3>
-
-    //         <Grid item xs={12}>
-    //           <TextField
-    //             fullWidth
-    //             id="outlined-textarea"
-    //             label="Dirección"
-    //             value={dir}
-    //             multiline
-    //             variant="outlined"
-    //             onChange={handleChangeDir}
-    //             required
-    //             name='dirección'
-    //           />
-    //         </Grid>
-    //         <Grid item xs={12}>
-    //           <TextField
-    //             fullWidth
-    //             id="outlined-textarea"
-    //             label="Teléfono"
-    //             value={phone}
-    //             multiline
-    //             variant="outlined"
-    //             onChange={handleChangePhone}
-    //             required
-    //             name='teléfono'
-    //           />
-    //         </Grid>
-    //         <Button onClick={handleSubmit}
-    //         disabled = { !dir || !phone}
-    //         type="submit"
-    //         fullWidth
-    //         variant="contained"
-    //         color="primary"
-    //       >
-    //         Actualizar datos
-    //       </Button>
-
-    // </div>       
-    // )
-
-/////////////////////////////////////////////
 
     return (
       user &&
