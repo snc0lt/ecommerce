@@ -78,7 +78,7 @@ export default function Review() {
   var cartTotal = 0;
 
   cart.map((prodtotal) => (
-    cartTotal = cartTotal + prodtotal.price
+    cartTotal = cartTotal + (prodtotal.price * prodtotal.order_product.quantity)
   ))
 
   const updateOrder = (orderId, state) => {
@@ -98,38 +98,24 @@ export default function Review() {
     }
   }
 
-  cart.forEach(el => {
-    var newStock = el.stock - el.order_product.quantity
-    console.log('nuevo stock', newStock)
-    const product = {
-      stock: newStock,
-    };
-    try {
-      const updatedProduct = fetch(`http://localhost:3001/products/stock/${el.id}`, {
-        method: 'PUT',
-        body: JSON.stringify(product),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-    } catch (err) {console.log(err)}
-  })
-
-  // const editProduct = (product) => {
-  //   try {
-  //     const updatedProduct = fetch(`http://localhost:3001/products/${id}`, {
-  //       method: 'PUT',
-  //       body: JSON.stringify(product),
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       }
-  //     })
-  //     // console.log(updatedProduct)
-  //   } catch (err) {
-  //     console.log(err)
-  //     // swal("Upa", "No se ha editado el producto", "error");
-  //   }
-  // }
+  const updateStockProduct = () => {
+    cart.forEach(el => {
+      var newStock = el.stock - el.order_product.quantity
+      console.log('nuevo stock', newStock)
+      const product = {
+        stock: newStock,
+      };
+      try {
+        const updatedProduct = fetch(`http://localhost:3001/products/stock/${el.id}`, {
+          method: 'PUT',
+          body: JSON.stringify(product),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+      } catch (err) {console.log(err)}
+    })
+  }
 
   const handleBack = () => {
     history.push('/user/paymentdetails')
@@ -138,6 +124,7 @@ export default function Review() {
   const handleNext = () => {
     const orderId = cart[0].order_product.orderId
     updateOrder(orderId, { state: 'completa' })
+    updateStockProduct()
     dispatch(cleanOrder())
     history.push(`/user/orderid/${orderId}`)
   }
@@ -168,8 +155,8 @@ export default function Review() {
             <List disablePadding>
               {cart.map((product) => (
                 <ListItem className={classes.listItem} key={product.name}>
-                  <ListItemText primary={product.name} />
-                  <Typography variant="body2">{product.price}</Typography>
+                  <ListItemText primary={`${product.name} x${product.order_product.quantity}`} />
+                  <Typography variant="body2">$ {product.price * product.order_product.quantity}</Typography>
                 </ListItem>
               ))}
               <ListItem className={classes.listItem}>

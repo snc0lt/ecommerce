@@ -10,25 +10,25 @@ export const Counter = ({ idProduct, quantity, userId, stock, gStock, precio, in
 	const logged = useSelector(state => state.userLogged)
 	const dispatch = useDispatch()
 
+	let mixStock=1;
 
 	const handleCount = (e) => {
 		const value = e.target.value
 		console.log("stock: ",stock)
 		console.log("gstock:",gStock)
-		let mixStock=1;
 		if(stock){
 			mixStock=stock
 		}
 		else if(gStock){
 			mixStock=gStock
 		}
-
+		console.log(value)
 		if (value < 1) {
 			setCount(1)
 			dispatch(updateCountProductInCart(userId, idProduct, count))
 		} else if (value > mixStock) {
 			setCount(mixStock)
-			dispatch(updateCountProductInCart(userId, idProduct, value))
+			dispatch(updateCountProductInCart(userId, idProduct, count))
 		} else {
 			setCount(value)
 			dispatch(updateCountProductInCart(userId, idProduct, value))
@@ -56,6 +56,9 @@ export const Counter = ({ idProduct, quantity, userId, stock, gStock, precio, in
 				value={count}
 				className='w-75'
 			/>
+			{count >= stock || count >= gStock  ?
+			<p>Stock maximo</p>
+			: null}
 			{logged
 				? null
 				: <div>
