@@ -1,5 +1,6 @@
 import swal from 'sweetalert';
 
+
 export const getProducts = () => async dispatch => {
 	try {
 		const data = await fetch('http://localhost:3001/products')
@@ -73,7 +74,7 @@ export const createProduct = (producto, msg) => async dispatch => {
 			}
 		})
 		const res = await data.json()
-		
+
 		dispatch({
 			type: 'CREATE_PRODUCT',
 			payload: res.product,
@@ -102,7 +103,7 @@ export const removeProduct = (id) => async dispatch => {
 	} catch (err) {
 		console.log(err)
 	}
-	
+
 }
 
 
@@ -148,10 +149,10 @@ export const addCategory = (category) => async dispatch => {
 		} else {
 			swal("Opps!", "algo salio mal, vuelve a intertarlo!", "error")
 		}
-	
+
 	} catch (err) {
 		console.log(err)
-	}	
+	}
 }
 
 export const removeCategory = (id) => async dispatch => {
@@ -170,7 +171,7 @@ export const removeCategory = (id) => async dispatch => {
 	} catch (err) {
 		console.log(err)
 	}
-	
+
 }
 
 export const getUsers = () => async dispatch =>{
@@ -293,7 +294,7 @@ export const getUserProductsCart = (userId) => async dispatch => {
 	} catch (err) {
 		console.log(err)
 	}
-	
+
 }
 
 export const deleteProductInCart = (userId, idProduct) => async dispatch => {
@@ -339,7 +340,7 @@ export const updateCountProductInCart = (userId, idProduct, count) => async disp
 	} catch (err) {
 		console.log(err)
 	}
-	
+
 }
 
 export const addProductCart = (idUser, idProduct, priceProduct) => async dispatch => {
@@ -382,7 +383,7 @@ export const addProductToGuestCart = (guestCart) => dispatch => {
 }
 
 export const handleGuestCount = (value, index, state) => dispatch => {
-	
+
 	state[index] = value
 	dispatch({
 		type: 'ADD_GUEST_COUNT',
@@ -390,7 +391,7 @@ export const handleGuestCount = (value, index, state) => dispatch => {
 	})
 }
 export const handleGuestTotal = (value) => dispatch => {
-	
+
 	dispatch({
 		type: 'ADD_GUEST_TOTAL',
 		payload: value
@@ -402,7 +403,7 @@ export const removeGuestItem = (index) => dispatch =>  {
 	gCart = JSON.parse(localStorage.getItem('guest_cart')) || []
 	// gCart.slice(index, 1)
 	const newGuest = gCart.filter(g => g.id !== index)
-	
+
 	localStorage.setItem('guest_cart', JSON.stringify(newGuest))
 	dispatch({
 		type: 'REMOVE_GUEST_ITEM',
@@ -440,7 +441,7 @@ export const cleanOrder = () => dispatch => {
 	// 	console.log(err)
 	// }
 
-	
+
 }
 
 export const getClosedOrders = () => async dispatch => {
@@ -471,7 +472,7 @@ export const promoteToAdmin = async (id,estado) => {
 			.then(estado
 				? swal('Usuario Promovido a Admin', '', 'success')
 			    : swal('Usuario Revocado de Admin', '', 'success'))
-			.catch((err) => console.log(err));	
+			.catch((err) => console.log(err));
 	} catch (err) {
 		console.log(err)
 }
@@ -535,7 +536,7 @@ export const userLogout = () => async dispatch => {
 			dispatch({
 				type: 'USER_LOGOUT',
 			})
-		}	
+		}
 		)
 }
 
@@ -559,12 +560,12 @@ export const userChangePassword = (input) => async dispatch => {
 
 			})
 			.catch(err => swal("Ups","Ocurrió un error al cambiar la contraseña","error"))
-		
+
 }
 
 
 export function userForgotPassword(input,token) {
-	
+
 		return fetch(`http://localhost:3001/user/password/${token}`, {
 			method: 'PUT',
 			credentials: 'include',
@@ -576,13 +577,13 @@ export function userForgotPassword(input,token) {
 			.then((res) => res.json())
 			.then((data) =>{
 				if(data.status === 401){
-					swal("Error",`${data.msg}`,"error")	
+					swal("Error",`${data.msg}`,"error")
 				} else if(data.status === 200){
 					swal("Success","Password cambiado satisfactoriamente","success")
 				}
 			})
 			.catch(err => swal("Ups","Ocurrió un error al cambiar la contraseña","error"))
-		
+
 }
 
 
@@ -620,18 +621,38 @@ export const addReviews = (productId, review, userId, star) => async dispatch =>
 			.then((res) => res.json())
 			.then((review) => {
 				if (review.status === 400) {
-					swal('Error', 'Ya has realizado un review a este producto', 'error')
-				}
+					swal({
+									icon:"error",
+									title: "¡ERROR!",
+									text: "Ya se ha enviado otro review anteriormente",
+									type: "success",
+									timer: 1500
+							});
+
+			}
 				else if (review.status === 201) {
 					dispatch({
 						type: 'ADD_REVIEWS',
 						payload: review,
 					})
-					swal('Reseña agregada con exito', '', 'success')
+
+					swal({
+									icon:"success",
+     							title: "¡GENIAL!",
+     							text: "Su review ha sido cargado exitosamente",
+     							type: "success",
+     							timer: 1500
+     					});
 				}
 			})
 			.catch(() => {
-				alert('Error!', 'Ingresar los datos ', 'error')
+				swal({
+								icon:"error",
+								title: "¡ERROR!",
+								text: "No se puede enviar una review vacia",
+								type: "success",
+								timer: 1500
+						});
 			})
 }
 
@@ -647,10 +668,8 @@ export const sendMail = async (mail) => {
 		}
 	})
 	.then(res=>res.json())
-	.then(data=>swal("Success",`${data}`,"success"))	
+	.then(data=>swal("Success",`${data}`,"success"))
 	} catch (err) {
 		console.log(err)
 	}
 }
-
-

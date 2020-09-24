@@ -18,6 +18,11 @@ import {useSelector, useDispatch} from 'react-redux'
 import swal from 'sweetalert';
 import {addReviews} from '../../actions'
 
+import Rating from '@material-ui/lab/Rating';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+
+
 const useStyles = makeStyles((theme) => ({
     formControl: {
       margin: theme.spacing(1),
@@ -37,10 +42,12 @@ export default function CreateReview({productId}) {
   const [review,setReview] =useState('');
   const [star, setStar] = useState('');
 
+  const [value, setValue] = React.useState(2);
+
   const handleChange = (event) => {
     setStar(event.target.value);
   };
-  
+
   const classes=useStyles()
 
   const handleClickOpen = () => {
@@ -70,6 +77,7 @@ export default function CreateReview({productId}) {
     //     swal("Error","No se ha podido crear la review","error")
     // }
     dispatch(addReviews(productId, review, userId, star))
+    setTimeout(handleClose(), 1000);
   }
 
   return (
@@ -80,7 +88,7 @@ export default function CreateReview({productId}) {
       <IconButton onClick={handleClickOpen}>
           <StarIcon/>
       </IconButton>
-      
+
       <Dialog
         open={open}
         onClose={handleClose}
@@ -90,8 +98,9 @@ export default function CreateReview({productId}) {
         <DialogTitle id="alert-dialog-title">{"Deja tu review"}</DialogTitle>
         <form onSubmit={handleSubmit}>
         <DialogContent>
-        
-          <TextField 
+
+          <TextField
+          required
           multiline
           variant= 'outlined'
           label='agrega tu review'
@@ -102,35 +111,27 @@ export default function CreateReview({productId}) {
           value={review}
           onChange={(e)=>setReview(e.target.value)}/>
 
-        <FormControl required className={classes.formControl}>
-        <InputLabel id="demo-simple-select-required-label">Rating</InputLabel>
-        <Select
-          labelId="demo-simple-select-required-label"
-          id="demo-simple-select-required"
-          value={star}
-          onChange={handleChange}
-          className={classes.selectEmpty}
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={1}>★</MenuItem>
-          <MenuItem value={2}>★★</MenuItem>
-          <MenuItem value={3}>★★★</MenuItem>
-          <MenuItem value={4}>★★★★</MenuItem>
-          <MenuItem value={5}>★★★★★</MenuItem>
-        </Select>
-        <FormHelperText>Required</FormHelperText>
-      </FormControl>
+        <FormControl required className={classes.formControl}/>
+        <InputLabel id="demo-simple-select-required-label">Califica tu producto</InputLabel>
+
+
+        <Rating
+               name="simple-controlled"
+               value={star}
+               onChange={(event, newValue) => {
+                 setStar(newValue);
+               }}
+             />
+
         </DialogContent>
-       
+
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancelar
-          </Button>
-          <Button onClick={handleSubmit} color="primary" autoFocus>
-            Agregar
-          </Button>
+              <Button onClick={handleClose} color="primary">
+                Cancelar
+              </Button>
+              <Button onClick={handleSubmit} color="primary" autoFocus>
+                Agregar
+              </Button>
         </DialogActions>
         </form>
       </Dialog>

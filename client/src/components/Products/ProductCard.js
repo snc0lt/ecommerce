@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -19,7 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addProductCart, addProductToGuestCart } from "../../actions";
 import '../../Cart_boton.css';
 
-
+// IDEA:
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+
 export default function ProductCard(props) {
   const dispatch = useDispatch()
   const userId = useSelector(state => state.userDetails)
@@ -46,6 +48,26 @@ export default function ProductCard(props) {
   const classes = useStyles();
   const url = useLocation();
   const history = useHistory()
+  const [review, setReview] = useState()
+
+  if (review) {
+    console.log(review)
+  }
+
+  useEffect(() => {
+    if (!!props.productos.id) {
+      fetch(`http://localhost:3001/products/${props.productos.id}/productreview`)
+        .then(data => data.json())
+        .then(res => setReview(res))
+        .catch(err => console.log(err))
+    }
+
+  }, [])
+
+  let totalScore = 0
+  review && review.map(rev => totalScore = (totalScore + rev.score))
+  let score = review && (totalScore / review.length)
+
 
   const addtoCart = (e) => {
 
@@ -84,22 +106,6 @@ export default function ProductCard(props) {
           </IconButton>
         </Tooltip>
       </div>
-  // : url.pathname === '/admin/roducts/edit_category'
-  //   ? (<IconButton>
-  //     <Tooltip title='Editar categoria'>
-  //       <CategoryIcon color='primary' />
-  //     </Tooltip>
-  //   </IconButton>)
-  //   : (<>
-  //     {/* <Button variant="contained" color="primary" size="small">
-  //       Comprar
-  //     </Button> */}
-  //     <Tooltip title='Añadir al carrito'>
-  //       <IconButton aria-label="addToCart" onClick={addtoCart}>
-  //         <ShoppingCartIcon color='primary' />
-  //       </IconButton>
-  //     </Tooltip>
-  //   </>)
 
   return (
     <>
@@ -108,9 +114,7 @@ export default function ProductCard(props) {
         <Card className={classes.root}>
           <Link to={`/products/${props.productos.id}`}>
             <CardHeader
-            // action={
-            //   <Rating />
-            // }
+
             />
             <CardMedia
               className={classes.media}
@@ -120,12 +124,15 @@ export default function ProductCard(props) {
           </Link>
               {boton}
             <CardContent>
+              <Rating review={score}/>
+
               <Typography variant='body2' color="textSecondary" component="p">
                 {props.productos.name}
               </Typography>
               <Typography gutterBottom variant='h6' color='primary' component='p'>
                 $ {props.productos.price.toFixed(2)}
               </Typography>
+
             </CardContent>
           {/* <CardActions>
             {boton}

@@ -117,17 +117,17 @@ export default function Orders() {
   if(filter){
     console.log("filter: ",filter)
   }
- 
-  
-  
+
+
+
 
   return (
     <>
       {orders && url.pathname.includes("/admin")?
         <>
           <Toolbar>
-            
-                {open? 
+
+                {open?
                 <>
                 <InputLabel htmlFor="filtrar">Filtrar</InputLabel>
                 <Select
@@ -135,7 +135,7 @@ export default function Orders() {
                   onChange={handleFilter}
                   value={filter}
                 >
-                <MenuItem value="completa">Completa</MenuItem>  
+                <MenuItem value="completa">Completa</MenuItem>
                 <MenuItem value="procesando">Procesando</MenuItem>
                 <MenuItem value="cancelada">Cancelada</MenuItem>
                 <MenuItem value="despacho">En despacho</MenuItem>
@@ -163,7 +163,7 @@ export default function Orders() {
             </TableHead>
             <TableBody>
               {orders.map((row, i) => (
-                filter && filter === row.state || filter==='' 
+                filter && filter === row.state || filter===''
                   ? <TableRow key={row.id} hover={true}>
                     <TableCell>{row.id}</TableCell>
                     <TableCell>{row.createdAt.slice('T', 10)}</TableCell>
@@ -203,13 +203,13 @@ export default function Orders() {
                    <TableCell>Review</TableCell>
                  </TableRow>
                </TableHead>
-              
-               
-                
+
+
+
                <TableBody>
                  {userOrder.map((row, i) => (
                       row.products.map((product, j)=>(
-                        <TableRow key={j} hover={true}>
+                      <TableRow key={j} hover={true}>
                        <TableCell>{row.createdAt.slice('T', 10)}</TableCell>
                        <TableCell>{row.createdAt.split('T')[1].slice(0, 5)}</TableCell>
                        <TableCell>{product.name}</TableCell>
@@ -219,7 +219,7 @@ export default function Orders() {
                        <TableCell><CreateReview productId={product.id}/></TableCell>
                      </TableRow>
                       ))
-                      
+
                  ))}
                </TableBody>
              </Table>
