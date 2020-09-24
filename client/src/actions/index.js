@@ -636,7 +636,7 @@ export const addReviews = (productId, review, userId, star) => async dispatch =>
 }
 
 
-
+// reset password mail
 export const sendMail = async (mail) => {
 	try {
 		await fetch('http://localhost:3001/user/reset_password', {
@@ -654,3 +654,52 @@ export const sendMail = async (mail) => {
 }
 
 
+// mail cuando haces la compra
+export const buyMail = async (to, subject, products, user) => {
+	try {
+		await fetch('http://localhost:3001/orders/complete_buy', {
+			method: 'POST',
+			body: JSON.stringify({to, subject, products, user}),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+		console.log('te enviamos un mail con tu compra..!')
+	} catch (err) {
+		console.log(err)
+	}
+} 
+
+
+// mail cuando se despacha la compra
+export const dispatchMail = async (to, subject, order) => {
+	try {
+		await fetch('http://localhost:3001/orders/dispatch_buy', {
+			method: 'POST',
+			body: JSON.stringify({to, subject, order}),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+		console.log('tu compra ha sido despachada..!')
+	} catch (err) {
+		console.log(err)
+	}
+} 
+
+
+// mail cuando se cancela la compra
+export const canelMail = async (to, subject, order) => {
+	try {
+		await fetch('http://localhost:3001/orders/cancel_buy', {
+			method: 'POST',
+			body: JSON.stringify({to, subject, order}),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+		console.log('tu compra ha sido cancelada..!')
+	} catch (err) {
+		console.log(err)
+	}
+} 
