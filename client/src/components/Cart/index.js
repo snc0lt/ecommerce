@@ -23,13 +23,16 @@ export const Cart = () => {
 			sum = sum + (i.price * i.order_product.quantity)
 		}
 		setTotal(sum)
-	}, [cart])
-
-	useEffect(() => {
 		if (userId) {
 			dispatch(getUserProductsCart(userId.id))
 		}
-	}, [total])
+	}, [cart, total])
+
+	// useEffect(() => {
+	// 	if (userId) {
+	// 		dispatch(getUserProductsCart(userId.id))
+	// 	}
+	// }, [total])
 
 	useEffect(() => {
 		let sum = 0
