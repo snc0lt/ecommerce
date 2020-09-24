@@ -15,9 +15,10 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
-import { MenuItem } from '@material-ui/core';
+import { FormControl, MenuItem, TextField } from '@material-ui/core';
 import {Select} from '@material-ui/core';
 import InputLabel from '@material-ui/core/InputLabel';
+import Input from '@material-ui/core/Input';
 
 
 // Generate Order Data
@@ -33,8 +34,26 @@ const useStyles = makeStyles((theme) => ({
   seeMore: {
     marginTop: theme.spacing(3),
   },
+  title: {
 
+  },
+  filter:{
+    order:1,
+    marginLeft:"auto",
+  },
+  searchId:{
+    marginLeft:"auto",
+    order:3,
+  },
+  toolbar:{
+    display:"flex",
+  },
+  container:{
+    display:"flex",
+    width:"30%",
+  }
 }));
+
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -48,6 +67,7 @@ export default function Orders() {
   const[open,setOpen]=useState(false)
   let query = useQuery().get('search');
   const [price, setPrice] = useState([])
+  const [searchId,setSearchId] = useState("0");
   const url = useLocation()
 
   const {id} = useParams();
@@ -92,15 +112,8 @@ export default function Orders() {
           setOrders(data)
         })
     }
-  }, [query,filter])
+  }, [query,filter,searchId])
 
-  if(orders){
-    console.log("estados")
-    let arr=[]
-    orders.map(order=>arr.push(order.id))
-    console.log(arr)
-
-  }
   if(open){
     console.log(open)
   }
@@ -114,41 +127,58 @@ export default function Orders() {
     setFilter(event.target.value)
   }
 
-  if(filter){
-    console.log("filter: ",filter)
+  const handleIdSearch=(event)=>{
+    event.preventDefault()
+    setSearchId(event.target.value)
   }
- 
-  
-  
 
+  if(searchId){
+    console.log(searchId)
+  }
+  if(orders){
+    orders.map(row=>console.log(row.id))
+  }
+  
+if(filter){
+  console.log("filter: ",filter)
+}
   return (
     <>
       {orders && url.pathname.includes("/admin")?
         <>
-          <Toolbar>
-            
-                {open? 
+          <Toolbar className={classes.toolbar}>
+            <div className={classes.container}>
+            <Title className={classes.title}>Ordenes recientes</Title>
                 <>
-                <InputLabel htmlFor="filtrar">Filtrar</InputLabel>
+                {/* <InputLabel htmlFor="filtrar"></InputLabel> */}
                 <Select
                   id="filtrar"
                   onChange={handleFilter}
                   value={filter}
+                  className={classes.filter}
                 >
-                <MenuItem value="completa">Completa</MenuItem>  
-                <MenuItem value="procesando">Procesando</MenuItem>
+                <MenuItem value="procesando">Procesando</MenuItem>  
+                <MenuItem value="completa">Completa</MenuItem>
+                <MenuItem value="despacho">Despacho</MenuItem>
                 <MenuItem value="cancelada">Cancelada</MenuItem>
-                <MenuItem value="despacho">En despacho</MenuItem>
                 <MenuItem value=''>Ver todo</MenuItem>
                 </Select>
                 </>
-                :<Tooltip title="Filter list">
-                  <IconButton aria-label="filter list">
-                  <FilterListIcon onClick={openFilter}/>
-                  </IconButton>
-                  </Tooltip>}
+                  </div>
+                  <FormControl className={classes.searchId}>
+                    <TextField
+                      type="number"
+                      value={searchId}
+                      variant="outlined"
+                      label="Buscar por ID"
+                      name="searchId"
+                      onChange={handleIdSearch}
+                      />
+                  
+
+                  </FormControl>
+                  
           </Toolbar>
-          <Title>Ordenes recientes</Title>
           <Table size="medium">
             <TableHead>
               <TableRow>
@@ -163,7 +193,7 @@ export default function Orders() {
             </TableHead>
             <TableBody>
               {orders.map((row, i) => (
-                filter && filter === row.state || filter==='' 
+                filter && filter === row.state || filter==='' && searchId==="0" || searchId===row.id.toString() || searchId===""
                   ? <TableRow key={row.id} hover={true}>
                     <TableCell>{row.id}</TableCell>
                     <TableCell>{row.createdAt.slice('T', 10)}</TableCell>

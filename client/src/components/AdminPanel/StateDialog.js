@@ -70,8 +70,9 @@ export default function DialogSelect({state,orderId}) {
                 input={<Input id="demo-dialog-native" />}
               >
                 <option aria-label="None" value="" />
-                <option value={"completa"}>Completa</option>
                 <option value={"procesando"}>Procesando</option>
+                <option value={"completa"}>Completa</option>
+                <option value={"despacho"}>Despacho</option>
                 <option value={"cancelada"}>Cancelada</option>
               </Select>
             </FormControl>
