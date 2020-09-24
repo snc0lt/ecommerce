@@ -63,11 +63,16 @@ export default function ProductCard(props) {
     }
 
   }, [])
-
-  let totalScore = 0
+  let totalScore = 0;
+  var puntaje = 0;
   review && review.map(rev => totalScore = (totalScore + rev.score))
   let score = review && (totalScore / review.length)
-
+  if (isNaN(score)){
+    puntaje = " ";
+  }
+  else {
+    puntaje = score;
+  }
 
   const addtoCart = (e) => {
 
@@ -124,7 +129,7 @@ export default function ProductCard(props) {
           </Link>
               {boton}
             <CardContent>
-              <Rating review={score}/>
+              <Rating review={puntaje}/>
 
               <Typography variant='body2' color="textSecondary" component="p">
                 {props.productos.name}

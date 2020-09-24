@@ -110,6 +110,11 @@ export default function ProductDetails() {
   let totalScore = 0
   review && review.map(rev => totalScore = (totalScore + rev.score))
   let score = review && (totalScore / review.length)
+
+  if (isNaN(score)){
+    score = " ";
+  }
+
   return (
     <>{product && <>
       <Container maxWidth="md">
