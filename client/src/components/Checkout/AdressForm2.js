@@ -16,7 +16,7 @@ import Copyright from '../utils/Copyright'
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { useRadioGroup } from '@material-ui/core';
-import { cleanOrder } from '../../actions';
+import { cleanOrder, getUserDetail } from '../../actions';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -89,9 +89,6 @@ export default function AddressForm() {
     setUser({ ...user, [event.target.name]: event.target.value });
   };
 
-  const prueba = () => {
-    dispatch(cleanOrder())
-  }
   const handleSubmit = async function (e) {
     e.preventDefault()
     const envio = {
@@ -113,8 +110,8 @@ export default function AddressForm() {
           },
           credentials: 'include'
         })
-      // swal("Success", "Datos actualizados", "success");
-      history.push(`/user/paymentdetails`) //cambiar aca
+        dispatch(getUserDetail(userId.id))
+      history.push(`/user/paymentdetails`)
     } catch (error) {
       swal("Ha ocurrido un error", "error")
     }
@@ -242,10 +239,6 @@ export default function AddressForm() {
                   className={classes.button}
                 >
                   Siguiente
-                </Button>
-                <Button
-                onClick={prueba}>
-                  Hola
                 </Button>
               </div>
             </form>

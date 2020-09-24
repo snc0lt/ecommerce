@@ -90,7 +90,7 @@ export default function ProductDetails() {
     e.preventDefault()
     if (product && userId) {
       dispatch(addProductCart(userId.id, id, product.price))
-      history.push("/user/checkout")
+      history.push("/user/addressform")
     } else {
       history.push('/user/login')
     }
