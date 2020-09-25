@@ -61,7 +61,6 @@ const AdminOrder = ({ orderId }) => {
       const data = await fetch(`http://localhost:3001/orders/${orderId}`)
       const orderX = await data.json()
       setOrder(orderX)
-      console.log(orderX)
     }
     fetchData()
   }, [])
@@ -71,9 +70,6 @@ const AdminOrder = ({ orderId }) => {
       <IconButton color="primary" onClick={handleClickOpen}>
         <MenuOpenIcon fontSize='small' />
       </IconButton>
-      {/* <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open alert dialog
-      </Button> */}
       <Dialog
         open={open}
         onClose={handleClose}

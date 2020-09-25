@@ -20,8 +20,13 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     minWidth: 120,
   },
+  stateButton:{
+    color:'black',
+    '&:disabled':{
+      color:'black',
+    },
+  },
 }));
-
 
 export default function DialogSelect({state,orderId}) {
   const classes = useStyles();
@@ -39,6 +44,10 @@ export default function DialogSelect({state,orderId}) {
     fetchData()
   }, [])
 
+
+  useEffect(()=>{
+  
+  },[open])
 
   const handleChange = (event) => {
     setOrderState(event.target.value);
@@ -119,7 +128,13 @@ export default function DialogSelect({state,orderId}) {
 
   return (
     <div>
-      <Button onClick={handleClickOpen}>{orderState}</Button>
+      <Button onClick={handleClickOpen}
+        disabled={orderState==='procesando' || orderState==='completa' || orderState===''?false:true}
+        classes={{
+          root:classes.stateButton,
+          disabled:classes.disabled,
+        }}
+      >{orderState}</Button>
       <Dialog disableBackdropClick disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogTitle>Cambiar Estado</DialogTitle>
         <DialogContent>
@@ -133,7 +148,6 @@ export default function DialogSelect({state,orderId}) {
                 input={<Input id="demo-dialog-native" />}
               >
                 <option aria-label="None" value="" />
-                <option value={"procesando"}>Procesando</option>
                 <option value={"completa"}>Completa</option>
                 <option value={"despacho"}>Despacho</option>
                 <option value={"cancelada"}>Cancelada</option>
