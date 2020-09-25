@@ -114,10 +114,6 @@ export default function Orders() {
     }
   }, [query,filter,searchId])
 
-  if(open){
-    console.log(open)
-  }
-
   const openFilter =() =>{
     setOpen(true)
   }
@@ -132,16 +128,8 @@ export default function Orders() {
     setSearchId(event.target.value)
   }
 
-  if(searchId){
-    console.log(searchId)
-  }
-  if(orders){
-    orders.map(row=>console.log(row.id))
-  }
-  
-if(filter){
-  console.log("filter: ",filter)
-}
+ 
+
   return (
     <>
       {orders && url.pathname.includes("/admin")?
@@ -200,7 +188,7 @@ if(filter){
                     <TableCell>{row.createdAt.split('T')[1].slice(0, 5)}</TableCell>
                     <TableCell>{row.user.firstName + ' ' + row.user.lastName}</TableCell>
                     <TableCell>
-                    <StateDialog state={row.state} orderId={row.id}/>
+                    <StateDialog state={row.state} orderId={row.id} to={row.user.email} order={orders}/>
                     </TableCell>
                     <TableCell><AdminOrder orderId={row.id} /></TableCell>
                     <TableCell align="right">$ {price[i]}</TableCell>
