@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@1,800&display=swap');
+
+.img{
+    width:400px;
+    
+  }
+
+.imgContainer{
+    display:flex;
+    justify-content:center;
+}
+
+.OrderNotFound{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+.text{
+    text-align:center;
+}

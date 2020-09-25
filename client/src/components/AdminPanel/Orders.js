@@ -10,32 +10,15 @@ import { useLocation, Link, useParams } from "react-router-dom";
 import AdminOrder from './AdminOrder';
 import CreateReview from '../Userpanel/CreateReview'
 import StateDialog from './StateDialog';
-
-import FilterListIcon from '@material-ui/icons/FilterList';
 import Toolbar from '@material-ui/core/Toolbar';
-import Tooltip from '@material-ui/core/Tooltip';
-import IconButton from '@material-ui/core/IconButton';
 import { FormControl, MenuItem, TextField } from '@material-ui/core';
 import {Select} from '@material-ui/core';
-import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
+import OrdersNotFound from './OrdersNotFound';
 
-
-// Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod, amount) {
-  return { id, date, name, shipTo, paymentMethod, amount };
-}
-
-function preventDefault(event) {
-  event.preventDefault();
-}
 
 const useStyles = makeStyles((theme) => ({
   seeMore: {
     marginTop: theme.spacing(3),
-  },
-  title: {
-
   },
   filter:{
     order:1,
@@ -64,10 +47,10 @@ export default function Orders() {
   const classes = useStyles();
   const [orders, setOrders] = useState(null)
   const [filter,setFilter]=useState('')
-  const[open,setOpen]=useState(false)
   let query = useQuery().get('search');
   const [price, setPrice] = useState([])
   const [searchId,setSearchId] = useState("0");
+  const [result,setResult] = useState(0);
   const url = useLocation()
 
   const {id} = useParams();
@@ -95,7 +78,7 @@ export default function Orders() {
       }
       fetchData()
     }
-  },[])
+  },[result])
 
   useEffect(() => {
     if (query) {
@@ -114,13 +97,24 @@ export default function Orders() {
     }
   }, [query,filter,searchId])
 
-  if(open){
-    console.log(open)
+ useEffect(()=>{
+  let counter=0
+  if(filter && orders){
+    for(let i of orders){
+      if(filter === i.state || filter===''){
+        counter+=1
+      }
+    }
   }
-
-  const openFilter =() =>{
-    setOpen(true)
+  else if(searchId && orders){
+    for(let i of orders){
+      if(searchId==="0" || searchId===i.id.toString() || searchId===""){
+        counter+=1
+      }
+    }
   }
+  setResult(counter)
+ },[orders,filter,searchId])
 
   const handleFilter=(event)=>{
     event.preventDefault()
@@ -131,26 +125,15 @@ export default function Orders() {
     event.preventDefault()
     setSearchId(event.target.value)
   }
-
-  if(searchId){
-    console.log(searchId)
-  }
-  if(orders){
-    orders.map(row=>console.log(row.id))
-  }
   
-if(filter){
-  console.log("filter: ",filter)
-}
   return (
     <>
       {orders && url.pathname.includes("/admin")?
         <>
           <Toolbar className={classes.toolbar}>
             <div className={classes.container}>
-            <Title className={classes.title}>Ordenes recientes</Title>
+            <Title>Ordenes recientes</Title>
                 <>
-                {/* <InputLabel htmlFor="filtrar"></InputLabel> */}
                 <Select
                   id="filtrar"
                   onChange={handleFilter}
@@ -174,11 +157,9 @@ if(filter){
                       name="searchId"
                       onChange={handleIdSearch}
                       />
-                  
-
-                  </FormControl>
-                  
+                  </FormControl>   
           </Toolbar>
+          {result || result>0 || (!filter && !searchId)?
           <Table size="medium">
             <TableHead>
               <TableRow>
@@ -193,7 +174,9 @@ if(filter){
             </TableHead>
             <TableBody>
               {orders.map((row, i) => (
-                filter && filter === row.state || filter==='' && searchId==="0" || searchId===row.id.toString() || searchId===""
+                (filter && filter === row.state) || 
+                (searchId && searchId===row.id.toString()) || 
+                (filter==='' && (searchId==="0" || searchId==='' || !searchId))
                   ? <TableRow key={row.id} hover={true}>
                     <TableCell>{row.id}</TableCell>
                     <TableCell>{row.createdAt.slice('T', 10)}</TableCell>
@@ -209,6 +192,7 @@ if(filter){
               ))}
             </TableBody>
           </Table>
+          :<><OrdersNotFound/></>}
           <div className={classes.seeMore}>
             {url.pathname === '/admin/panel' ?
               <Link color="primary" to='/admin/orders'>
@@ -233,9 +217,6 @@ if(filter){
                    <TableCell>Review</TableCell>
                  </TableRow>
                </TableHead>
-              
-               
-                
                <TableBody>
                  {userOrder.map((row, i) => (
                       row.products.map((product, j)=>(
@@ -248,15 +229,14 @@ if(filter){
                        <TableCell>{product.price * product.order_product.quantity}</TableCell>
                        <TableCell><CreateReview productId={product.id}/></TableCell>
                      </TableRow>
-                      ))
-                      
+                      )) 
                  ))}
                </TableBody>
              </Table>
              <div className={classes.seeMore}>
                {url.pathname === '/admin/panel' ?
                  <Link color="primary" to='/admin/orders'>
-                   Ver mas ordenes
+                   Ver mas órdenes
                  </Link>
                  :
                  null
