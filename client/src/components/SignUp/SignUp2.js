@@ -53,7 +53,12 @@ export default function SignIn() {
   const history = useHistory()
   const dispatch = useDispatch()
 
-
+  function sleep(miliseconds) {
+    var currentTime = new Date().getTime();
+ 
+    while (currentTime + miliseconds >= new Date().getTime()) {
+    }
+ }
 
   const responseGoogle = async (response) => { 
     const { email, familyName, givenName, googleId, imageUrl } = response.profileObj
@@ -100,7 +105,8 @@ export default function SignIn() {
         localStorage.removeItem('guest_cart')
         dispatch(cleanGuestOrder())              
     }   
-    dispatch(userGoogle())    
+    dispatch(userGoogle())   
+    sleep(1000) 
     dispatch(userLogin(logueo, history)) 
   }
 
