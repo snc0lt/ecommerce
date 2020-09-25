@@ -40,6 +40,14 @@ const AdminOrder = ({ orderId }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [order, setOrder] = useState(null)
+  let orderTotal = 0
+
+  if (order) {
+    order.products.map((prodtotal) => (
+      orderTotal = orderTotal + (prodtotal.price * prodtotal.order_product.quantity)
+    ))
+  }
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -73,29 +81,29 @@ const AdminOrder = ({ orderId }) => {
             <DialogTitle id="alert-dialog-title">Orden - {order.state}</DialogTitle>
             <DialogContent>
               <Typography variant="h6" gutterBottom>
-                {order.user.firstName} {order.user.firstName}
+                {order.user.firstName} {order.user.lastName}
               </Typography>
               <div className={classes.resumen} style={{justifyContent: 'space-between'}}>
                 <Typography variant="body1" gutterBottom>
-                  Order summary
+                  Resumen de compra
                 </Typography>
                 <div style={{ marginLeft: 'auto' }}>
                 <Typography variant="body1" gutterBottom>
-                  Amount
+                  Total
                 </Typography>
                 </div>
               </div>
               <List disablePadding>
                 {order.products.map((product) => (
                   <ListItem className={classes.listItem} key={product.id}>
-                    <ListItemText primary={product.name} secondary={product.description} />
-                    <Typography variant="body2">$ {product.price}</Typography>
+                    <ListItemText primary={`${product.name} x${product.order_product.quantity}`} /*secondary={product.description}*/ />
+                    <Typography variant="body2">$ {product.price * product.order_product.quantity}</Typography>
                   </ListItem>
                 ))}
                 <ListItem className={classes.listItem}>
                   <ListItemText primary="Total" />
                   <Typography variant="subtitle1" className={classes.total}>
-                    $34.06
+                    $ {orderTotal}
                   </Typography>
                 </ListItem>
               </List>
