@@ -9,7 +9,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { cleanGuestOrder } from '../../actions';
+import { cancelMail, dispatchMail, cleanGuestOrder } from "../../actions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -28,7 +28,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DialogSelect({state,orderId}) {
+
+export default function DialogSelect({state,orderId, to, order}) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [orderState, setOrderState] = useState(state);
@@ -52,6 +53,16 @@ export default function DialogSelect({state,orderId}) {
   const handleChange = (event) => {
     setOrderState(event.target.value);
   };
+
+  const sendMail = () => {
+    if(orderState === 'cancelada'){
+      // envia mail cuando se cancela la orden
+      cancelMail(to, 'orden cancelada', order)
+    } else if( orderState === 'despacho') {
+      // envia mail cuando se despacha la orden
+      dispatchMail(to, 'orden despachada', order)
+    }
+  }
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -100,6 +111,7 @@ export default function DialogSelect({state,orderId}) {
         .then(res=>res.json())
         .then(data=>console.log(data))
         .catch(e =>console.log(e))
+        sendMail()
         setOpen(false);
     } catch(error){
         console.log(error)

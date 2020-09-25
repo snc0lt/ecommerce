@@ -13,7 +13,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom';
-import { cleanOrder } from '../../actions'
+import { cleanOrder, buyMail } from '../../actions'
 import { useDispatch, useSelector } from 'react-redux'
 
 const payments = [
@@ -113,7 +113,7 @@ export default function Review() {
             'Content-Type': 'application/json'
           }
         })
-      } catch (err) {console.log(err)}
+      } catch (err) { console.log(err) }
     })
   }
 
@@ -121,11 +121,20 @@ export default function Review() {
     history.push('/user/paymentdetails')
   }
 
+
   const handleNext = () => {
     const orderId = cart[0].order_product.orderId
     updateOrder(orderId, { state: 'completa' })
     updateStockProduct()
     dispatch(cleanOrder())
+
+    buyMail(
+      user.email,
+      'Detalle de tu compra',
+      cart,
+      user
+      )
+      
     history.push(`/user/orderid/${orderId}`)
   }
 

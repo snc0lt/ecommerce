@@ -125,7 +125,6 @@ export default function Orders() {
     event.preventDefault()
     setSearchId(event.target.value)
   }
-  
   return (
     <>
       {orders && url.pathname.includes("/admin")?
@@ -183,7 +182,7 @@ export default function Orders() {
                     <TableCell>{row.createdAt.split('T')[1].slice(0, 5)}</TableCell>
                     <TableCell>{row.user.firstName + ' ' + row.user.lastName}</TableCell>
                     <TableCell>
-                    <StateDialog state={row.state} orderId={row.id}/>
+                    <StateDialog state={row.state} orderId={row.id} to={row.user.email} order={orders}/>
                     </TableCell>
                     <TableCell><AdminOrder orderId={row.id} /></TableCell>
                     <TableCell align="right">$ {price[i]}</TableCell>

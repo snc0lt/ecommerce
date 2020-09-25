@@ -654,10 +654,10 @@ export const sendMail = async (mail) => {
 }
 
 
-// mail cuando haces la compra
+// mail cuando haces la compra to, subject, products, user
 export const buyMail = async (to, subject, products, user) => {
 	try {
-		await fetch('http://localhost:3001/orders/complete_buy', {
+		await fetch('http://localhost:4000/complete_buy', {
 			method: 'POST',
 			body: JSON.stringify({to, subject, products, user}),
 			headers: {
@@ -666,7 +666,7 @@ export const buyMail = async (to, subject, products, user) => {
 		})
 		console.log('te enviamos un mail con tu compra..!')
 	} catch (err) {
-		console.log(err)
+		console.log('no estas enviando nada pendejo..!')
 	}
 } 
 
@@ -674,7 +674,7 @@ export const buyMail = async (to, subject, products, user) => {
 // mail cuando se despacha la compra
 export const dispatchMail = async (to, subject, order) => {
 	try {
-		await fetch('http://localhost:3001/orders/dispatch_buy', {
+		await fetch('http://localhost:4000/dispatch_buy', {
 			method: 'POST',
 			body: JSON.stringify({to, subject, order}),
 			headers: {
@@ -689,11 +689,11 @@ export const dispatchMail = async (to, subject, order) => {
 
 
 // mail cuando se cancela la compra
-export const canelMail = async (to, subject, order) => {
+export const cancelMail = async (to, subject, order) => {
 	try {
-		await fetch('http://localhost:3001/orders/cancel_buy', {
+		await fetch('http://localhost:4000/cancel_buy', {
 			method: 'POST',
-			body: JSON.stringify({to, subject, order}),
+			body: JSON.stringify({to: to, subject: subject, order: order}),
 			headers: {
 				'Content-Type': 'application/json'
 			}
