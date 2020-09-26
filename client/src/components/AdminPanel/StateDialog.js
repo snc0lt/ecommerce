@@ -169,7 +169,7 @@ export default function DialogSelect({state,orderId, to, order}) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Cancel
+            Cancelar
           </Button>
           <Button onClick={handleClose} color="primary">
             Ok
