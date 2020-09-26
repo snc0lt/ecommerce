@@ -30,7 +30,7 @@ export const Shopping = ({ guestCart }) => {
 										{product.name}
 									</h5>
 									<p className='card-text'>
-										{product.price}
+										$ {product.price}
 									</p>
 								</div>
 							</div>
@@ -73,7 +73,7 @@ export const Shopping = ({ guestCart }) => {
 											{g.name}
 										</h5>
 										<p className='card-text'>
-											{g.price}
+											$ {g.price}
 										</p>
 									</div>
 								</div>

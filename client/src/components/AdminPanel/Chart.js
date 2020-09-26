@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useTheme } from '@material-ui/core/styles';
-import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer, Tooltip } from 'recharts';
 import Title from './Title';
 
 // Generate Sales Data
-function createData(time, amount) {
-  return { time, amount };
+function createData(time, monto) {
+  return { time, monto };
 }
 
 const data = [
@@ -32,7 +32,9 @@ export default function Chart() {
         })
   }, [])
 
-  var arrayData = [];
+  var arrayData = [
+    createData('00:00', 0)
+  ];
 
   if(orders) { //aca deberiamos poner para que solo traiga las ordenes del dia actual
   orders.forEach(element => {
@@ -68,7 +70,8 @@ export default function Chart() {
               Ventas ($)
             </Label>
           </YAxis>
-          <Line type="monotone" dataKey="amount" stroke={theme.palette.primary.main} dot={false} />
+          <Line type="monotone" dataKey="monto" stroke={theme.palette.primary.main} dot={false} />
+          <Tooltip />
         </LineChart>
       </ResponsiveContainer>
     </React.Fragment>
