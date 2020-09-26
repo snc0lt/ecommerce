@@ -20,13 +20,18 @@ export default function PrimaryListItems(){
   const user = useSelector(state => state.userDetails)
   const google = useSelector(state => state.userGoogle)
   //const { id } = useParams();
-const primaryList = url.pathname.includes('/admin') ? (<div>
-<ListItem button component="a" href="http://localhost:3000/admin/panel">
+const primaryList = url.pathname.includes('/admin') ? (
+
+<div>
+
+<Link to='/admin/panel'>
+<ListItem button>
   <ListItemIcon>
     <DashboardIcon />
   </ListItemIcon>
   <ListItemText primary="Resumen" />
 </ListItem>
+</Link>
 
 <Link to='/admin/orders'>
 <ListItem button>
@@ -46,35 +51,41 @@ const primaryList = url.pathname.includes('/admin') ? (<div>
 </ListItem>
 </Link>
 
-
-<ListItem button component="a" href="http://localhost:3000/admin/createproduct">
+<Link to='/admin/createproduct'>
+<ListItem button>
   <ListItemIcon>
     <AddIcon />
   </ListItemIcon>
   <ListItemText primary="Crear producto" />
 </ListItem>
+</Link>
 
-
-<ListItem button component="a" href="http://localhost:3000/admin/products/edit">
+<Link to='/admin/products/edit'>
+<ListItem button>
   <ListItemIcon>
     <EditIcon />
   </ListItemIcon>
   <ListItemText primary="Editar producto" />
 </ListItem>
+</Link>
 
-<ListItem button component="a" href="http://localhost:3000/admin/createcategory">
+<Link to='/admin/createcategory'>
+<ListItem button>
   <ListItemIcon>
     <CategoryIcon />
   </ListItemIcon>
   <ListItemText primary="Crear categoria" />
 </ListItem>
+</Link>
 
-<ListItem button component="a" href={`http://localhost:3000/admin/editCategory`}>
+<Link to='/admin/editCategory'>
+<ListItem button>
   <ListItemIcon>
     <EditIcon />
   </ListItemIcon>
   <ListItemText primary="Editar categoria" />
 </ListItem>
+</Link>
 
 </div>)
 : (<div>

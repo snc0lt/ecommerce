@@ -672,28 +672,28 @@ export const buyMail = async (to, subject, products, user) => {
 
 
 // mail cuando se despacha la compra
-export const dispatchMail = async (to, subject, order) => {
+export const dispatchMail = async (to, subject, user, id) => {
 	try {
 		await fetch('http://localhost:4000/dispatch_buy', {
 			method: 'POST',
-			body: JSON.stringify({to, subject, order}),
+			body: JSON.stringify({to: to, subject: subject, user: user, id: id}),
 			headers: {
 				'Content-Type': 'application/json'
 			}
 		})
 		console.log('tu compra ha sido despachada..!')
 	} catch (err) {
-		console.log(err)
+		console.log('ERROR, no esta mandando el mail', err)
 	}
 } 
 
 
 // mail cuando se cancela la compra
-export const cancelMail = async (to, subject, order) => {
+export const cancelMail = async (to, subject, user, id) => {
 	try {
 		await fetch('http://localhost:4000/cancel_buy', {
 			method: 'POST',
-			body: JSON.stringify({to: to, subject: subject, order: order}),
+			body: JSON.stringify({to: to, subject: subject, user: user, id: id}),
 			headers: {
 				'Content-Type': 'application/json'
 			}

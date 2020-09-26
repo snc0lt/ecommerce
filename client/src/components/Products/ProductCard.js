@@ -107,11 +107,11 @@ export default function ProductCard(props) {
         props.productos &&
         <Card className={classes.root}>
           <Link to={`/products/${props.productos.id}`}>
-            <CardHeader
+            {/* <CardHeader
             // action={
             //   <Rating />
             // }
-            />
+            /> */}
             <CardMedia
               className={classes.media}
               image={`http://localhost:3001/images/${props.productos.image[0]}`}

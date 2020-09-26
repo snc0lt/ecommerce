@@ -136,7 +136,7 @@ export default function Dashboard() {
         <Divider />
         <PrimaryListItems/>
         <Divider />
-        <SecondaryListItems/>
+        {/* <SecondaryListItems/> */}
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />

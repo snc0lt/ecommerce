@@ -190,16 +190,34 @@ export default function Review() {
                   Detalles del pago
           </Typography>
                 <Grid container>
-                  {payments.map((payment) => (
-                    <React.Fragment key={payment.name}>
+                  {/* {payments.map((payment) => ( */}
+                    <React.Fragment key={user.firstName}>
                       <Grid item xs={6}>
-                        <Typography gutterBottom>{payment.name}</Typography>
+                        <Typography gutterBottom>Tipo:</Typography>
                       </Grid>
                       <Grid item xs={6}>
-                        <Typography gutterBottom>{payment.detail}</Typography>
+                        <Typography gutterBottom>Visa</Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Typography gutterBottom>Titular:</Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Typography gutterBottom>{user.firstName}</Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Typography gutterBottom>Numero:</Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Typography gutterBottom>xxxx-xxxx-xxxx-1234</Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Typography gutterBottom>Fecha de expiracion:</Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Typography gutterBottom>04/2024</Typography>
                       </Grid>
                     </React.Fragment>
-                  ))}
+                  {/* ))} */}
                 </Grid>
               </Grid>
             </Grid>

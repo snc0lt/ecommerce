@@ -12,7 +12,7 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 400,
+    maxWidth: 450,
     flexGrow: 1,
   },
   header: {
@@ -76,14 +76,14 @@ function SwipeableTextMobileStepper({ image }) {
           activeStep={activeStep}
           nextButton={
             <Button variant='outlined' color='primary' size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
-              Next
+              Siguiente
             {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
             </Button>
           }
           backButton={
             <Button variant='outlined' color='primary' size="small" onClick={handleBack} disabled={activeStep === 0}>
               {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-            Back
+            Atras
           </Button>
           }
         />

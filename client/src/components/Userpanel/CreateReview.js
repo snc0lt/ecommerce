@@ -70,6 +70,7 @@ export default function CreateReview({productId}) {
     //     swal("Error","No se ha podido crear la review","error")
     // }
     dispatch(addReviews(productId, review, userId, star))
+    handleClose()
   }
 
   return (

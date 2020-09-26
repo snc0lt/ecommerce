@@ -193,12 +193,12 @@ export default function SignUp() {
               />
             </Grid>
             {confirmPassword !== values.password ? (<p className={classes.danger}>No coinciden las contraseñas</p>) : null}
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
                 label="Suscribirme a las novedades via e-mail"
               />
-            </Grid>
+            </Grid> */}
           </Grid>
           <Button
             type="submit"

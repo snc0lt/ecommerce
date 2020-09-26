@@ -14,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import { Link } from 'react-router-dom'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -32,6 +33,12 @@ const useStyles = makeStyles((theme) => ({
   },
   resumen: {
     display: 'flex',
+  },
+  list: {
+    '&:hover': {
+      background: '#3F75CE',
+      color: '#3F75CE'
+    }
   }
 }));
 
@@ -83,22 +90,24 @@ const AdminOrder = ({ orderId }) => {
               <Typography variant="h6" gutterBottom>
                 {order.user.firstName} {order.user.lastName}
               </Typography>
-              <div className={classes.resumen} style={{justifyContent: 'space-between'}}>
+              <div className={classes.resumen} style={{ justifyContent: 'space-between' }}>
                 <Typography variant="body1" gutterBottom>
                   Resumen de compra
                 </Typography>
                 <div style={{ marginLeft: 'auto' }}>
-                <Typography variant="body1" gutterBottom>
-                  Total
+                  <Typography variant="body1" gutterBottom>
+                    Total
                 </Typography>
                 </div>
               </div>
               <List disablePadding>
                 {order.products.map((product) => (
-                  <ListItem className={classes.listItem} key={product.id}>
-                    <ListItemText primary={`${product.name} x${product.order_product.quantity}`} /*secondary={product.description}*/ />
-                    <Typography variant="body2">$ {product.price * product.order_product.quantity}</Typography>
-                  </ListItem>
+                  <Link to={{ pathname: `/products/${product.id}` }} className={classes.list} >
+                    <ListItem className={classes.listItem} key={product.id}>
+                      <ListItemText primary={`${product.name} x${product.order_product.quantity}`} /*secondary={product.description}*/ />
+                      <Typography variant="body2">$ {product.price * product.order_product.quantity}</Typography>
+                    </ListItem>
+                  </Link>
                 ))}
                 <ListItem className={classes.listItem}>
                   <ListItemText primary="Total" />

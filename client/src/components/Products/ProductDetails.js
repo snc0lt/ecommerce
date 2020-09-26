@@ -66,11 +66,6 @@ export default function ProductDetails() {
 
   useEffect(() => {
     dispatch(getProductDetail(id))
-    // fetch(`http://localhost:3001/products/${id}`)
-    //     .then(res => res.json())
-    //     .then(data => {
-    //       setProducto(data)
-    //     })
   }, [])
   if (product) {
     console.log(product.id)
@@ -133,7 +128,7 @@ export default function ProductDetails() {
             </div>
             <div className={classes.paper}>
               <Typography component="h4" variant="h4" color='primary'>
-                {product && product.price}
+               $ {product && product.price}
               </Typography>
               <Typography variant='subtitle2' color='textSecondary'>
                 {product && product.stock !== 0 ? `${product.stock} - Disponible` : 'No Disponible - Sin Stock'}
