@@ -66,11 +66,6 @@ export default function ProductDetails() {
 
   useEffect(() => {
     dispatch(getProductDetail(id))
-    // fetch(`http://localhost:3001/products/${id}`)
-    //     .then(res => res.json())
-    //     .then(data => {
-    //       setProducto(data)
-    //     })
   }, [])
   if (product) {
     console.log(product.id)

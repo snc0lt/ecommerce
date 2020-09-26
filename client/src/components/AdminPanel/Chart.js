@@ -49,7 +49,7 @@ export default function Chart() {
 
   return (
     <React.Fragment>
-      <Title>Ventas de hoy (hardcodeadas)</Title>
+      <Title>Ventas de hoy</Title>
       <ResponsiveContainer>
         <LineChart
           data={arrayData}

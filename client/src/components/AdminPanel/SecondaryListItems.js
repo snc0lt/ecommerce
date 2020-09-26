@@ -17,7 +17,7 @@ export default function secondaryListItems () {
   return (
   <div>
 
-    <ListSubheader inset>Saved reports</ListSubheader>
+    <ListSubheader inset>Reportes</ListSubheader>
 
     <ListItem button>
       <ListItemIcon>

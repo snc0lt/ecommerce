@@ -35,8 +35,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
   list: {
-      background: 'red',
-      transition: '5s',
+    '&:hover': {
+      background: '#3F75CE',
+      color: '#3F75CE'
+    }
   }
 }));
 

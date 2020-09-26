@@ -155,7 +155,7 @@ export default function SearchBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleProfileMenuOpen}>
-        <Tooltip title='Profile'>
+        <Tooltip title='Perfil'>
           <IconButton>
             <LetterAvatars />
           </IconButton>
@@ -178,7 +178,7 @@ export default function SearchBar() {
         {cart && cart.length > 0
           ?
           <Badge badgeContent={cart.length} color="secondary">
-            <Tooltip title='cart'>
+            <Tooltip title='Carrito'>
               <IconButton>
                 <ShoppingCartIcon color='primary' />
               </IconButton>
@@ -186,14 +186,14 @@ export default function SearchBar() {
           </Badge>
           : guestCart && guestCart.length > 0
             ? <Badge badgeContent={guestCart.length} color="secondary">
-              <Tooltip title='cart'>
+              <Tooltip title='Carrito'>
                 <IconButton>
                   <ShoppingCartIcon color='primary' />
                 </IconButton>
               </Tooltip>
             </Badge>
             : <Badge badgeContent={0} color="secondary">
-              <Tooltip title='cart'>
+              <Tooltip title='Carrito'>
                 <IconButton>
                   <ShoppingCartIcon color='primary' />
                 </IconButton>
@@ -204,7 +204,7 @@ export default function SearchBar() {
       {logged ?
       
         <MenuItem onClick={handleMenuClose}>
-          <Tooltip title='log out'>
+          <Tooltip title='Cerrar sesion'>
             <IconButton onClick={logOut}>
               <CallMadeIcon color='primary' />
             </IconButton>
@@ -213,7 +213,7 @@ export default function SearchBar() {
       
         : <MenuItem onClick={handleMenuClose}>
           <Link to='/user/login'>
-            <Tooltip title='login'>
+            <Tooltip title='Loguearse'>
               <IconButton>
                 <ExitToAppIcon color='primary' />
               </IconButton>
@@ -222,7 +222,7 @@ export default function SearchBar() {
         </MenuItem>
       }
       {logged &&
-        <Tooltip title='dashboard'>
+        <Tooltip title='Panel'>
           <Link to={userId.isAdmin ? `/admin/panel` : '/user/panel'}>
             <IconButton color="inherit">
               <DashboardIcon />
@@ -231,7 +231,7 @@ export default function SearchBar() {
         </Tooltip>
       }
       <MenuItem onClick={handleProfileMenuOpen}>
-        <Tooltip title='Profile'>
+        <Tooltip title='Perfil'>
           <IconButton
             aria-label="account of current user"
             aria-controls="primary-search-account-menu"
@@ -310,7 +310,7 @@ export default function SearchBar() {
                 {logged
                   ? null
                   : <Link to='/user/login'>
-                    <Tooltip title='login'>
+                    <Tooltip title='Loguearse'>
                       <IconButton>
                         <ExitToAppIcon style={{ color: 'white' }} />
                       </IconButton>
@@ -319,7 +319,7 @@ export default function SearchBar() {
               </div>
               {logged && userId && 
                 <>
-                  <Tooltip title='dashboard'>
+                  <Tooltip title='Panel'>
                     <Link to={userId.isAdmin ? `/admin/panel` : `/user/panel/${userId.id}`}>
                       <IconButton color="inherit">
                         <DashboardIcon />
@@ -328,7 +328,7 @@ export default function SearchBar() {
                   </Tooltip>
                   {!userId.isGoogle
                   ?
-                  <Tooltip title='log out'>
+                  <Tooltip title='Cerrar sesion'>
                     <IconButton onClick={logOut}>
                       <CallMadeIcon style={{ color: 'white' }} />
                     </IconButton>
@@ -342,11 +342,7 @@ export default function SearchBar() {
                    </GoogleLogout>}
                   {/* <Button color='inherit' >Cerrar sesion</Button> */}
                   <IconButton
-                    edge="end"
-                    aria-label="account of current user"
-                    aria-controls={menuId}
-                    aria-haspopup="true"
-                    onClick={handleProfileMenuOpen}
+                    // onClick={handleProfileMenuOpen}
                     color="inherit"
                   >
                     <LetterAvatars />

@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function DialogSelect({state,orderId, to, order}) {
+export default function DialogSelect({state, orderId, to, name}) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [orderState, setOrderState] = useState(state);
@@ -57,10 +57,11 @@ export default function DialogSelect({state,orderId, to, order}) {
   const sendMail = () => {
     if(orderState === 'cancelada'){
       // envia mail cuando se cancela la orden
-      cancelMail(to, 'orden cancelada', order)
+      cancelMail(to, 'Su orden ha sido cancelada', name, orderId)
     } else if( orderState === 'despacho') {
       // envia mail cuando se despacha la orden
-      dispatchMail(to, 'orden despachada', order)
+      console.log('ENTRO AL IF DE DESPACHO')
+      dispatchMail(to, 'Su orden ha sido despachada', name, orderId)
     }
   }
 
@@ -78,10 +79,6 @@ export default function DialogSelect({state,orderId, to, order}) {
   
   const handleClose = () => {
     if (orderState === 'cancelada') {
-      // const data = fetch(`http://localhost:3001/orders/${orderId}`)
-      // const orderX = data.json()
-      // setOrder(orderX)
-      // console.log(data)
       data.products.map(prod => {
         let newStock = prod.stock + prod.order_product.quantity
         const product = {
@@ -111,7 +108,6 @@ export default function DialogSelect({state,orderId, to, order}) {
         .then(res=>res.json())
         .then(data=>console.log(data))
         .catch(e =>console.log(e))
-        sendMail()
         setOpen(false);
     } catch(error){
         console.log(error)
@@ -136,6 +132,7 @@ export default function DialogSelect({state,orderId, to, order}) {
           console.log(error)
       }
     };
+    sendMail()
     }
 
   return (

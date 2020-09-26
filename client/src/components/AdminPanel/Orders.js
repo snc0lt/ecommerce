@@ -182,7 +182,7 @@ export default function Orders() {
                     <TableCell>{row.createdAt.split('T')[1].slice(0, 5)}</TableCell>
                     <TableCell>{row.user.firstName + ' ' + row.user.lastName}</TableCell>
                     <TableCell>
-                    <StateDialog state={row.state} orderId={row.id} to={row.user.email} order={orders}/>
+                    <StateDialog state={row.state} orderId={row.id} to={row.user.email} name={row.user.firstName}/>
                     </TableCell>
                     <TableCell><AdminOrder orderId={row.id} /></TableCell>
                     <TableCell align="right">$ {price[i]}</TableCell>
@@ -222,13 +222,13 @@ export default function Orders() {
                         <TableRow key={j} hover={true}>
                        <TableCell>{row.createdAt.slice('T', 10)}</TableCell>
                        <TableCell>{row.createdAt.split('T')[1].slice(0, 5)}</TableCell>
-                       <TableCell>{product.name}</TableCell>
+                       <TableCell><Link color="primary" to={`/products/${product.id}`}>{product.name}</Link></TableCell>
                        <TableCell>{product.order_product.quantity}</TableCell>
                        <TableCell>{product.price}</TableCell>
                        <TableCell>{product.price * product.order_product.quantity}</TableCell>
                        <TableCell><CreateReview productId={product.id}/></TableCell>
                      </TableRow>
-                      )) 
+                      ))
                  ))}
                </TableBody>
              </Table>
