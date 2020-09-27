@@ -8,18 +8,6 @@ function createData(time, monto) {
   return { time, monto };
 }
 
-const data = [
-  createData('00:00', 2000),
-  createData('03:00', 300),
-  createData('06:00', 600),
-  createData('09:00', 1850),
-  createData('12:00', 1500),
-  createData('15:00', 2000),
-  createData('18:00', 2400),
-  createData('21:00', 2400),
-  createData('24:00', 1500),
-];
-
 export default function Chart() {
   const theme = useTheme();
   const [orders, setOrders] = useState(null)
@@ -40,9 +28,7 @@ export default function Chart() {
   orders.forEach(element => {
     const time = element.createdAt.split('T')[1].slice(0, 5)
     let total = 0;
-    element.products.map(el => {
-      total = total + el.order_product.price * el.order_product.quantity
-    })
+    element.products.map(el => total = total + el.order_product.price * el.order_product.quantity)
     arrayData.push(createData(time, total))
   });
 }

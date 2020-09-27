@@ -5,7 +5,6 @@ import swal from 'sweetalert';
 import { useHistory } from "react-router-dom";
 
 export default function EditCategory({ match }){
-    let id = match.params.idCategory;
     let name = match.params.name
     const history = useHistory();
     const [input, setInput] = useState({
@@ -18,13 +17,6 @@ export default function EditCategory({ match }){
                 ...input,
                 [e.target.name]: e.target.value
             })
-    };
-
-    const resetForm = ()=> {
-        setInput({
-            name: '',
-            description: ''
-        })
     };
 
     useEffect( () => {
@@ -52,7 +44,6 @@ export default function EditCategory({ match }){
         })
         .then(() => {
             swal("Success","Categoria modificada","success")
-            resetForm();
         }).catch(err => alert(err));
         history.push('/admin/editCategory')
     };
@@ -68,7 +59,6 @@ export default function EditCategory({ match }){
         })
 
         .catch(err => alert(err));
-        resetForm();
         history.push('/admin/editCategory')
     };
 
@@ -101,10 +91,6 @@ return(
             name='description'
             />
         </Grid>
-        <hr/>               
-        <Button onClick={resetForm} 
-        variant='contained'                        
-        className="button"> Resetear </Button>
         <hr/>   
         <Button onClick={deletedCat}
         variant='contained'

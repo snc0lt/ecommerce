@@ -14,15 +14,12 @@ export const Counter = ({ idProduct, quantity, userId, stock, gStock, precio, in
 
 	const handleCount = (e) => {
 		const value = e.target.value
-		console.log("stock: ",stock)
-		console.log("gstock:",gStock)
 		if(stock){
 			mixStock=stock
 		}
 		else if(gStock){
 			mixStock=gStock
 		}
-		console.log(value)
 		if (value < 1) {
 			setCount(1)
 			dispatch(updateCountProductInCart(userId, idProduct, count))

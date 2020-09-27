@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import swal from 'sweetalert';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
@@ -15,8 +13,7 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Copyright from '../utils/Copyright'
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import { useRadioGroup } from '@material-ui/core';
-import { cleanOrder, getUserDetail } from '../../actions';
+import { getUserDetail } from '../../actions';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -60,7 +57,6 @@ export default function AddressForm() {
   const userId = useSelector(state => state.userDetails)
   const dispatch = useDispatch()
   const history = useHistory()
-  const { id } = useParams()
   const [user, setUser] = useState({
     firstName: '',
     lastName: '',
@@ -77,15 +73,11 @@ export default function AddressForm() {
     fetch(`http://localhost:3001/user/${userId.id}`)
       .then(res => res.json())
       .then(data => {
-        // Setdir(data.address);
-        // SetPhone(data.phone);
         setUser(data);
-        // dispatch(setUser(data))
       })
-  }, [])
+  }, [userId.id])
 
   const handleChange = (event) => {
-    // setErrors(validate({ ...user, [event.target.name]: event.target.value }))
     setUser({ ...user, [event.target.name]: event.target.value });
   };
 
@@ -101,7 +93,7 @@ export default function AddressForm() {
       country: user.country,
     }
     try {
-      const fetchdata = await fetch(`http://localhost:3001/user/${userId.id}`,
+      await fetch(`http://localhost:3001/user/${userId.id}`,
         {
           method: 'PATCH',
           body: JSON.stringify(envio),
@@ -223,19 +215,13 @@ export default function AddressForm() {
                     value={user.country}
                   />
                 </Grid>
-                {/* <Grid item xs={12}>
-                  <FormControlLabel
-                    control={<Checkbox color="secondary" name="saveAddress" value="yes" />}
-                    label="Use this address for payment details"
-                  />
-                </Grid> */}
+                
               </Grid>
               <div className={classes.buttons}>
                 <Button
                   type='submit'
                   variant="contained"
                   color="primary"
-                  // onClick={handleSubmit}
                   className={classes.button}
                 >
                   Siguiente

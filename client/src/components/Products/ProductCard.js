@@ -1,19 +1,15 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import { red } from '@material-ui/core/colors';
-import Rating from '../Rating/Rating'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { Tooltip } from '@material-ui/core';
-import { useLocation, Link, useHistory } from 'react-router-dom';
+import { useLocation, Link} from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
-import CategoryIcon from '@material-ui/icons/Category';
 import DeleteDialog from '../ConfirmationDialog/DeleteDialog'
 import { useDispatch, useSelector } from "react-redux";
 import { addProductCart, addProductToGuestCart } from "../../actions";
@@ -45,7 +41,6 @@ export default function ProductCard(props) {
   const logged = useSelector(state => state.userLogged)
   const classes = useStyles();
   const url = useLocation();
-  const history = useHistory()
 
   const addtoCart = (e) => {
 

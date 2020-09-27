@@ -15,7 +15,6 @@ export default function () {
 	let query = useQuery().get('search');
 	const products = useSelector(state => state.products)
 	const dispatch = useDispatch()
-	console.log(products)
 	useEffect(() => {
 		if (id) {
 			dispatch(getProductsByCategory(id))

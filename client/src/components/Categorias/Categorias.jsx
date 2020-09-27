@@ -12,18 +12,17 @@ export default function () {
 	const url = useLocation();
 	const dispatch = useDispatch()
 	const categories = useSelector(state => state.categories)
-	console.log(categories)
 
 	useEffect(() => {
 		dispatch(getCategories())	
 	// }, [categories])
-	}, [])
+	}, [dispatch])
 
 	useEffect(() => {
 		if(url.pathname === '/admin/editcategoy') {
 			dispatch(getCategories())
 		}
-	}, [categories])
+	}, [categories,url.pathname,dispatch])
 
 	return (
 		<div >

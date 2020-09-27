@@ -15,7 +15,6 @@ import ImageUploader from 'react-images-upload';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import '../UploadImageButton/styleButtonUpload.css'
-import UploadImgButton from '../UploadImageButton/UploadImageButton'
 import IconButton from '@material-ui/core/IconButton'
 import Copyright from '../utils/Copyright.js'
 import { useParams, useLocation, useHistory } from 'react-router-dom';
@@ -23,7 +22,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import Checkbox from '@material-ui/core/Checkbox';
 // import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import swal from 'sweetalert';
-import { createProduct, cleanGuestOrder } from "../../actions";
+import { createProduct } from "../../actions";
 
 // import ImagesPreview from '../utils/ImagesPreview'
 
@@ -224,7 +223,6 @@ export default function SignUp(props) {
           'Content-Type': 'application/json'
         }
       })
-      console.log(updatedProduct)
     } catch (err) {
       console.log(err)
       swal("Upa", "No se ha editado el producto", "error");
@@ -234,11 +232,9 @@ export default function SignUp(props) {
 
   const handleSubmit = function (e) {
     e.preventDefault()
-    console.log('files antes:', files)
     uploadImage()
     setFiles(null)
     swal("Genial!", "Se ha creado el producto exitosamente!", "success");
-    console.log('files dsps', files)
     return url.pathname.includes('/admin/createproduct') ?
     history.push('/admin/panel')
     :
@@ -382,28 +378,12 @@ export default function SignUp(props) {
                         <DeleteIcon />
                       </IconButton>
                     </Tooltip>} />
-
-                  {console.log("este es el img", img)}
                   <CardMedia className={classes.media} image={`http://localhost:3001/images/${img}`} />
                 </Card>
 
               </>
             )}
           </div>
-          {/* <UploadImgButton onChange={filesHandler} />
-          {files &&
-            // <ImagePreview images={files}/>
-            Array.from(files).map((file, i) => <div className={classes.imageName}>
-              <div key={i} style={{ display: 'flex' }}>
-                <span>{file.name}</span>
-                <IconButton
-                  onClick={(i) => removeFile(i)}
-                  size='small' style={{ marginLeft: 'auto' }}>
-                  <HighlightOffIcon />
-                </IconButton>
-              </div>
-            </div>)
-          } */}
           <ImageUploader
             withIcon={false}
             buttonText='Adjuntar imágenes'
@@ -412,19 +392,6 @@ export default function SignUp(props) {
             maxFileSize={52428800}
             withPreview={files ? true : false}
           />
-          {/* para el editado mostrar las imagenes con un preview (Claudio) */}
-          {/* {inputs.image &&
-            inputs.image.map((img, i) => <div className={classes.imageName}>
-              <div style={{ display: 'flex' }}>
-                <span>{img}</span>
-                <IconButton
-                  onClick={(i) => removeFile(i)}
-                  size='small' style={{ marginLeft: 'auto' }}>
-                  <HighlightOffIcon />
-                </IconButton>
-              </div>
-            </div>)
-          } */}
           {
             url.pathname.includes('/admin/editproduct') ?
             <Button onClick={handleSubmit}

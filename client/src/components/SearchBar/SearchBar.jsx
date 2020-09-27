@@ -13,7 +13,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { Link, useHistory } from 'react-router-dom';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import { Tooltip, Container, Button } from '@material-ui/core';
+import { Tooltip, Container } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { useSelector, useDispatch } from "react-redux";
 import { getUserProductsCart, userLogout } from "../../actions";
@@ -105,7 +105,6 @@ export default function SearchBar() {
   const userId = useSelector(state => state.userDetails)
   const logged = useSelector(state => state.userLogged)
   const guestCart = useSelector(state => state.guestCart)
-  const google = useSelector(state => state.userGoogle)
 
 
 
@@ -113,7 +112,6 @@ export default function SearchBar() {
     if (logged && userId) {
       dispatch(getUserProductsCart(userId.id))
     }
-    // console.log(cart)
   }, [userId])
 
   const handleProfileMenuOpen = (event) => {

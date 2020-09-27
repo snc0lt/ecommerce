@@ -281,7 +281,6 @@ export const getUserProductsCart = (userId) => async dispatch => {
 			.then((res) => res.json())
 			.then((order) => {
 			if (order.length === 0) {
-				console.log('No hay orden')
 			}
 			else {
 				dispatch({
@@ -308,7 +307,6 @@ export const deleteProductInCart = (userId, idProduct) => async dispatch => {
 		})
 			.then((res) => res.json())
 			.then((product) => {
-				console.log('borraste es producto..!')
 				dispatch({
 					type: 'DELETE_PRODUCT_CART',
 					payload: product.productId,
@@ -664,9 +662,7 @@ export const buyMail = async (to, subject, products, user) => {
 				'Content-Type': 'application/json'
 			}
 		})
-		console.log('te enviamos un mail con tu compra..!')
 	} catch (err) {
-		console.log('no estas enviando nada pendejo..!')
 	}
 } 
 

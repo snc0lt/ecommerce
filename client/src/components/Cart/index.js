@@ -15,7 +15,7 @@ export const Cart = () => {
 	const guestCart = useSelector(state => state.guestCart)
 	const dispatch = useDispatch()
 	const userId = useSelector(state => state.userDetails)
-	const logged = useSelector(state => state.userLogged)
+	// const logged = useSelector(state => state.userLogged)
 	
 	useEffect(() => {
 		let sum = 0
@@ -26,7 +26,7 @@ export const Cart = () => {
 		if (userId) {
 			dispatch(getUserProductsCart(userId.id))
 		}
-	}, [cart, total])
+	}, [cart, total,dispatch,userId])
 
 	// useEffect(() => {
 	// 	if (userId) {
@@ -34,13 +34,12 @@ export const Cart = () => {
 	// 	}
 	// }, [total])
 
-	useEffect(() => {
+	useEffect(()=>{
 		let sum = 0
 		if (gCount && guestCart) {
-			guestCart.map((g, i) => {
+			guestCart.map((g, i) =>  {
 				sum = sum + (gCount[i] * g.price)
-				console.log(gCount[i])
-				console.log(g.price)
+				return sum
 			})
 			setGTotal(sum)
 		}

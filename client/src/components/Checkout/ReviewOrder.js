@@ -16,12 +16,6 @@ import { useHistory } from 'react-router-dom';
 import { cleanOrder, buyMail } from '../../actions'
 import { useDispatch, useSelector } from 'react-redux'
 
-const payments = [
-  { name: 'Tipo', detail: 'Visa' },
-  { name: 'Titular', detail: 'Mr John Smith' },
-  { name: 'Numero', detail: 'xxxx-xxxx-xxxx-1234' },
-  { name: 'Fecha de expiracion', detail: '04/2024' },
-];
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -84,7 +78,7 @@ export default function Review() {
   const updateOrder = (orderId, state) => {
     if (user) {
       try {
-        const data = fetch(`http://localhost:3001/orders/detail/${orderId}`, {
+        fetch(`http://localhost:3001/orders/detail/${orderId}`, {
           method: 'PUT',
           body: JSON.stringify(state),
           headers: {
@@ -92,7 +86,6 @@ export default function Review() {
           }
         })
       } catch (err) { console.log(err) }
-      // history.push('/')
     } else if (!user) {
       history.push('/user/login')
     }
@@ -101,12 +94,11 @@ export default function Review() {
   const updateStockProduct = () => {
     cart.forEach(el => {
       var newStock = el.stock - el.order_product.quantity
-      console.log('nuevo stock', newStock)
       const product = {
         stock: newStock,
       };
       try {
-        const updatedProduct = fetch(`http://localhost:3001/products/stock/${el.id}`, {
+        fetch(`http://localhost:3001/products/stock/${el.id}`, {
           method: 'PUT',
           body: JSON.stringify(product),
           headers: {
@@ -190,7 +182,6 @@ export default function Review() {
                   Detalles del pago
           </Typography>
                 <Grid container>
-                  {/* {payments.map((payment) => ( */}
                     <React.Fragment key={user.firstName}>
                       <Grid item xs={6}>
                         <Typography gutterBottom>Tipo:</Typography>
@@ -217,7 +208,6 @@ export default function Review() {
                         <Typography gutterBottom>04/2024</Typography>
                       </Grid>
                     </React.Fragment>
-                  {/* ))} */}
                 </Grid>
               </Grid>
             </Grid>

@@ -6,31 +6,21 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
-import { useLocation, Link } from "react-router-dom";
-import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
-import VpnKeySharpIcon from '@material-ui/icons/VpnKeySharp';
-import { promoteToAdmin, disableOrEnableUser, removeUser, resetPassword, getUsers } from '../../actions/index'
-import {useDispatch, useSelector} from 'react-redux'
+import { promoteToAdmin, disableOrEnableUser } from '../../actions/index'
 import PersonIcon from '@material-ui/icons/Person';
 
 const useStyles = makeStyles((theme) => ({
-//   seeMore: {
-//     marginTop: theme.spacing(3),
-//   },
   button: {
     margin: theme.spacing(0.5),
   },
 }));
 
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
+
 
 export default function Users() {
   const classes = useStyles();
-  const dispatch = useDispatch()
   const [users, setUsers] = useState(null)
     
     useEffect(() => {
@@ -39,7 +29,6 @@ export default function Users() {
         .then(data => {
           setUsers(data)
         })
-    // }, [users])
     }, [users])
 
   return (
@@ -70,7 +59,8 @@ export default function Users() {
                   <TableCell>{row.firstName}</TableCell>
                   <TableCell>{row.lastName}</TableCell>
                   <TableCell>{row.email}</TableCell>
-                  <TableCell>Activo (hardcodeado)</TableCell>
+                  <TableCell>
+                    {row.active?"Habilitado":"Deshabilitado"}</TableCell>
                   <TableCell>{row.createdAt.slice('T', 10)} / {row.createdAt.split('T')[1].slice(0, 5)}</TableCell>
                   <TableCell>{row.updatedAt.slice('T', 10)} / {row.updatedAt.split('T')[1].slice(0, 5)}</TableCell>
                   <div>
