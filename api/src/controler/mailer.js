@@ -14,31 +14,31 @@ class Mailer {
         try {
             const emailData = { to, subject, products, user };
             const html = await ejs.renderFile(buyTemplate, emailData);
-            emailResult = await sendEmail(to, subject, html);
-            res.status(200).send(emailResult);
+            emailResult = await sendEmail(to, subject, html, 'ivae.store@gmail.com');
         } catch (err) {
             console.error(err);
         }
+        res.status(200).send(emailResult);
     }
     async sendCancel (req, res) {
-        const { body: { to, subject, order } } = req;
+        const { body: { to, subject, user, id } } = req;
         let emailResult = null;
         try {
-            const emailData = { to, subject, order };
+            const emailData = { to, subject, user, id };
             const html = await ejs.renderFile(cancelTemplate, emailData);
-            emailResult = await sendEmail(to, subject, html);
+            emailResult = await sendEmail(to, subject, html, 'ivae.store@gmail.com');
         } catch (err) {
             console.error(err);
         }
         res.status(200).send(emailResult);
     }
     async sendDespacho (req, res) {
-        const { body: { to, subject, order } } = req;
+        const { body: { to, subject, user, id } } = req;
         let emailResult = null;
         try {
-            const emailData = { to, subject, order };
+            const emailData = { to, subject, user, id };
             const html = await ejs.renderFile(despachoTemplate, emailData);
-            emailResult = await sendEmail(to, subject, html);
+            emailResult = await sendEmail(to, subject, html, 'ivae.store@gmail.com');
         } catch (err) {
             console.error(err);
         }
