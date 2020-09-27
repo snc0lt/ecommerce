@@ -7,13 +7,13 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import { useLocation, Link } from "react-router-dom";
-import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
-import VpnKeySharpIcon from '@material-ui/icons/VpnKeySharp';
 import { promoteToAdmin, disableOrEnableUser, removeUser, resetPassword, getUsers } from '../../actions/index'
 import {useDispatch, useSelector} from 'react-redux'
 import PersonIcon from '@material-ui/icons/Person';
+import BlockIcon from '@material-ui/icons/Block';
+import CheckIcon from '@material-ui/icons/Check';
 
 const useStyles = makeStyles((theme) => ({
 //   seeMore: {
@@ -77,7 +77,7 @@ export default function Users() {
                       {row.id && row.isAdmin ?
                   <Button
                     variant="contained"
-                    color="primary"
+                    color="secondary"
                     className={classes.button}
                     startIcon={<VerifiedUserIcon />}
                     size='small'
@@ -102,7 +102,7 @@ export default function Users() {
                    variant="contained"
                    color="primary"
                    className={classes.button}
-                   startIcon={<PersonIcon />}
+                   startIcon={<BlockIcon />}
                    size='small'
                    onClick={disableOrEnableUser(row.id, "DISABLE")}
                    >
@@ -113,7 +113,7 @@ export default function Users() {
                     variant="contained"
                     color="primary"
                     className={classes.button}
-                    startIcon={<VerifiedUserIcon />}
+                    startIcon={<CheckIcon />}
                     size='small'
                     onClick={disableOrEnableUser(row.id, "ENABLE")}
                     >

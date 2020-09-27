@@ -657,7 +657,7 @@ export const sendMail = async (mail) => {
 // mail cuando haces la compra to, subject, products, user
 export const buyMail = async (to, subject, products, user) => {
 	try {
-		await fetch('http://localhost:4000/complete_buy', {
+		await fetch('http://localhost:3001/complete_buy', {
 			method: 'POST',
 			body: JSON.stringify({to, subject, products, user}),
 			headers: {
@@ -674,7 +674,7 @@ export const buyMail = async (to, subject, products, user) => {
 // mail cuando se despacha la compra
 export const dispatchMail = async (to, subject, user, id) => {
 	try {
-		await fetch('http://localhost:4000/dispatch_buy', {
+		await fetch('http://localhost:3001/dispatch_buy', {
 			method: 'POST',
 			body: JSON.stringify({to: to, subject: subject, user: user, id: id}),
 			headers: {
@@ -691,7 +691,7 @@ export const dispatchMail = async (to, subject, user, id) => {
 // mail cuando se cancela la compra
 export const cancelMail = async (to, subject, user, id) => {
 	try {
-		await fetch('http://localhost:4000/cancel_buy', {
+		await fetch('http://localhost:3001/cancel_buy', {
 			method: 'POST',
 			body: JSON.stringify({to: to, subject: subject, user: user, id: id}),
 			headers: {
