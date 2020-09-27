@@ -10,6 +10,8 @@ import Button from '@material-ui/core/Button';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import { promoteToAdmin, disableOrEnableUser } from '../../actions/index'
 import PersonIcon from '@material-ui/icons/Person';
+import BlockIcon from '@material-ui/icons/Block';
+import CheckIcon from '@material-ui/icons/Check';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -67,7 +69,7 @@ export default function Users() {
                       {row.id && row.isAdmin ?
                   <Button
                     variant="contained"
-                    color="primary"
+                    color="secondary"
                     className={classes.button}
                     startIcon={<VerifiedUserIcon />}
                     size='small'
@@ -92,7 +94,7 @@ export default function Users() {
                    variant="contained"
                    color="primary"
                    className={classes.button}
-                   startIcon={<PersonIcon />}
+                   startIcon={<BlockIcon />}
                    size='small'
                    onClick={disableOrEnableUser(row.id, "DISABLE")}
                    >
@@ -103,7 +105,7 @@ export default function Users() {
                     variant="contained"
                     color="primary"
                     className={classes.button}
-                    startIcon={<VerifiedUserIcon />}
+                    startIcon={<CheckIcon />}
                     size='small'
                     onClick={disableOrEnableUser(row.id, "ENABLE")}
                     >
