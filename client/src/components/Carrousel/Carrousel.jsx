@@ -1,7 +1,6 @@
 import React from 'react'
 
 export const Carrousel = () => {
-// export default function () {
 
   return (
     <div

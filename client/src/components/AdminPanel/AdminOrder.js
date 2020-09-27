@@ -102,8 +102,8 @@ const AdminOrder = ({ orderId }) => {
               </div>
               <List disablePadding>
                 {order.products.map((product) => (
-                  <Link to={{ pathname: `/products/${product.id}` }} className={classes.list} >
-                    <ListItem className={classes.listItem} key={product.id}>
+                  <Link key={product.id} to={{ pathname: `/products/${product.id}` }} className={classes.list} >
+                    <ListItem className={classes.listItem} >
                       <ListItemText primary={`${product.name} x${product.order_product.quantity}`} /*secondary={product.description}*/ />
                       <Typography variant="body2">$ {product.price * product.order_product.quantity}</Typography>
                     </ListItem>

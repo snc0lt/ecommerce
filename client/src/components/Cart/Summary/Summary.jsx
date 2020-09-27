@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { cleanOrder, cleanGuestOrder } from '../../../actions'
+import { cleanGuestOrder } from '../../../actions'
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom'
 import { Button } from '@material-ui/core';
 
 export const Summary = ({ total, orderId, suma }) => {
 	const dispatch = useDispatch()
-	const userId = useSelector(state => state.userDetails)
 	const logged = useSelector(state => state.userLogged)
 	const asd4 = useSelector(state => state.guestTotal)
 	const [sum,setSum] = useState()
@@ -15,14 +14,13 @@ export const Summary = ({ total, orderId, suma }) => {
 	const updateOrder = async (orderId, state) => {
 		if (logged) {
 			try {
-				const data = await fetch(`http://localhost:3001/orders/detail/${orderId}`, {
+				await fetch(`http://localhost:3001/orders/detail/${orderId}`, {
 					method: 'PUT',
 					body: JSON.stringify(state),
 					headers: {
 						'Content-Type': 'application/json'
 					}
 				})
-				console.log("respuesta al colocar la orden en el back", data)
 			} catch (err) {console.log(err) }
 			history.push('/user/addressform')
 		} else if (!logged) {
@@ -36,7 +34,7 @@ export const Summary = ({ total, orderId, suma }) => {
 
 	useEffect(()=>{
 		let suma = 0
-		asd4 && asd4.map( t => {suma = suma + t})
+		asd4 && asd4.map( t => suma = suma + t)
 		setSum(suma)
 	}
 	,[asd4])

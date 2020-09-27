@@ -9,7 +9,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { cancelMail, dispatchMail, cleanGuestOrder } from "../../actions";
+import { cancelMail, dispatchMail } from "../../actions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -40,10 +40,9 @@ export default function DialogSelect({state, orderId, to, name}) {
       const data = await fetch(`http://localhost:3001/orders/${orderId}`)
       const orderX = await data.json()
       setData(orderX)
-      console.log(orderX)
     }
     fetchData()
-  }, [])
+  }, [orderId])
 
 
   useEffect(()=>{
@@ -82,11 +81,10 @@ export default function DialogSelect({state, orderId, to, name}) {
       data.products.map(prod => {
         let newStock = prod.stock + prod.order_product.quantity
         const product = {
-          stock: newStock,
+          stock: newStock
         }
-        console.log('nuevo stock StateDIalog: ', newStock)
         try {
-          const updatedProduct = fetch(`http://localhost:3001/products/stock/${prod.id}`, {
+          fetch(`http://localhost:3001/products/stock/${prod.id}`, {
             method: 'PUT',
             body: JSON.stringify(product),
             headers: {

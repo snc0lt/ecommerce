@@ -1,6 +1,6 @@
 import React from 'react'
 import { Grid, CssBaseline, Typography, Paper } from "@material-ui/core";
-import Avatar from '../utils/Avatar'
+import AvatarReview from '../utils/AvatarReviews'
 
 export default function ProductDetailsDescription({ classes, review }) {
   return (
@@ -16,7 +16,7 @@ export default function ProductDetailsDescription({ classes, review }) {
               <div className={`${classes.paper}`}>
                 <div className='avatar_comment'>
                   <div style={{marginTop: '10px'}}>
-                  <Avatar alguien={review.user}/>
+                  <AvatarReview alguien={rev.user}/>
                   </div>
                   <div>
                     <Typography variant="button" display="block" gutterBottom style={{ marginLeft: '20px' }}>

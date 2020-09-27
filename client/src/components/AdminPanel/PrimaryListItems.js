@@ -8,7 +8,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
 import CategoryIcon from '@material-ui/icons/Category';
-import {Link, useLocation, useParams} from 'react-router-dom'
+import {Link, useLocation} from 'react-router-dom'
 import { useSelector } from 'react-redux'
 // import BarChartIcon from '@material-ui/icons/BarChart';
 // import LayersIcon from '@material-ui/icons/Layers';
@@ -18,7 +18,7 @@ import { useSelector } from 'react-redux'
 export default function PrimaryListItems(){
   const url = useLocation();
   const user = useSelector(state => state.userDetails)
-  const google = useSelector(state => state.userGoogle)
+  // const google = useSelector(state => state.userGoogle)
   //const { id } = useParams();
 const primaryList = url.pathname.includes('/admin') ? (
 

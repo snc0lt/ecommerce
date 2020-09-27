@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useHistory, Link } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -41,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
   const guestCart = useSelector(state => state.guestCart)
   const guestUser = useSelector(state => state.user)
-  const gCount = useSelector(state => state.guestCount)
   // const userDet = useSelector(state => state.userDetails)
   const classes = useStyles();
   
@@ -93,9 +92,7 @@ export default function SignIn() {
     }   
 
     if (guestCart && usuario) {    
-      guestCart.map(s => {
-      dispatch(addProductCart(usuario.id, s.id, s.price))
-    })
+      guestCart.map(s => dispatch(addProductCart(usuario.id, s.id, s.price)))
       localStorage.removeItem('guest_cart')
       dispatch(cleanGuestOrder())
          
@@ -113,7 +110,6 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!guestUser && guestCart) {
-      console.log('entre al primer if')
       try {
         const user = await fetch('http://localhost:3001/user/email', {
           method: 'POST',
@@ -124,33 +120,25 @@ export default function SignIn() {
           },
         })
         const { usuario } = await user.json()
-        if (!usuario.active) {
+        if (usuario.active===false) {
           swal('Error', 'Cuenta bloqueada, contactese con el administrador', 'error')
           return
         }
-        let pId;
         // const storage = JSON.parse(localStorage.getItem('guest_cart'))
         //   storage.map( s => dispatch(addProductCart(userId, s.id, s.price)))
-        guestCart.map(s => {
-          pId = s.id
-          dispatch(addProductCart(usuario.id, s.id, s.price))
-        })
-
+        guestCart.map(s => dispatch(addProductCart(usuario.id, s.id, s.price)))
         //   // guestCart.map(g => dispatch(addProductCart(userId, g.id, g.price)))
         localStorage.removeItem('guest_cart')
         dispatch(cleanGuestOrder())
         dispatch(userLogin(values, history))
-        console.log('loggeado exitosamente 1')
       } catch (err) { console.log(err) }
     }
     if (guestCart && guestUser) {
-      console.log('entre al segundo if')
       try {
         guestCart.map(g => dispatch(addProductCart(guestUser.id, g.id, g.price)))
         localStorage.removeItem('guest_cart')
         dispatch(cleanGuestOrder())
         dispatch(userLogin(values, history))
-        console.log('loggeado exitosamente 2')
       } catch (err) { console.log(err) }
     }
     // console.log('no entre a ninguno')
@@ -170,7 +158,7 @@ export default function SignIn() {
     setValues({
       ...values, [e.target.name]: e.target.value
     })
-    console.log(values)
+    // console.log(values)
   }
   return (
     <Container component="main" maxWidth="xs">

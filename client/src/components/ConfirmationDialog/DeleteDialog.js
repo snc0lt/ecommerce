@@ -9,7 +9,7 @@ import Slide from '@material-ui/core/Slide';
 import IconButton from '@material-ui/core/IconButton';
 import { Tooltip } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { removeProduct, removeCategory } from "../../actions";
 
@@ -26,8 +26,6 @@ export default function AlertDialogSlide({props, categoria}) {
 
   const dispatch = useDispatch()
   const url = useLocation()
-  console.log(url.pathname)
-  // const history = useHistory()
 
   const handleCancel = () => {
     setOpen(false)
@@ -37,34 +35,16 @@ export default function AlertDialogSlide({props, categoria}) {
     e.preventDefault()
     if (url.pathname === '/admin/editCategory') {
       dispatch(removeCategory(categoria.id))
-    //   fetch(`http://localhost:3001/category/${categoria.id}`, {
-    //     method: 'DELETE',
-    //     headers: {
-    //         'Accept': 'application/json',
-    //         'Content-Type': 'application/json'
-    //       }
-    // })
       setOpen(false);
     }
     else if (url.pathname === '/admin/products/edit') {
       dispatch(removeProduct(props.productos.id))
-      // fetch(`http://localhost:3001/products/${props.productos.id}`, {
-      //     method: 'DELETE',
-      //     headers: {
-      //         'Accept': 'application/json',
-      //         'Content-Type': 'application/json'
-      //       }
-      // })
       setOpen(false);
-      // history.push('/admin/products/edit')
     }
   };
 
   return (
     <div>
-      {/* <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Slide in alert dialog
-      </Button> */}
       <IconButton onClick={handleClickOpen}>
         <Tooltip title='Eliminar producto'>
             <DeleteIcon color='secondary' />

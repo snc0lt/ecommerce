@@ -51,25 +51,16 @@ const useStyles = makeStyles((theme) => ({
 export default function ProductDetails() {
   const classes = useStyles();
   const { id } = useParams()
-  // const [ producto, setProducto ] = useState()
   const dispatch = useDispatch()
   const product = useSelector(state => state.productDetail)
   const userId = useSelector(state => state.userDetails)
-  const logged = useSelector(state => state.logged)
   const history = useHistory();
 
   const [review, setReview] = useState()
 
-  if (review) {
-    console.log(review)
-  }
-
   useEffect(() => {
     dispatch(getProductDetail(id))
-  }, [])
-  if (product) {
-    console.log(product.id)
-  }
+  }, [id])
   useEffect(() => {
     if (product) {
       fetch(`http://localhost:3001/products/${id}/productreview`)
@@ -78,7 +69,7 @@ export default function ProductDetails() {
         .catch(err => console.log(err))
     }
 
-  }, [])
+  }, [id])
 
 
   const comprar = (e) => {
@@ -98,9 +89,6 @@ export default function ProductDetails() {
     } else if (!userId && product) {
       dispatch(addProductToGuestCart(product))
     }
-    // else {
-    //   history.push('/user/login')
-    // }
   }
   let totalScore = 0
   review && review.map(rev => totalScore = (totalScore + rev.score))

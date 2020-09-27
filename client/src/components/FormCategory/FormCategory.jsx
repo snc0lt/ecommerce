@@ -43,9 +43,8 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function FormCategory ({ match }) {
+export default function FormCategory () {
     const classes = useStyles();
-    const [message, setMessage] = useState(null)
     const [errores, setErrores] = useState(null)
     const [input, setInput] = useState({
         name: '',
@@ -75,27 +74,7 @@ export default function FormCategory ({ match }) {
         e.preventDefault();
         const newCategory = { name: input.name, description: input.description }
         dispatch(addCategory(newCategory))
-        // swal("Genial!", "Se ha creado la categoria exitosamente!", "success")
         resetForm();
-        // fetch('http://localhost:3001/category', {
-        //     method: 'POST',
-        //     body: JSON.stringify(newCategory),
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
-        //     }
-        // })
-        //     .then(data => data.json())
-        //     .then((res) => {
-        //         setMessage(res);
-        //         swal("Genial!", "Se ha creado la categoria exitosamente!", "success");
-        //         resetForm();
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //         swal ( "Upa!" ,  "¡Algo salio mal!" ,  "error" )
-
-        //     })
     }
 
 
@@ -121,7 +100,6 @@ return (
                                 fullWidth
                                 onChange={handleInputChange}
                                 value={input.name}
-                                // id="firstName"
                                 label="Nombre de la categoria"
                                 autoFocus
 
@@ -163,12 +141,6 @@ return (
                         Crear
                    </Button>
                 </form>
-
-              {message &&
-                  <div className={classes.msg} style={{ background: `${message.status === 400 ? '#ff4f4f' : '#1df5a9'}` }}>
-                      <span>{message.msg}</span>
-                  </div>
-              }
 
             </div>
 

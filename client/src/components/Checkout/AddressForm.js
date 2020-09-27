@@ -4,14 +4,13 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import swal from 'sweetalert';
 
 
 export default function AddressForm() {
   const userId = useSelector(state => state.userDetails)
-  const dispatch = useDispatch()
   const history = useHistory()
   const { id } = useParams()
   const [user, setUser] = useState({
@@ -30,12 +29,9 @@ export default function AddressForm() {
     fetch(`http://localhost:3001/user/${userId.id}`)
     .then(res=>res.json())
     .then(data=> {
-        // Setdir(data.address);
-        // SetPhone(data.phone);
         setUser(data);
-        // dispatch(setUser(data))
     })
-}, [])
+}, [userId.id])
 
   const handleChange = (event) => {
     // setErrors(validate({ ...user, [event.target.name]: event.target.value }))
@@ -49,7 +45,7 @@ export default function AddressForm() {
         phone: user.phone
     }
    try {
-        const fetchdata = await fetch(`http://localhost:3001/user/${id}`,
+        await fetch(`http://localhost:3001/user/${id}`,
         {
         method: 'PATCH',
         body: JSON.stringify(envio),

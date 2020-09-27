@@ -1,22 +1,15 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Paper from '@material-ui/core/Paper';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
-import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
-import AddressForm from './AddressForm';
-import PaymentForm from './PaymentForm';
-import Review from './Review';
-import { cleanOrder } from "../../actions";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import EmptyCart from '../../components/Cart/EmptyCart'
+
 import Copyright from '../utils/Copyright'
 
 const useStyles = makeStyles((theme) => ({
@@ -56,34 +49,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const steps = ['Direccion de envío', 'Detalles de pago', 'Resumen de compra'];
-
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <AddressForm />;
-    case 1:
-      return <PaymentForm />;
-    case 2:
-      return <Review />;
-    default:
-      throw new Error('Unknown step');
-  }
-}
 
 export default function Checkout( ) {
   const history = useHistory()
-  const dispatch = useDispatch()
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
-  const logged = useSelector( state => state.userLogged)
   const user = useSelector( state => state.user)
-  const cart = useSelector(state => state.cart)
-  const userDet = useSelector(state => state.userDetails)
   const { id } = useParams();
-
-  console.log(user)
-
   const handleSubmit = () => {
     history.push(`/user/panel/${user.id}`)
   };

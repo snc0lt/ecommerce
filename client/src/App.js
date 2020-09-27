@@ -15,8 +15,8 @@ import Container from '@material-ui/core/Container'
 import { Cart } from './components/Cart'
 import Checkout from './components/Checkout/Checkout2'
 import Orders from './components/AdminPanel/Orders'
-import { useDispatch, useSelector } from "react-redux";
-import { setUser, setGuestCart, setUserSign, getUsers } from "./actions";
+import { useDispatch } from "react-redux";
+import { setUser, setGuestCart, setUserSign } from "./actions";
 import UsersList from './components/AdminPanel/UsersList'
 import Profile from './components/Userpanel/Profile'
 import ResetPass from './components/Userpanel/ResetPass'
@@ -24,14 +24,14 @@ import FormResetPass from './components/FormResetPass/FormResetPass'
 import AddressForm from './components/Checkout/AdressForm2';
 import PaymentForm from './components/Checkout/PaymentForm2'
 import ReviewOrder from './components/Checkout/ReviewOrder'
-import ProtectedAdminRoute from './auth/ProtectedAminRoute'
-import ProtectedUserRoute from './auth/ProtectedUserRoutes'
+// import ProtectedAdminRoute from './auth/ProtectedAminRoute'
+// import ProtectedUserRoute from './auth/ProtectedUserRoutes'
 
 function App() {
   const url = useLocation();
   const dispatch = useDispatch()
   const guestCart = JSON.parse(localStorage.getItem('guest_cart'))
-  const users = useSelector(state => state.users)
+  // const users = useSelector(state => state.users)
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -57,10 +57,10 @@ function App() {
         const user = await fetch('http://localhost:3001/user/admin/email')
         const { usuario } = await user.json()
         if (usuario) {
-          console.log('admin user ya esta creado..!')
+          return
         } else {
           try {
-            const data = await fetch('http://localhost:3001/userAdmin')
+            await fetch('http://localhost:3001/userAdmin')
           } catch (err) {
             console.log(err)
           }

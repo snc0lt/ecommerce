@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Counter from '../Counter/Counter'
-import { deleteProductInCart, getUserProductsCart, removeGuestItem } from '../../../actions'
+import { deleteProductInCart, removeGuestItem } from '../../../actions'
 import { useDispatch, useSelector } from "react-redux";
 
 
@@ -46,7 +46,6 @@ export const Shopping = ({ guestCart }) => {
 								<button
 									className='btn btn-danger align-self-start'
 									onClick={() => {
-										console.log('me clickeaste..!')
 										dispatch(deleteProductInCart(userId.id, product.id))
 									}}
 								>

@@ -4,8 +4,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -101,9 +99,6 @@ export default function SignUp() {
     } else if(values.password.length < 8){
       errors.password = 'La contraseña debe tener 8 o más caracteres'
     }
-    // if (confirmPassword !== values.password) {
-    //   errors.confirmPassword = 'No coinciden las contraseñas'
-    // }
     return errors
   }
 
@@ -193,12 +188,6 @@ export default function SignUp() {
               />
             </Grid>
             {confirmPassword !== values.password ? (<p className={classes.danger}>No coinciden las contraseñas</p>) : null}
-            {/* <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="Suscribirme a las novedades via e-mail"
-              />
-            </Grid> */}
           </Grid>
           <Button
             type="submit"

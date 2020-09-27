@@ -3,7 +3,6 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import StarIcon from '@material-ui/icons/Star';
 import IconButton from '@material-ui/core/IconButton';
@@ -15,7 +14,6 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
 import {useSelector, useDispatch} from 'react-redux'
-import swal from 'sweetalert';
 import {addReviews} from '../../actions'
 
 const useStyles = makeStyles((theme) => ({
@@ -53,31 +51,12 @@ export default function CreateReview({productId}) {
 
   const handleSubmit = async(e) =>{
     e.preventDefault()
-    // try{
-    //     await fetch(`http://localhost:3001/products/postreview`,{
-    //         method: 'POST',
-		// 	credentials: 'include',
-		// 	body: JSON.stringify({ comments:review, userId: userId, score:star, productId: productId }),
-		// 	headers: {
-		// 		Accept: 'application/json',
-		// 		'Content-Type': 'application/json',
-		// 	},
-    //     })
-    //     handleClose()
-    //     swal("Success","Review existosa","success")
-    // }
-    // catch(error){
-    //     swal("Error","No se ha podido crear la review","error")
-    // }
     dispatch(addReviews(productId, review, userId, star))
     handleClose()
   }
 
   return (
     <div>
-      {/* <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open alert dialog
-      </Button> */}
       <IconButton onClick={handleClickOpen}>
           <StarIcon/>
       </IconButton>
