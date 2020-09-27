@@ -10,6 +10,7 @@ var passport = require('passport')
 var Strategy = require('passport-local').Strategy
 var db = require('./db.js')
 const bcrypt = require('bcrypt')
+const mail = require('./controler/mailer')
 
 const server = express()
 server.name = 'API'
@@ -161,5 +162,9 @@ server.use((err, req, res, next) => {
 	console.error(err)
 	res.status(status).send(message)
 })
+
+server.post('/complete_buy', mail.sendBuy)
+server.post('/dispatch_buy', mail.sendDespacho)
+server.post('/cancel_buy', mail.sendCancel)
 
 module.exports = server
