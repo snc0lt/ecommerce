@@ -72,7 +72,7 @@ export const Shopping = ({ guestCart }) => {
 											{g.name}
 										</h5>
 										<p className='card-text'>
-											$ {g.price.toLocaleString('en-US', {style: 'currency',currency: 'USD',})}
+											{g.price.toLocaleString('en-US', {style: 'currency',currency: 'USD',})}
 										</p>
 									</div>
 								</div>

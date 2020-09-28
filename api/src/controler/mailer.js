@@ -14,7 +14,7 @@ class Mailer {
         try {
             const emailData = { to, subject, products, user };
             const html = await ejs.renderFile(buyTemplate, emailData);
-            emailResult = await sendEmail(to, subject, html, 'ivae.store@gmail.com');
+            emailResult = await sendEmail(to, subject, html);
         } catch (err) {
             console.error(err);
         }
@@ -26,7 +26,7 @@ class Mailer {
         try {
             const emailData = { to, subject, user, id };
             const html = await ejs.renderFile(cancelTemplate, emailData);
-            emailResult = await sendEmail(to, subject, html, 'ivae.store@gmail.com');
+            emailResult = await sendEmail(to, subject, html);
         } catch (err) {
             console.error(err);
         }
@@ -38,7 +38,7 @@ class Mailer {
         try {
             const emailData = { to, subject, user, id };
             const html = await ejs.renderFile(despachoTemplate, emailData);
-            emailResult = await sendEmail(to, subject, html, 'ivae.store@gmail.com');
+            emailResult = await sendEmail(to, subject, html);
         } catch (err) {
             console.error(err);
         }
