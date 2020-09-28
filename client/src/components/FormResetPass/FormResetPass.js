@@ -68,7 +68,7 @@ export default function FormResetPass() {
     if (!usuario){swal('Error','Cuenta inexistente','error'); return}  
     if (usuario.isGoogle){swal('Error','mail asociado a Cuenta Google','error'); return}
     sendMail(values.email) 
-    swal("Success","Mail enviado","success");   
+    swal("Verifica tu correo electronico","Mail enviado","success");   
     resetForm()
     
   }

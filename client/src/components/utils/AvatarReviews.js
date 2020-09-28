@@ -2,7 +2,6 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import { deepOrange } from '@material-ui/core/colors';
-import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -52,7 +52,7 @@ export default function () {
 				<Grid item xs={12} sm={9} md={9}>
 					{
 						products.length === 0
-							? <h2>no hay productos</h2>
+							? <h2>No existen productos</h2>
 							: <GridList productos={products} />
 					}
 				</Grid>
