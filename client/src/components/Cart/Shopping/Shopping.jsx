@@ -30,7 +30,7 @@ export const Shopping = ({ guestCart }) => {
 										{product.name}
 									</h5>
 									<p className='card-text'>
-										$ {product.price}
+										{product.price.toLocaleString('en-US', {style: 'currency',currency: 'USD',})}
 									</p>
 								</div>
 							</div>
@@ -72,7 +72,7 @@ export const Shopping = ({ guestCart }) => {
 											{g.name}
 										</h5>
 										<p className='card-text'>
-											$ {g.price}
+											$ {g.price.toLocaleString('en-US', {style: 'currency',currency: 'USD',})}
 										</p>
 									</div>
 								</div>

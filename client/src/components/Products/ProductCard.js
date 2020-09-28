@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { red } from '@material-ui/core/colors';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { Tooltip } from '@material-ui/core';
-import { useLocation, Link} from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteDialog from '../ConfirmationDialog/DeleteDialog'
 import { useDispatch, useSelector } from "react-redux";
@@ -20,7 +20,7 @@ import '../../Cart_boton.css';
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 250,
-    maxHeight: 450
+    maxHeight: 320
   },
   media: {
     height: 0,
@@ -50,9 +50,6 @@ export default function ProductCard(props) {
     } else if (!logged && props.productos) {
       dispatch(addProductToGuestCart(props.productos))
     }
-    //   else {
-    //     history.push('/user/login')
-    //   }
   }
 
   const boton = url.pathname === '/admin/products/edit'
@@ -79,22 +76,6 @@ export default function ProductCard(props) {
           </IconButton>
         </Tooltip>
       </div>
-  // : url.pathname === '/admin/roducts/edit_category'
-  //   ? (<IconButton>
-  //     <Tooltip title='Editar categoria'>
-  //       <CategoryIcon color='primary' />
-  //     </Tooltip>
-  //   </IconButton>)
-  //   : (<>
-  //     {/* <Button variant="contained" color="primary" size="small">
-  //       Comprar
-  //     </Button> */}
-  //     <Tooltip title='Añadir al carrito'>
-  //       <IconButton aria-label="addToCart" onClick={addtoCart}>
-  //         <ShoppingCartIcon color='primary' />
-  //       </IconButton>
-  //     </Tooltip>
-  //   </>)
 
   return (
     <>
@@ -102,29 +83,21 @@ export default function ProductCard(props) {
         props.productos &&
         <Card className={classes.root}>
           <Link to={`/products/${props.productos.id}`}>
-            {/* <CardHeader
-            // action={
-            //   <Rating />
-            // }
-            /> */}
             <CardMedia
               className={classes.media}
               image={`http://localhost:3001/images/${props.productos.image[0]}`}
             />
             <hr />
           </Link>
-              {boton}
-            <CardContent>
-              <Typography variant='body2' color="textSecondary" component="p">
-                {props.productos.name}
-              </Typography>
-              <Typography gutterBottom variant='h6' color='primary' component='p'>
-                $ {props.productos.price.toFixed(2)}
-              </Typography>
-            </CardContent>
-          {/* <CardActions>
-            {boton}
-          </CardActions> */}
+          {boton}
+          <CardContent>
+            <Typography variant='body2' color="textSecondary" component="p">
+              {props.productos.name.length > 20 ? props.productos.name.substring(0, 20) + '...' : props.productos.name}
+            </Typography>
+            <Typography gutterBottom variant='h6' color='primary' component='p'>
+              {props.productos.price.toLocaleString('en-US', {style: 'currency',currency: 'USD'})}
+            </Typography>
+          </CardContent>
         </Card>
       }
     </>

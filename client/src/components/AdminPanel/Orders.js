@@ -12,7 +12,7 @@ import CreateReview from '../Userpanel/CreateReview'
 import StateDialog from './StateDialog';
 import Toolbar from '@material-ui/core/Toolbar';
 import { FormControl, MenuItem, TextField } from '@material-ui/core';
-import {Select} from '@material-ui/core';
+import { Select, CssBaseline } from '@material-ui/core';
 import OrdersNotFound from './OrdersNotFound';
 
 
@@ -20,20 +20,20 @@ const useStyles = makeStyles((theme) => ({
   seeMore: {
     marginTop: theme.spacing(3),
   },
-  filter:{
-    order:1,
-    marginLeft:"auto",
+  filter: {
+    order: 1,
+    marginLeft: "auto",
   },
-  searchId:{
-    marginLeft:"auto",
-    order:3,
+  searchId: {
+    marginLeft: "auto",
+    order: 3,
   },
-  toolbar:{
-    display:"flex",
+  toolbar: {
+    display: "flex",
   },
-  container:{
-    display:"flex",
-    width:"30%",
+  container: {
+    display: "flex",
+    width: "30%",
   }
 }));
 
@@ -43,17 +43,17 @@ function useQuery() {
 }
 
 export default function Orders() {
-  const [userOrder,setUserOrder] = useState(null)
+  const [userOrder, setUserOrder] = useState(null)
   const classes = useStyles();
   const [orders, setOrders] = useState(null)
-  const [filter,setFilter]=useState('')
+  const [filter, setFilter] = useState('')
   let query = useQuery().get('search');
   const [price, setPrice] = useState([])
-  const [searchId,setSearchId] = useState("0");
-  const [result,setResult] = useState(0);
+  const [searchId, setSearchId] = useState("0");
+  const [result, setResult] = useState(0);
   const url = useLocation()
 
-  const {id} = useParams();
+  const { id } = useParams();
 
   useEffect(() => {
     let arr = []
@@ -69,16 +69,16 @@ export default function Orders() {
     }
   }, [orders])
 
-  useEffect(()=>{
-    if(id){
-      const fetchData = async()=>{
+  useEffect(() => {
+    if (id) {
+      const fetchData = async () => {
         const data = await fetch(`http://localhost:3001/orders/${id}/completa`)
         const res = await data.json()
         setUserOrder(res)
       }
       fetchData()
     }
-  },[result])
+  }, [result])
 
   useEffect(() => {
     if (query) {
@@ -95,155 +95,158 @@ export default function Orders() {
           setOrders(data)
         })
     }
-  }, [query,filter,searchId])
+  }, [query, filter, searchId])
 
- useEffect(()=>{
-  let counter=0
-  if(filter && orders){
-    for(let i of orders){
-      if(filter === i.state || filter===''){
-        counter+=1
+  useEffect(() => {
+    let counter = 0
+    if (filter && orders) {
+      for (let i of orders) {
+        if (filter === i.state || filter === '') {
+          counter += 1
+        }
       }
     }
-  }
-  else if(searchId && orders){
-    for(let i of orders){
-      if(searchId==="0" || searchId===i.id.toString() || searchId===""){
-        counter+=1
+    else if (searchId && orders) {
+      for (let i of orders) {
+        if (searchId === "0" || searchId === i.id.toString() || searchId === "") {
+          counter += 1
+        }
       }
     }
-  }
-  setResult(counter)
- },[orders,filter,searchId])
+    setResult(counter)
+  }, [orders, filter, searchId])
 
-  const handleFilter=(event)=>{
+  const handleFilter = (event) => {
     event.preventDefault()
     setFilter(event.target.value)
   }
 
-  const handleIdSearch=(event)=>{
+  const handleIdSearch = (event) => {
     event.preventDefault()
     setSearchId(event.target.value)
   }
   return (
-    <>
-      {orders && url.pathname.includes("/admin")?
+    <div className={classes.table}>
+      {orders && url.pathname.includes("/admin") ?
         <>
           <Toolbar className={classes.toolbar}>
             <div className={classes.container}>
-            <Title>Ordenes recientes</Title>
-                <>
+              <Title>Ordenes recientes</Title>
+              <>
                 <Select
                   id="filtrar"
                   onChange={handleFilter}
                   value={filter}
                   className={classes.filter}
                 >
-                <MenuItem value="procesando">Procesando</MenuItem>  
-                <MenuItem value="completa">Completa</MenuItem>
-                <MenuItem value="despacho">Despacho</MenuItem>
-                <MenuItem value="cancelada">Cancelada</MenuItem>
-                <MenuItem value=''>Ver todo</MenuItem>
+                  <MenuItem value="procesando">Procesando</MenuItem>
+                  <MenuItem value="completa">Completa</MenuItem>
+                  <MenuItem value="despacho">Despacho</MenuItem>
+                  <MenuItem value="cancelada">Cancelada</MenuItem>
+                  <MenuItem value=''>Ver todo</MenuItem>
                 </Select>
-                </>
-                  </div>
-                  <FormControl className={classes.searchId}>
-                    <TextField
-                      type="number"
-                      value={searchId}
-                      variant="outlined"
-                      label="Buscar por ID"
-                      name="searchId"
-                      onChange={handleIdSearch}
-                      />
-                  </FormControl>   
+              </>
+            </div>
+            <FormControl className={classes.searchId}>
+              <TextField
+                type="number"
+                value={searchId}
+                variant="outlined"
+                label="Buscar por ID"
+                name="searchId"
+                onChange={handleIdSearch}
+              />
+            </FormControl>
           </Toolbar>
-          {result || result>0 || (!filter && !searchId)?
-          <Table size="medium">
-            <TableHead>
-              <TableRow>
-                <TableCell>ID</TableCell>
-                <TableCell>Fecha</TableCell>
-                <TableCell>Hora</TableCell>
-                <TableCell>Cliente</TableCell>
-                <TableCell>Estado</TableCell>
-                <TableCell>Detalle</TableCell>
-                <TableCell align="right">Monto total</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {orders.map((row, i) => (
-                (filter && filter === row.state) || 
-                (searchId && searchId===row.id.toString()) || 
-                (filter==='' && (searchId==="0" || searchId==='' || !searchId))
-                  ? <TableRow key={row.id} hover={true}>
-                    <TableCell>{row.id}</TableCell>
-                    <TableCell>{row.createdAt.slice('T', 10)}</TableCell>
-                    <TableCell>{row.createdAt.split('T')[1].slice(0, 5)}</TableCell>
-                    <TableCell>{row.user.firstName + ' ' + row.user.lastName}</TableCell>
-                    <TableCell>
-                    <StateDialog state={row.state} orderId={row.id} to={row.user.email} name={row.user.firstName}/>
-                    </TableCell>
-                    <TableCell><AdminOrder orderId={row.id} /></TableCell>
-                    <TableCell align="right">$ {price[i]}</TableCell>
+          {result || result > 0 || (!filter && !searchId) ?
+            <>
+              <Table size="medium" className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>ID</TableCell>
+                    <TableCell>Fecha</TableCell>
+                    <TableCell>Hora</TableCell>
+                    <TableCell>Cliente</TableCell>
+                    <TableCell>Estado</TableCell>
+                    <TableCell>Detalle</TableCell>
+                    <TableCell align="right">Monto total</TableCell>
                   </TableRow>
-                  : null
-              ))}
-            </TableBody>
-          </Table>
-          :<><OrdersNotFound/></>}
-          <div className={classes.seeMore}>
-            {url.pathname === '/admin/panel' ?
-              <Link color="primary" to='/admin/orders'>
-                Ver mas ordenes
-              </Link>
-              :
-              null
-            }
-          </div>
-        </>: userOrder?
-           <>
-             <Title>Compras recientes</Title>
-             <Table size="medium">
-               <TableHead>
-                 <TableRow>
-                   <TableCell>Fecha</TableCell>
-                   <TableCell>Hora</TableCell>
-                   <TableCell>Producto</TableCell>
-                   <TableCell>Cantidad</TableCell>
-                   <TableCell>Precio</TableCell>
-                   <TableCell>Total</TableCell>
-                   <TableCell>Review</TableCell>
-                 </TableRow>
-               </TableHead>
-               <TableBody>
-                 {userOrder.map((row, i) => (
-                      row.products.map((product, j)=>(
-                        <TableRow key={j} hover={true}>
-                       <TableCell>{row.createdAt.slice('T', 10)}</TableCell>
-                       <TableCell>{row.createdAt.split('T')[1].slice(0, 5)}</TableCell>
-                       <TableCell><Link color="primary" to={`/products/${product.id}`}>{product.name}</Link></TableCell>
-                       <TableCell>{product.order_product.quantity}</TableCell>
-                       <TableCell>{product.price}</TableCell>
-                       <TableCell>{product.price * product.order_product.quantity}</TableCell>
-                       <TableCell><CreateReview productId={product.id}/></TableCell>
-                     </TableRow>
-                      ))
-                 ))}
-               </TableBody>
-             </Table>
-             <div className={classes.seeMore}>
-               {url.pathname === '/admin/panel' ?
-                 <Link color="primary" to='/admin/orders'>
-                   Ver mas órdenes
+                </TableHead>
+                <TableBody>
+                  {orders.map((row, i) => (
+                    (filter && filter === row.state) ||
+                      (searchId && searchId === row.id.toString()) ||
+                      (filter === '' && (searchId === "0" || searchId === '' || !searchId))
+                      ? <TableRow key={row.id} hover={true}>
+                        <TableCell>{row.id}</TableCell>
+                        <TableCell>{row.createdAt.slice('T', 10)}</TableCell>
+                        <TableCell>{row.createdAt.split('T')[1].slice(0, 5)}</TableCell>
+                        <TableCell>{row.user.firstName + ' ' + row.user.lastName}</TableCell>
+                        <TableCell>
+                          <StateDialog state={row.state} orderId={row.id} to={row.user.email} name={row.user.firstName} />
+                        </TableCell>
+                        <TableCell><AdminOrder orderId={row.id} /></TableCell>
+                        <TableCell align="right">{(price[i] * 1.12).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</TableCell>
+                      </TableRow>
+                      : null
+                  ))}
+                </TableBody>
+              </Table>
+              {url.pathname === '/admin/panel' ?
+                <Link color="primary" to='/admin/orders'>
+                  <div className={classes.seeMore}>
+                    Ver mas ordenes
+              </div>
+                </Link>
+                :
+                null
+              }
+            </>
+            : <><OrdersNotFound /></>}
+        </> : userOrder ?
+          <>
+            <Title>Compras recientes</Title>
+            <Table size="medium" className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Fecha</TableCell>
+                  <TableCell>Hora</TableCell>
+                  <TableCell>Producto</TableCell>
+                  <TableCell>Cantidad</TableCell>
+                  <TableCell>Precio</TableCell>
+                  <TableCell>Total</TableCell>
+                  <TableCell>Review</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {userOrder.map((row, i) => (
+                  row.products.map((product, j) => (
+                    <TableRow key={j} hover={true}>
+                      <TableCell>{row.createdAt.slice('T', 10)}</TableCell>
+                      <TableCell>{row.createdAt.split('T')[1].slice(0, 5)}</TableCell>
+                      <TableCell><Link color="primary" to={`/products/${product.id}`}>{product.name}</Link></TableCell>
+                      <TableCell>{product.order_product.quantity}</TableCell>
+                      <TableCell>{product.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</TableCell>
+                      <TableCell>{(product.price * product.order_product.quantity * 1.12).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</TableCell>
+                      <TableCell><CreateReview productId={product.id} /></TableCell>
+                    </TableRow>
+                  ))
+                ))}
+              </TableBody>
+            </Table>
+            <CssBaseline />
+            <div className={classes.seeMore}>
+              {url.pathname.includes('/user/panel') ?
+                <Link color="primary" to={`/user/miscompras/${id}`}>
+                  Ver todas mis compras
                  </Link>
-                 :
-                 null
-               }
-             </div>
-           </>:
-           null
+                :
+                null
+              }
+            </div>
+          </> :
+          null
       }
-    </>
+    </div>
   );
 }

@@ -20,11 +20,10 @@ import Copyright from '../utils/Copyright.js'
 import { useParams, useLocation, useHistory } from 'react-router-dom';
 import FormGroup from '@material-ui/core/FormGroup';
 import Checkbox from '@material-ui/core/Checkbox';
-// import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import swal from 'sweetalert';
 import { createProduct } from "../../actions";
 
-// import ImagesPreview from '../utils/ImagesPreview'
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -85,7 +84,6 @@ export default function SignUp(props) {
   const [categories, setCategories] = useState([]);
   const [files, setFiles] = useState(null);
   const [check, setCheck] = useState(null);
-  const [msg, setMsg] = useState(null)
   const history = useHistory()
   const [errors, setErrors] = useState({
     errName: '',
@@ -204,8 +202,8 @@ export default function SignUp(props) {
         resetForm()
       }
       else {
-        dispatch(createProduct(product, setMsg))
-        createProduct(product)
+        dispatch(createProduct(product))
+        // createProduct(product)
         resetForm()
       }
     } catch (err) {

@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     width: '350px'
   },
   listItem: {
-    padding: theme.spacing(2, 0),
+    padding: theme.spacing(2, 0)
   },
   total: {
     fontWeight: 700,
@@ -105,14 +105,14 @@ const AdminOrder = ({ orderId }) => {
                   <Link key={product.id} to={{ pathname: `/products/${product.id}` }} className={classes.list} >
                     <ListItem className={classes.listItem} >
                       <ListItemText primary={`${product.name} x${product.order_product.quantity}`} /*secondary={product.description}*/ />
-                      <Typography variant="body2">$ {product.price * product.order_product.quantity}</Typography>
+                      <Typography variant="body2">$ {(product.price * product.order_product.quantity * 1.12).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</Typography>
                     </ListItem>
                   </Link>
                 ))}
                 <ListItem className={classes.listItem}>
                   <ListItemText primary="Total" />
                   <Typography variant="subtitle1" className={classes.total}>
-                    $ {orderTotal}
+                    {(orderTotal * 1.12).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
                   </Typography>
                 </ListItem>
               </List>

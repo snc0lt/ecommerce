@@ -11,8 +11,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   orange: {
-    color: theme.palette.getContrastText(deepOrange[500]),
-    backgroundColor: deepOrange[500],
+    color: theme.palette.getContrastText(`#${Math.floor(Math.random()*16777215).toString(16)}`),
+    backgroundColor: `#${Math.floor(Math.random()*16777215).toString(16)}`,
     width: theme.spacing(4),
     height: theme.spacing(4),
   },

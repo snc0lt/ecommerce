@@ -125,8 +125,8 @@ export default function Review() {
       'Detalle de tu compra',
       cart,
       user
-      )
-      
+    )
+
     history.push(`/user/orderid/${orderId}`)
   }
 
@@ -152,18 +152,21 @@ export default function Review() {
           <React.Fragment>
             <Typography variant="h6" gutterBottom>
               Resumen de compra
-      </Typography>
+            </Typography>
             <List disablePadding>
               {cart.map((product) => (
                 <ListItem className={classes.listItem} key={product.name}>
                   <ListItemText primary={`${product.name} x${product.order_product.quantity}`} />
-                  <Typography variant="body2">$ {product.price * product.order_product.quantity}</Typography>
+                  <Typography variant="body2">{(product.price * product.order_product.quantity).toLocaleString('en-US', { style: 'currency', currency: 'USD', })}</Typography>
                 </ListItem>
               ))}
               <ListItem className={classes.listItem}>
+                <Typography className={classes.total} variant="body2">IVA 12%</Typography>
+              </ListItem>
+              <ListItem className={classes.listItem}>
                 <ListItemText primary="Total" />
                 <Typography variant="subtitle1" className={classes.total}>
-                  $ {cartTotal}
+                  {(cartTotal * 1.12).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
                 </Typography>
               </ListItem>
             </List>
@@ -182,32 +185,32 @@ export default function Review() {
                   Detalles del pago
           </Typography>
                 <Grid container>
-                    <React.Fragment key={user.firstName}>
-                      <Grid item xs={6}>
-                        <Typography gutterBottom>Tipo:</Typography>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Typography gutterBottom>Visa</Typography>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Typography gutterBottom>Titular:</Typography>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Typography gutterBottom>{user.firstName}</Typography>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Typography gutterBottom>Numero:</Typography>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Typography gutterBottom>xxxx-xxxx-xxxx-1234</Typography>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Typography gutterBottom>Fecha de expiracion:</Typography>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Typography gutterBottom>04/2024</Typography>
-                      </Grid>
-                    </React.Fragment>
+                  <React.Fragment key={user.firstName}>
+                    <Grid item xs={6}>
+                      <Typography gutterBottom>Tipo:</Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography gutterBottom>Visa</Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography gutterBottom>Titular:</Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography gutterBottom>{user.firstName}</Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography gutterBottom>Numero:</Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography gutterBottom>xxxx-xxxx-xxxx-1234</Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography gutterBottom>Fecha de expiracion:</Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography gutterBottom>04/2024</Typography>
+                    </Grid>
+                  </React.Fragment>
                 </Grid>
               </Grid>
             </Grid>

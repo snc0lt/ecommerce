@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   gridList: {
     width: '90%',
     height: '80%',
-  },
+  }
 }));
 
 export default function ImageGridList(props) {
@@ -23,7 +23,7 @@ export default function ImageGridList(props) {
 
   return (
     <div className={classes.root}>
-      <GridList cellHeight={450} className={classes.gridList} cols={4} spacing={4}>
+      <GridList cellHeight={450} className={classes.gridList} cols={4} spacing={8}>
       {props.productos.msg? <><h3>No se encontraron productos para tu búsqueda</h3></>
          :props.productos.map((prod) => (
           <GridListTile key={prod.id} cols={1}>

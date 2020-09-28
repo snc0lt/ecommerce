@@ -83,9 +83,9 @@ function App() {
     <div className="App">
       <SearchBar />
       {displayNoneCarrousel}
-      <Switch>
-        <Container maxWidth='lg' className='App_container'>
-          
+      <Container maxWidth='lg' className='App_container'>
+        <Switch>
+
           <Route exact path='/' component={Catalogo} />
 
           <Route exact path='/:name' component={Catalogo} />
@@ -131,9 +131,8 @@ function App() {
           <Route exact path='/user/resetpassword/' component={FormResetPass} />
           <Route exact path='/user/resetpassword/recordar/:id' component={ResetPass} />
 
-        </Container>
-        
-      </Switch>
+        </Switch>
+      </Container>
 
     </div>
   );

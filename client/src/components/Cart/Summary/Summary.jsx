@@ -52,7 +52,7 @@ export const Summary = ({ total, orderId, suma }) => {
 						<p>Subtotal : $ {total}</p>
 						<p>Impuestos : 12%</p>
 						<hr />
-						<h3>Total $ {(total * 1.12).toFixed(2)}</h3>
+						<h3>Total {(total * 1.12).toLocaleString('en-US', {style: 'currency',currency: 'USD',})}</h3>
 						<hr />
 						<button className='btn btn-primary' onClick={() => updateOrder(orderId, { state: 'procesando' })}>Comprar</button>
 						{/* <button
@@ -70,7 +70,7 @@ export const Summary = ({ total, orderId, suma }) => {
 						<p>Subtotal : $ {sum && sum}</p>
 						<p>Impuestos : 12%</p>
 						<hr />
-						<h3>Total $ {(sum * 1.12).toFixed(2)}</h3>
+						<h3>Total {(sum * 1.12).toLocaleString('en-US', {style: 'currency',currency: 'USD',})}</h3>
 						<hr />
 						{/* <button className='btn btn-primary' onClick={() => updateOrder(orderId, { state: 'procesando' })}>Comprar</button>
 						<button
