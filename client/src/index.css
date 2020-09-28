@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@1,800&display=swap');
+
 
 body {
   margin: 0;
@@ -53,4 +55,12 @@ code {
   display: flex;
   padding: 10px 0px;
   margin: 5px;
+}
+
+.no_products, .categories{
+  font-family: 'Epilogue', sans-serif;
+  font-size: 1.5rem;
+  margin-left: 50%;
+  transform: translate(-50%);
+  color: #3F51B5;
 }

@@ -2,7 +2,6 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import { deepOrange } from '@material-ui/core/colors';
-import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -12,8 +11,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   orange: {
-    color: theme.palette.getContrastText(deepOrange[500]),
-    backgroundColor: deepOrange[500],
+    color: theme.palette.getContrastText(`#${Math.floor(Math.random()*16777215).toString(16)}`),
+    backgroundColor: `#${Math.floor(Math.random()*16777215).toString(16)}`,
     width: theme.spacing(4),
     height: theme.spacing(4),
   },

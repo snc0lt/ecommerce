@@ -26,7 +26,7 @@ export default function () {
 
 	return (
 		<div >
-			<h3>Categorias</h3>
+			<h3 className='categories'>Categorias</h3>
 			<hr />
 			<ul className='list-group'>
 				{categories &&

@@ -63,7 +63,7 @@ export const getProductDetail = (id) => async dispatch => {
 
 
 
-export const createProduct = (producto, msg) => async dispatch => {
+export const createProduct = (producto) => async dispatch => {
 	try {
 		const data = await fetch('http://localhost:3001/products', {
 			method: 'POST',
@@ -78,7 +78,6 @@ export const createProduct = (producto, msg) => async dispatch => {
 			type: 'CREATE_PRODUCT',
 			payload: res.product,
 		})
-		msg(res.msg)
 	} catch (error) {
 		console.log(error)
 		alert('something went wrong..!')

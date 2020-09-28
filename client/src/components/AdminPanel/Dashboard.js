@@ -76,12 +76,12 @@ const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    height: '100vh',
-    overflow: 'hidden',
+    overflow: 'hidden'
   },
   container: {
     paddingTop: theme.spacing(0),
     paddingBottom: theme.spacing(4),
+    
   },
   paper: {
     padding: theme.spacing(2),
@@ -91,7 +91,7 @@ const useStyles = makeStyles((theme) => ({
   },
   fixedHeight: {
     height: 240,
-  },
+  }
 }));
 
 export default function Dashboard() {
@@ -116,25 +116,25 @@ export default function Dashboard() {
         }}
         open={open}
       >
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-          >
-            <MenuIcon />
-          </IconButton>
+        <IconButton
+          edge="start"
+          color="inherit"
+          aria-label="open drawer"
+          onClick={handleDrawerOpen}
+          className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+        >
+          <MenuIcon />
+        </IconButton>
         <div className={classes.toolbarIcon}>
-          <IconButton 
+          <IconButton
             onClick={handleDrawerClose}
             className={clsx(!open && classes.picoButtonHidden)}
-            >
+          >
             <ChevronLeftIcon />
           </IconButton>
         </div>
         <Divider />
-        <PrimaryListItems/>
+        <PrimaryListItems />
         <Divider />
         {/* <SecondaryListItems/> */}
       </Drawer>
@@ -143,20 +143,20 @@ export default function Dashboard() {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             {/* Chart */}
-            {url.pathname.includes("/user")?null:
-            <>
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-                <Chart />
-              </Paper>
-            </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
-                <Deposits />
-              </Paper>
-            </Grid>
-            </>}
+            {url.pathname.includes("/user") ? null :
+              <>
+                <Grid item xs={12} md={8} lg={9}>
+                  <Paper className={fixedHeightPaper}>
+                    <Chart />
+                  </Paper>
+                </Grid>
+                {/* Recent Deposits */}
+                <Grid item xs={12} md={4} lg={3}>
+                  <Paper className={fixedHeightPaper}>
+                    <Deposits />
+                  </Paper>
+                </Grid>
+              </>}
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>

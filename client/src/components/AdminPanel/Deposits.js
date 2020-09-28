@@ -62,9 +62,9 @@ export default function Deposits() {
     <React.Fragment>
       <Title>Depositos recientes</Title>
       <div></div>
-      <Typography component="p" variant="h4">
-        $ {total}
-      </Typography>
+      <Title>
+        {(total * 1.12).toLocaleString('en-US', { style: 'currency', currency: 'USD'})}
+      </Title>
       <Typography color="textSecondary" className={classes.depositContext}>
         el {new Date().getDate()} de {months[new Date().getMonth()]}, {new Date().getFullYear()}
       </Typography>
