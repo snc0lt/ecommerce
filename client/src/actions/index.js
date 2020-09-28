@@ -80,7 +80,7 @@ export const createProduct = (producto) => async dispatch => {
 		})
 	} catch (error) {
 		console.log(error)
-		alert('something went wrong..!')
+		swal('Algo salio mal', ':(', 'error')
 	}
 }
 
@@ -137,7 +137,7 @@ export const addCategory = (category) => async dispatch => {
 		})
 		const res = await data.json()
 		if(res.status === 400) {
-			swal("Opps!", "la categoria ya existe!", "error")
+			swal("Opps!", "La categoria ya existe!", "error")
 		} else if (res.status === 201){
 			dispatch({
 				type: 'ADD_CATEGORY',
@@ -145,7 +145,7 @@ export const addCategory = (category) => async dispatch => {
 			})
 			 swal("Genial!", "Se ha creado la categoria exitosamente!", "success")
 		} else {
-			swal("Opps!", "algo salio mal, vuelve a intertarlo!", "error")
+			swal("Opps!", "Algo salio mal, vuelve a intertarlo!", "error")
 		}
 	
 	} catch (err) {
@@ -240,7 +240,7 @@ export const userLogin = (input, history) => async dispatch => {
 						type: 'USER_LOGGED',
 						payload: response.user,
 					})
-					swal("Success", "Usuario logueado con exito", "success")
+					swal("Usuario logueado con exito", "", "success")
 					history.push('/')
 				}
 			})
@@ -265,7 +265,7 @@ export const removeUser = (id) => async dispatch => {
 					type: 'REMOVE_USER',
 					payload: user.id,
 				})
-				alert('Cuenta de usuario eliminada', '', 'success')
+				swal('Cuenta de usuario eliminada', '', 'success')
 			})
 			.catch((err) => console.log(err))
 }
@@ -466,8 +466,8 @@ export const promoteToAdmin = async (id,estado) => {
 			body: JSON.stringify({ isAdmin: estado })
 		})
 			.then(estado
-				? swal('Usuario Promovido a Admin', '', 'success')
-			    : swal('Usuario Revocado de Admin', '', 'success'))
+				? swal('Usuario promovido a Admin', '', 'success')
+			    : swal('Usuario revocado de Admin', '', 'success'))
 			.catch((err) => console.log(err));	
 	} catch (err) {
 		console.log(err)
@@ -496,7 +496,7 @@ export const addUser = (user) => async dispatch => {
 						type: 'ADD_USER',
 						payload: res.user,
 					})
-					swal("Success", "Usuario creado con exito", "success")
+					swal("Usuario creado con exito", "", "success")
 				}
 			})
 			.catch((error) => { console.log(error) })
@@ -552,7 +552,7 @@ export const userChangePassword = (input) => async dispatch => {
 					type: 'ADD_USER',
 					payload: data,
 				})
-				swal("Success","Password cambiado satisfactoriamente","success")
+				swal("Password cambiado satisfactoriamente","","success")
 
 			})
 			.catch(err => swal("Ups","Ocurrió un error al cambiar la contraseña","error"))
@@ -575,7 +575,7 @@ export function userForgotPassword(input,token) {
 				if(data.status === 401){
 					swal("Error",`${data.msg}`,"error")	
 				} else if(data.status === 200){
-					swal("Success","Password cambiado satisfactoriamente","success")
+					swal("Password cambiado satisfactoriamente","","success")
 				}
 			})
 			.catch(err => swal("Ups","Ocurrió un error al cambiar la contraseña","error"))
@@ -628,7 +628,7 @@ export const addReviews = (productId, review, userId, star) => async dispatch =>
 				}
 			})
 			.catch(() => {
-				alert('Error!', 'Ingresar los datos ', 'error')
+				swal('Error!', 'Ingresar los datos ', 'error')
 			})
 }
 
