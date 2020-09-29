@@ -2,25 +2,9 @@ const server = require('express').Router()
 const { Product, User, Order, Order_product } = require('../db.js')
 const { Op } = require('sequelize')
 const bcrypt = require('bcrypt')
-const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken')
+const sendEmail = require('../utils')
 
-const transporter = nodemailer.createTransport({
-	service: 'gmail',
-	host: 'smtp.gmail.com',
-	port: 465,
-	secure: true,
-	auth: {
-	  type: 'OAuth2',
-	  user: process.env.user,
-	  clientId: process.env.clientId,
-	  clientSecret: process.env.clientSecret,
-	  refreshToken: process.env.refreshToken,
-	  accessToken: process.env.accessToken
-	}
-  })
-
-//
 
 function isAuthenticated(req, res, next) {
 	if (req.isAuthenticated()) {
@@ -48,24 +32,11 @@ server.post('/reset_password', async (req, res) => {
 		}
 	})
 	if (usuario) {
-		// const randomId = usuario.id * 12345678
+		
 		const emailToken = jwt.sign({ id: usuario.id }, process.env.JWT_SECRET, { expiresIn: '1d' })
 		const url = `http://localhost:3000/user/resetpassword/recordar/${emailToken}`
-		const mailOptions = {
-			from: process.env.user,
-			to: email,
-			subject: 'Restablece tu contraseña!',
-			html: `Please click the link to change your password <a href='${url}'>${url}</a>. Este link tiene una feche de expiracion de un dia..!` 
-		  }
-		  transporter.sendMail(mailOptions, (err, response) => {
-			if (err) {
-				console.log(err)
-			  res.status(400).send({msg: 'Invalid Token, check expriration date...!'})
-			} else {
-			  console.log('email sent')
-			  res.status(200).send('email sent successfully..!')
-			}
-		  })
+		const html = `Please click the link to change your password <a href='${url}'>${url}</a>. Este link tiene una feche de expiracion de un dia..!` 
+		sendEmail(email, 'Restablece tu contraseña!', html)
 	} else {
 		res.status(400).send({ msg: 'usuario no existe', status: 400 })
 	}	
@@ -150,21 +121,6 @@ server.post('/', async (req, res) => {
 	} catch (err) {
 		res.status(500).send(err)
 	}
-
-	// User.create({ firstName, lastName, email, password, isAdmin })
-	// .then((user) => {
-	// 	res.status(201).json({
-	// 		success: true,
-	// 		message: 'El usuario fue creado correctamente!!!!',
-	// 		user: user
-	// 	})
-	// })
-	// .catch( err => {
-	// 	res.status(500).json({
-	// 		error: true,
-	// 		message: 'El email ya esta siendo utilizado!!!'
-	// 	})
-	// })
 })
 
 
@@ -205,25 +161,6 @@ server.put('/password/:token', async (req, res) => {
 		console.log(error)
 		res.status(500).send(error)
 	}
-
-	// const { id } = await jwt.verify(req.params.token, process.env.JWT_SECRET, async function (err, user) {
-	// 	if(err){
-	// 		console.log(err)
-	// 		res.status(401).send({msg: 'Invalid Token, check expriration date..!', status: 401})
-	// 	} else {
-	// 		try {
-	// 			let user = await User.findByPk(id)
-	// 			let newPassword = await hashPassword(req.body.password)
-		
-	// 			await user.update({ password: newPassword, resetPassword: false })
-		
-	// 			res.send({msg: 'yeahhh', user, status: 200})
-	// 		} catch (error) {
-	// 			console.log(error)
-	// 			res.status(500).send(error)
-	// 		}
-	// 	}
-	// })	
 })
 
 //modificar usuario
@@ -440,21 +377,6 @@ server.get('/:id/active/', (req, res) => {
 });
 
 
-
-
-// User.addHook('beforeUpdate', (user) => {
-// 	if (user.resetPassword) {
-// 		return
-// 	} else {
-// 		return hashPassword(user.password)
-// 			.then((newPassword) => {
-// 				user.set('password', newPassword)
-// 			})
-// 			.catch((err) => {
-// 				if (err) console.log(err)
-// 			})
-// 	}
-// })
 
 function hashPassword(password) {
 	return new Promise(function (resolve, reject) {
